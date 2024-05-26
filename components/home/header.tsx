@@ -1,10 +1,8 @@
+import Logo from "./logo";
+
 export default function Header() {
 
-    return <header className="w-full border p-4">
-
-        <div className="logo">
-            <h1 className="font-semibold text-3xl">Dev Sync</h1>
-        </div>
-
+    return <header className="w-full border-2 border-emerald-600 p-2 lg:px-8">
+        <Logo />
     </header>
 }
