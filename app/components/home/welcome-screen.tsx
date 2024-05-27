@@ -1,6 +1,6 @@
-import CreateProjectBtn from "../client/home/create-project";
-import JoinProjectBtn from "../client/home/join-project";
+import JoinProjectBtn from "@/components/home/join-project";
 import Logo from "./logo";
+import CreateProjectBtn from "@/components/home/create-project";
 
 export default function WelcomeScreen() {
   return (
