@@ -13,8 +13,17 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FormEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useStore } from "@/components/store/useStore";
+import { LocalStorage } from "@/lib/utils";
+import WelcomeScreen from "@/app/components/home/welcome-screen";
 
 export default function CreateProjectBtn() {
+  // store imports
+  const addCreatedProjects = useStore((state) => state.addCreatedProjects);
+  const createdProjects = useStore((state) => state.createdProjects);
+  const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
+  const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
+
   const [newProjectValues, setNewProjectValues] = useState({
     username: "",
     projectName: "",
@@ -24,15 +33,22 @@ export default function CreateProjectBtn() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const { username, projectName, projectId } = newProjectValues;
 
-    if (
-      newProjectValues.username.trim() === "" ||
-      newProjectValues.projectName.trim() === ""
-    )
-      return;
-
-    console.log("submitted", newProjectValues);
+    if (username.trim() === "" || projectName.trim() === "") return;
     setIsDialogOpen(false);
+
+    // update createProjects
+    let newProject = { owner: username, projectName, projectId };
+    addCreatedProjects(newProject);
+
+    // set in localStoreage
+    LocalStorage.set("createProjects", [...createdProjects, newProject]);
+
+    if (!showWelcomeScreen) {
+      LocalStorage.set("isWelcomeScreen", false);
+      setShowWelcomeScreen(true);
+    }
   };
 
   // to change projectId every time when opening dialog box

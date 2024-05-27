@@ -12,8 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
+import { LocalStorage } from "@/lib/utils";
+import { useStore } from "../store/useStore";
 
 export default function JoinProjectBtn() {
+  const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
+  const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
+
   const [joinProjectValues, setJoinProjectValues] = useState({
     username: "",
     projectId: "",
@@ -31,6 +36,11 @@ export default function JoinProjectBtn() {
 
     console.log("submitted", joinProjectValues);
     setIsDialogOpen(false);
+
+    if (!showWelcomeScreen) {
+      LocalStorage.set("isWelcomeScreen", false);
+      setShowWelcomeScreen(true);
+    }
   };
 
   return (

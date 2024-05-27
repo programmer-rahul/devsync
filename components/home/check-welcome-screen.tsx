@@ -1,5 +1,6 @@
 "use client";
 
+import { useStore } from "@/components/store/useStore";
 import { useEffect, useState } from "react";
 
 export default function CheckWelcomeScreen({
@@ -8,6 +9,8 @@ export default function CheckWelcomeScreen({
   children: React.ReactNode;
 }) {
   const [showWelcome, setShowWelcome] = useState(false);
+
+  const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
 
   useEffect(() => {
     const isVisible = localStorage.getItem("isWelcomeScreen");
@@ -18,7 +21,7 @@ export default function CheckWelcomeScreen({
     } else {
       setShowWelcome(isVisible === "true");
     }
-  }, []);
+  }, [showWelcomeScreen]);
 
   return <>{showWelcome ? children : <div>yes</div>}</>;
 }
