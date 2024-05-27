@@ -18,8 +18,8 @@ import { v4 as uuidv4 } from "uuid";
 export default function CreateProjectBtn() {
   const [newProjectValues, setNewProjectValues] = useState({
     username: "",
-    roomName: "",
-    roomId: "",
+    projectName: "",
+    projectId: "",
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -28,7 +28,7 @@ export default function CreateProjectBtn() {
 
     if (
       newProjectValues.username.trim() === "" ||
-      newProjectValues.roomName.trim() === ""
+      newProjectValues.projectName.trim() === ""
     )
       return;
 
@@ -36,13 +36,13 @@ export default function CreateProjectBtn() {
     setIsDialogOpen(false);
   };
 
-  // to change roomId every time when opening dialog box
+  // to change projectId every time when opening dialog box
   useEffect(() => {
     if (isDialogOpen) {
       setNewProjectValues({
         username: "",
-        roomName: "",
-        roomId: uuidv4(),
+        projectName: "",
+        projectId: uuidv4(),
       });
     }
   }, [isDialogOpen]);
@@ -66,43 +66,45 @@ export default function CreateProjectBtn() {
               </Label>
               <Input
                 id="username"
+                placeholder="dev123"
                 value={newProjectValues.username}
                 onChange={(event) =>
                   setNewProjectValues((prev) => ({
                     ...prev,
-                    username: event.target.value,
+                    username: event.target.value.toLocaleLowerCase(),
                   }))
                 }
                 className="col-span-3"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="roomname" className="text-left">
-                Room Name
+              <Label htmlFor="projectname" className="text-left">
+                Project Name
               </Label>
               <Input
-                id="roomname"
-                value={newProjectValues.roomName}
+                id="projectname"
+                placeholder="solution-123"
+                value={newProjectValues.projectName}
                 onChange={(event) =>
                   setNewProjectValues((prev) => ({
                     ...prev,
-                    roomName: event.target.value,
+                    projectName: event.target.value.toLowerCase(),
                   }))
                 }
                 className="col-span-3"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="roomid" className="text-left">
-                Room Id
+              <Label htmlFor="projectId" className="text-left">
+                Project Id
               </Label>
               <Input
-                id="roomid"
-                value={newProjectValues.roomId}
+                id="projectId"
+                value={newProjectValues.projectId}
                 onChange={(event) =>
                   setNewProjectValues((prev) => ({
                     ...prev,
-                    roomId: event.target.value,
+                    projectId: event.target.value,
                   }))
                 }
                 className="col-span-3"
