@@ -19,7 +19,7 @@ export default function ProjectCard({
   projectId,
 }: ProjectCardProps) {
   return (
-    <Card className="w-5/12">
+    <Card className="w-5/12 max-w-80">
       <CardHeader>
         <CardTitle>Owner : {owner}</CardTitle>
       </CardHeader>

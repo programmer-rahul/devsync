@@ -1,38 +1,49 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node.js
+node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+# Yarn
+.yarn/
+yarn-error.log
+yarn.lock
 
-# testing
-/coverage
+# Build files
+/build/
+/dist/
 
-# next.js
-/.next/
-/out/
+# Environment variables
+.env
 
-# production
-/build
+# Editor files
+.vscode/
+.idea/
 
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Logs
+/logs/
+*.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# local env files
-.env*.local
+# User-specific files
+.DS_Store
+Thumbs.db
 
-# vercel
-.vercel
+# Output of 'npm pack'
+*.tgz
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Frontend build artifacts
+/client/build/
+/client/dist/
 
-TODO.md
+# Backend build artifacts
+/server/dist/
+
+# Frontend node_modules
+/client/node_modules/
+
+# Prettier files
+**/.prettier
+**/.prettierignore
+**/.prettierrc
+
+**/public
+
+
