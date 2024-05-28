@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { useStore } from "../store/useStore";
 import { cn } from "@/lib/utils";
 import { ActivityBarButtons } from "@/app/components/types/project";
+import { useStore } from "@/components/store/useStore";
 
 interface ActivityBarButtonProps {
   name: ActivityBarButtons;
@@ -33,7 +33,7 @@ export default function ActivityBarButtton({
       onClick={activityButtonClickHandler}
     >
       <div className="w-8">{icon}</div>
-      <p className="uppercase">{name}</p>
+      <p className="select-none uppercase">{name}</p>
     </div>
   );
 }
