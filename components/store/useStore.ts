@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import {Project} from '@/app/components/types/project'
+import { Project } from "@/app/components/types/project";
+import { LocalStorage } from "@/lib/helper";
 
 type StoreStates = {
   showWelcomeScreen: boolean;
@@ -16,7 +17,7 @@ export const useStore = create<StoreStates>((set) => ({
       showWelcomeScreen: value,
     })),
 
-  createdProjects: [],
+  createdProjects: LocalStorage.get("createdProjects") || [],
   addCreatedProjects: (Project) =>
     set((state) => ({
       createdProjects: [...state.createdProjects, Project],

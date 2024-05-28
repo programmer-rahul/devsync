@@ -43,7 +43,7 @@ export default function CreateProjectBtn() {
     addCreatedProjects(newProject);
 
     // set in localStoreage
-    LocalStorage.set("createProjects", [...createdProjects, newProject]);
+    LocalStorage.set("createdProjects", [...createdProjects, newProject]);
 
     if (!showWelcomeScreen) {
       LocalStorage.set("isWelcomeScreen", false);

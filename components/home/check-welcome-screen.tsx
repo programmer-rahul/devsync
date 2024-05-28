@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 export default function CheckWelcomeScreen({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode[];
 }) {
-  const [showWelcome, setShowWelcome] = useState(false);
-
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
+
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     const isVisible = localStorage.getItem("isWelcomeScreen");
@@ -23,5 +23,5 @@ export default function CheckWelcomeScreen({
     }
   }, [showWelcomeScreen]);
 
-  return <>{showWelcome ? children : <div>yes</div>}</>;
+  return <>{showWelcome ? children[0] : children[1]}</>;
 }

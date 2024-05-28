@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
-import { LocalStorage } from "@/lib/utils";
+import { LocalStorage } from "@/lib/helper";
 import { useStore } from "../store/useStore";
 
 export default function JoinProjectBtn() {
