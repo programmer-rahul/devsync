@@ -2,7 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import http from "http";
 import { Server } from "socket.io";
+import { ioListener, userSockets } from "./socket/socket";
 
+// to access env variables
 dotenv.config();
 
 const app = express();
@@ -13,13 +15,17 @@ const io = new Server(server, {
   },
 });
 const PORT = process.env.PORT || 4000;
+console.log(process.env.PORT);
 
-io.on("connection", (socket) => {
-  console.log("connected");
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
+//midddlewares
+app.use(express.json());
+
+app.get("/users", (req, res) => {
+  res.json(userSockets);
 });
+
+// io connection
+io.on("connection", ioListener);
 
 server.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);

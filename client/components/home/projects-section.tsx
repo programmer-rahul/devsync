@@ -5,6 +5,7 @@ import ProjectCard from "./project-card";
 import { useStore } from "../store/useStore";
 import { useEffect } from "react";
 import useSocket from "@/hooks/useSocket";
+import { SOCKET_ENUMS } from "@/lib/constants";
 
 export default function ProjectsSection() {
   const createdProjects = useStore((state) => state.createdProjects);
@@ -17,8 +18,12 @@ export default function ProjectsSection() {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("connect", onConnect);
-    
+    socket.emit(SOCKET_ENUMS.LOGIN);
+    socket.on(SOCKET_ENUMS.CONNECT, onConnect);
+
+    return () => {
+      socket.off(SOCKET_ENUMS.CONNECT, onConnect);
+    };
   }, [socket]);
 
   return (
