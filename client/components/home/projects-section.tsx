@@ -3,10 +3,23 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProjectCard from "./project-card";
 import { useStore } from "../store/useStore";
+import { useEffect } from "react";
+import useSocket from "@/hooks/useSocket";
 
 export default function ProjectsSection() {
   const createdProjects = useStore((state) => state.createdProjects);
-  console.log(createdProjects);
+  const socket = useSocket();
+
+  const onConnect = () => {
+    console.log("connected to server");
+  };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("connect", onConnect);
+    
+  }, [socket]);
 
   return (
     <section>
