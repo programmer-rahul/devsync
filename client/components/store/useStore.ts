@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Project } from "@/app/components/types/project";
+import { ActivityBarButtons, Project } from "@/app/components/types/project";
 import { LocalStorage } from "@/lib/helper";
 
 type StoreStates = {
@@ -8,6 +8,10 @@ type StoreStates = {
 
   createdProjects: Project[];
   addCreatedProjects: (Project: Project) => void;
+
+  // project
+  currentActivityButton: ActivityBarButtons;
+  setActivityButton: (value: ActivityBarButtons) => void;
 };
 
 export const useStore = create<StoreStates>((set) => ({
@@ -21,5 +25,12 @@ export const useStore = create<StoreStates>((set) => ({
   addCreatedProjects: (Project) =>
     set((state) => ({
       createdProjects: [...state.createdProjects, Project],
+    })),
+
+  // projects
+  currentActivityButton: "files",
+  setActivityButton: (value) =>
+    set((state) => ({
+      currentActivityButton: value,
     })),
 }));

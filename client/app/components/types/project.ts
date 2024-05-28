@@ -3,3 +3,5 @@ export type Project = {
   projectName: string;
   projectId: string;
 };
+
+export type ActivityBarButtons = "files" | "chats" | "users";

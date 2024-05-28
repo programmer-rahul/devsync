@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface ProjectCardProps {
   owner: string;
@@ -32,7 +33,9 @@ export default function ProjectCard({
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="ml-auto">Open</Button>{" "}
+        <Button className="ml-auto">
+          <Link href={`/project/${projectId}`}>Open</Link>
+        </Button>
       </CardFooter>
     </Card>
   );
