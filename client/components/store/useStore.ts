@@ -25,6 +25,9 @@ type StoreStates = {
   projectStructure: ProjectStructure;
   updateProjectStructure: (updatedProjectStructure: ProjectStructure) => void;
 
+  creatingProjectItem: { status: boolean; type: "file" | "folder" };
+  updateCreatingProjectItem: (status: boolean, type: "file" | "folder") => void;
+
   // code editor
   openedEditorTabs: { name: string; id: string }[];
   removeEditorTab: (id: string) => { name: string; id: string }[];
@@ -68,6 +71,12 @@ export const useStore = create<StoreStates>((set) => ({
   updateProjectStructure: (updatedProjectStructure) =>
     set(() => ({
       projectStructure: { ...updatedProjectStructure },
+    })),
+
+  creatingProjectItem: { status: false, type: "file" },
+  updateCreatingProjectItem: (status, type) =>
+    set(() => ({
+      creatingProjectItem: { status, type },
     })),
 
   // code editor

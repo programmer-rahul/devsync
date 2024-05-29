@@ -7,38 +7,42 @@ export default function ExplorerPanelHeader() {
   const updateProjectStructure = useStore(
     (state) => state.updateProjectStructure,
   );
+  const updateCreatingProjectItem = useStore(
+    (state) => state.updateCreatingProjectItem,
+  );
 
   const createFileHandler = () => {
-    const { status, updatedProject } = addItemToProject(
-      projectStructure,
-      selectedFolderId,
-      "file",
-      {
-        id: (Math.random() * 1000).toString(36),
-        name: (Math.random() * 1000).toString(36),
-        type: "file",
-        content: "iiiiiiikdfkdk",
-      },
-    );
-
-    status && updateProjectStructure(updatedProject);
+    // const { status, updatedProject } = addItemToProject(
+    //   projectStructure,
+    //   selectedFolderId,
+    //   "file",
+    //   {
+    //     id: (Math.random() * 1000).toString(36),
+    //     name: (Math.random() * 1000).toString(36),
+    //     type: "file",
+    //     content: "iiiiiiikdfkdk",
+    //   },
+    // );
+    // status && updateProjectStructure(updatedProject);
+    updateCreatingProjectItem(true, "file");
   };
 
   const createFolderHandler = () => {
-    const { status, updatedProject } = addItemToProject(
-      projectStructure,
-      selectedFolderId,
-      "folder",
-      {
-        id: (Math.random() * 1000).toString(36),
-        name: (Math.random() * 1000).toString(36),
-        type: "folder",
-        files: [],
-        subFolders: [],
-      },
-    );
+    // const { status, updatedProject } = addItemToProject(
+    //   projectStructure,
+    //   selectedFolderId,
+    //   "folder",
+    //   {
+    //     id: (Math.random() * 1000).toString(36),
+    //     name: (Math.random() * 1000).toString(36),
+    //     type: "folder",
+    //     files: [],
+    //     subFolders: [],
+    //   },
+    // );
 
-    status && updateProjectStructure(updatedProject);
+    // status && updateProjectStructure(updatedProject);
+    updateCreatingProjectItem(true, "folder");
   };
 
   return (
