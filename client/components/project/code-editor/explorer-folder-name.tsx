@@ -29,13 +29,16 @@ export default function ExplorerFolderName({
   return (
     <div
       className={cn(
-        "flex cursor-pointer items-center gap-2 rounded-md p-1",
+        "flex cursor-pointer items-center rounded-md p-1",
         folderId === ":root" && "hidden",
-        selectedFolderId === folderId && "bg-lime-800/60 text-lime-500",
+        selectedFolderId === folderId && "bg-lime-800/60 text-lime-500 font-semibold",
       )}
       onClick={handleFolderClick}
     >
-      <div className="w-5">{folderIcon}</div>
+      <div className={cn("w-5 -rotate-90", isCollapsed && "rotate-0")}>
+        {collapseIcon}
+      </div>
+      <div className="w-5 mr-2">{folderIcon}</div>
       <p>{folderName}</p>
     </div>
   );
@@ -57,5 +60,22 @@ const folderIcon = (
         strokeLinejoin="round"
       ></path>{" "}
     </g>
+  </svg>
+);
+
+const collapseIcon = (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-full"
+  >
+    <path
+      d="M7 10L12 15L17 10"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );

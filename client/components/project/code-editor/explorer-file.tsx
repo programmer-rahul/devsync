@@ -20,8 +20,8 @@ export default function ExplorerFile({
   return (
     <div
       className={cn(
-        "flex cursor-pointer items-center gap-2 rounded-md p-1 pl-2",
-        selectedFile?.id === fileId && "text-lime-500/80",
+        "flex cursor-pointer items-center gap-3 rounded-md p-1 pl-5",
+        selectedFile?.id === fileId && "font-semibold text-lime-500/80",
       )}
       onClick={fileClickHandler}
     >
