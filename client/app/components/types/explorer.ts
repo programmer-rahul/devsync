@@ -1,20 +1,20 @@
-export type ProjectStructure = {
+export interface ProjectStructure {
   id: string;
   name: string;
   type: "folder";
-  files?: Files[];
+  files?: File[];
   subFolders?: Folder[];
-};
+}
 
-export type Folder = {
+export interface Folder {
   id: string;
   name: string;
   type: "folder";
-  files?: Files[];
+  files?: File[];
   subFolders?: Folder[];
-};
+}
 
-export interface Files {
+export interface File {
   id: string;
   name: string;
   type: "file";

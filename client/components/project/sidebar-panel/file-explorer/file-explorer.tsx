@@ -1,5 +1,5 @@
 import { ProjectStructure } from "@/app/components/types/explorer";
-import Folder from "../../code-editor/folder";
+import ExplorerFolder from "../../code-editor/explorer-folder";
 
 export default function FileExplorer() {
   const projectStructure: ProjectStructure = {
@@ -82,7 +82,7 @@ export default function FileExplorer() {
 
   return (
     <div>
-      <Folder
+      <ExplorerFolder
         key={projectStructure.id}
         id={projectStructure.id}
         name={projectStructure.name}

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { ActivityBarButtons, Project } from "@/app/components/types/project";
 import { LocalStorage } from "@/lib/helper";
+import { File } from "@/app/components/types/explorer";
 
 type StoreStates = {
   showWelcomeScreen: boolean;
@@ -12,6 +13,13 @@ type StoreStates = {
   // project
   currentActivityButton: ActivityBarButtons;
   setActivityButton: (value: ActivityBarButtons) => void;
+
+  //explorer
+  selectedFile: File | null;
+  setSelectedFile: (file: File) => void;
+
+  selectedFolderId: string;
+  setSelectedFolderId: (id: string) => void;
 };
 
 export const useStore = create<StoreStates>((set) => ({
@@ -32,5 +40,18 @@ export const useStore = create<StoreStates>((set) => ({
   setActivityButton: (value) =>
     set((state) => ({
       currentActivityButton: value,
+    })),
+
+  // explorer
+  selectedFile: null,
+  setSelectedFile: (file) =>
+    set((state) => ({
+      selectedFile: file,
+    })),
+
+  selectedFolderId: ":root",
+  setSelectedFolderId: (id) =>
+    set((state) => ({
+      selectedFolderId: id,
     })),
 }));
