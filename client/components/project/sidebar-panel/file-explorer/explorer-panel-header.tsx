@@ -1,13 +1,61 @@
+import { useStore } from "@/components/store/useStore";
+import { addItemToProject } from "@/lib/project-structure-utils";
+
 export default function ExplorerPanelHeader() {
+  const selectedFolderId = useStore((state) => state.selectedFolderId);
+  const projectStructure = useStore((state) => state.projectStructure);
+  const updateProjectStructure = useStore(
+    (state) => state.updateProjectStructure,
+  );
+
+  const createFileHandler = () => {
+    const { status, updatedProject } = addItemToProject(
+      projectStructure,
+      selectedFolderId,
+      "file",
+      {
+        id: (Math.random() * 1000).toString(36),
+        name: (Math.random() * 1000).toString(36),
+        type: "file",
+        content: "iiiiiiikdfkdk",
+      },
+    );
+
+    status && updateProjectStructure(updatedProject);
+  };
+
+  const createFolderHandler = () => {
+    const { status, updatedProject } = addItemToProject(
+      projectStructure,
+      selectedFolderId,
+      "folder",
+      {
+        id: (Math.random() * 1000).toString(36),
+        name: (Math.random() * 1000).toString(36),
+        type: "folder",
+        files: [],
+        subFolders: [],
+      },
+    );
+
+    status && updateProjectStructure(updatedProject);
+  };
+
   return (
     <div className="flex items-center justify-between">
       <h2 className="text-xl font-semibold">Project Name</h2>
       <div className="flex gap-2">
-        <div className="w-8 cursor-pointer rounded-md bg-primary p-2 text-secondary transition-all hover:bg-primary/70">
-          {addFile}
+        <div
+          className="w-8 cursor-pointer rounded-md bg-primary p-2 text-secondary transition-all hover:bg-primary/70"
+          onClick={createFileHandler}
+        >
+          {addFileSvg}
         </div>
-        <div className="w-8 cursor-pointer rounded-md bg-primary p-2 text-secondary transition-all hover:bg-primary/70">
-          {addFolder}
+        <div
+          className="w-8 cursor-pointer rounded-md bg-primary p-2 text-secondary transition-all hover:bg-primary/70"
+          onClick={createFolderHandler}
+        >
+          {addFolderSvg}
         </div>
         <div className="w-8 cursor-pointer rounded-md bg-destructive p-2 text-destructive-foreground transition-all hover:bg-destructive/80">
           {deleteSvg}
@@ -32,7 +80,7 @@ const deleteSvg = (
   </svg>
 );
 
-const addFolder = (
+const addFolderSvg = (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g id="SVGRepo_iconCarrier">
@@ -47,7 +95,7 @@ const addFolder = (
   </svg>
 );
 
-const addFile = (
+const addFileSvg = (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g

@@ -10,11 +10,14 @@ export default function ExplorerFile({
 }: FileInterface) {
   const selectedFile = useStore((state) => state.selectedFile);
   const setSelectedFile = useStore((state) => state.setSelectedFile);
+  const addEditorTab = useStore((state) => state.addEditorTab);
+  const removeEditorTab = useStore((state) => state.removeEditorTab);
 
   const fileClickHandler = () => {
     if (selectedFile?.id === fileId) return;
 
     setSelectedFile({ name: fileName, id: fileId, type, content });
+    addEditorTab({ name: fileName, id: fileId });
   };
 
   return (

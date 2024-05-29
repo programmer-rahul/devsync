@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { ActivityBarButtons, Project } from "@/app/components/types/project";
 import { LocalStorage } from "@/lib/helper";
-import { File } from "@/app/components/types/explorer";
+import { File, ProjectStructure } from "@/app/components/types/explorer";
+import { DEFAULT_PROJECT_STRUCTURE } from "@/lib/constants";
 
 type StoreStates = {
   showWelcomeScreen: boolean;
@@ -20,6 +21,14 @@ type StoreStates = {
 
   selectedFolderId: string;
   setSelectedFolderId: (id: string) => void;
+
+  projectStructure: ProjectStructure;
+  updateProjectStructure: (updatedProjectStructure: ProjectStructure) => void;
+
+  // code editor
+  openedEditorTabs: { name: string; id: string }[];
+  removeEditorTab: (id: string) => { name: string; id: string }[];
+  addEditorTab: ({ name, id }: { name: string; id: string }) => void;
 };
 
 export const useStore = create<StoreStates>((set) => ({
@@ -54,4 +63,38 @@ export const useStore = create<StoreStates>((set) => ({
     set((state) => ({
       selectedFolderId: id,
     })),
+
+  projectStructure: DEFAULT_PROJECT_STRUCTURE,
+  updateProjectStructure: (updatedProjectStructure) =>
+    set(() => ({
+      projectStructure: { ...updatedProjectStructure },
+    })),
+
+  // code editor
+  openedEditorTabs: [],
+  removeEditorTab: (id) => {
+    let updatedEditorTabs;
+
+    set((state) => {
+      updatedEditorTabs = state.openedEditorTabs.filter((tab) => tab.id !== id);
+
+      return {
+        openedEditorTabs: updatedEditorTabs,
+      };
+    });
+
+    return updatedEditorTabs!;
+  },
+
+  addEditorTab: ({ name, id }) => {
+    set((state) => {
+      let isAvailable = state.openedEditorTabs.some((tab) => tab.id === id);
+
+      return {
+        openedEditorTabs: isAvailable
+          ? state.openedEditorTabs
+          : [{ name, id }, ...state.openedEditorTabs.slice(0, 4)],
+      };
+    });
+  },
 }));
