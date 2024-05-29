@@ -8,9 +8,7 @@ export default function CodeArea() {
 
   let selectedFileCode = "";
 
-  useEffect(() => {
-    console.log("selectedFile", selectedFile);
-  }, [selectedFile]);
+  useEffect(() => {}, [selectedFile]);
 
   return (
     <div className="flex-1 border">

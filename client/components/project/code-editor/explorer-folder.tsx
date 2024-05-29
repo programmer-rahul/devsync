@@ -1,8 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Folder as FolderInterface } from "@/app/components/types/explorer";
-import { useRef, useState } from "react";
+import {
+  File as FileInterface,
+  Folder as FolderInterface,
+} from "@/app/components/types/explorer";
+import { useEffect, useRef, useState } from "react";
 import ExplorerFile from "./explorer-file";
 import ExplorerFolderName from "./explorer-folder-name";
 import { Input } from "@/components/ui/input";
@@ -28,6 +31,11 @@ export default function ExplorerFolder({
     (state) => state.updateCreatingProjectItem,
   );
 
+  const setSelectedFile = useStore((state) => state.setSelectedFile);
+  const addEditorTab = useStore((state) => state.addEditorTab);
+
+  const setSelectedFolderId = useStore((state) => state.setSelectedFolderId);
+
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   // input
@@ -43,7 +51,7 @@ export default function ExplorerFolder({
     }
   };
 
-  const onInputBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
+  const onInputBlur = () => {
     if (!inputRef.current || inputRef.current.value.trim() === "") return;
 
     createProjectItem({
@@ -61,29 +69,53 @@ export default function ExplorerFolder({
   }) => {
     let response;
 
-    if (type === "file") {
-      response = addItemToProject(projectStructure, selectedFolderId, type, {
-        id: uuid(),
-        name: text.trim(),
-        type: "file",
-        content: "",
-      });
-    } else {
-      response = addItemToProject(projectStructure, selectedFolderId, type, {
-        id: uuid(),
-        name: text.trim(),
-        type: "folder",
-        files: [],
-        subFolders: [],
-      });
-    }
+    let newFile: FileInterface = {
+      id: uuid(),
+      name: text.trim(),
+      type: "file",
+      content: "",
+    };
+    let newFolder: FolderInterface = {
+      id: uuid(),
+      name: text.trim(),
+      type: "folder",
+      files: [],
+      subFolders: [],
+    };
 
-    console.log("response", response);
+    response = addItemToProject(
+      projectStructure,
+      selectedFolderId,
+      type,
+      type === "file" ? newFile : newFolder,
+    );
+
     if (response.status) {
       updateProjectStructure(response.updatedProject);
       updateCreatingProjectItem(false, "file");
+
+      // to select file if newly created for showing in tabs
+      if (type === "file") {
+        setSelectedFile(newFile);
+        addEditorTab({ name: newFile.name, id: newFile.id });
+      } else {
+        setSelectedFolderId(newFolder.id);
+      }
     }
   };
+
+  useEffect(() => {
+    if (
+      selectedFolderId === folderId &&
+      creatingProjectItem.status &&
+      !isCollapsed
+    ) {
+      setIsCollapsed(true);
+    }
+    if (isCollapsed && selectedFolderId === folderId) {
+      inputRef.current?.focus();
+    }
+  }, [creatingProjectItem, isCollapsed]);
 
   return (
     <div className={cn("select-none py-1", folderId !== ":root" && "pl-2")}>
