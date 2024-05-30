@@ -52,7 +52,10 @@ export default function ExplorerFolder({
   };
 
   const onInputBlur = () => {
-    if (!inputRef.current || inputRef.current.value.trim() === "") return;
+    if (!inputRef.current) return;
+
+    if (inputRef.current.value.trim() === "")
+      return updateCreatingProjectItem(false, "file");
 
     createProjectItem({
       type: creatingProjectItem.type,
@@ -97,7 +100,11 @@ export default function ExplorerFolder({
       // to select file if newly created for showing in tabs
       if (type === "file") {
         setSelectedFile(newFile);
-        addEditorTab({ name: newFile.name, id: newFile.id });
+        addEditorTab({
+          name: newFile.name,
+          id: newFile.id,
+          content: "",
+        });
       } else {
         setSelectedFolderId(newFolder.id);
       }

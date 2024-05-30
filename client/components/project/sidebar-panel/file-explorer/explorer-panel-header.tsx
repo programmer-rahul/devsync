@@ -1,47 +1,15 @@
 import { useStore } from "@/components/store/useStore";
-import { addItemToProject } from "@/lib/project-structure-utils";
 
 export default function ExplorerPanelHeader() {
-  const selectedFolderId = useStore((state) => state.selectedFolderId);
-  const projectStructure = useStore((state) => state.projectStructure);
-  const updateProjectStructure = useStore(
-    (state) => state.updateProjectStructure,
-  );
   const updateCreatingProjectItem = useStore(
     (state) => state.updateCreatingProjectItem,
   );
 
   const createFileHandler = () => {
-    // const { status, updatedProject } = addItemToProject(
-    //   projectStructure,
-    //   selectedFolderId,
-    //   "file",
-    //   {
-    //     id: (Math.random() * 1000).toString(36),
-    //     name: (Math.random() * 1000).toString(36),
-    //     type: "file",
-    //     content: "iiiiiiikdfkdk",
-    //   },
-    // );
-    // status && updateProjectStructure(updatedProject);
     updateCreatingProjectItem(true, "file");
   };
 
   const createFolderHandler = () => {
-    // const { status, updatedProject } = addItemToProject(
-    //   projectStructure,
-    //   selectedFolderId,
-    //   "folder",
-    //   {
-    //     id: (Math.random() * 1000).toString(36),
-    //     name: (Math.random() * 1000).toString(36),
-    //     type: "folder",
-    //     files: [],
-    //     subFolders: [],
-    //   },
-    // );
-
-    // status && updateProjectStructure(updatedProject);
     updateCreatingProjectItem(true, "folder");
   };
 

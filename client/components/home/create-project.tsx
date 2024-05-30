@@ -14,8 +14,7 @@ import { Button } from "@/components/ui/button";
 import { FormEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStore } from "@/components/store/useStore";
-import { LocalStorage } from "@/lib/utils";
-import WelcomeScreen from "@/app/components/home/welcome-screen";
+import { LocalStorage } from "@/lib/helper";
 
 export default function CreateProjectBtn() {
   // store imports

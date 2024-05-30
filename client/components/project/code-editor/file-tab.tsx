@@ -45,7 +45,7 @@ export default function FileTab({
   return (
     <div
       className={cn(
-        "fileTab flex cursor-pointer items-center gap-2 rounded-lg bg-primary-foreground/80 px-2 py-1 transition-all",
+        "fileTab flex cursor-pointer items-center gap-2 rounded-lg bg-primary-foreground/80 px-2 py-1 transition-all select-none",
         isActive
           ? "text-secondary-foreground hover:bg-primary-foreground"
           : "text-secondary-foreground/40 hover:text-secondary-foreground",

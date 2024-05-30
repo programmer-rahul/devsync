@@ -8,7 +8,7 @@ export default function EditorTabs() {
   const selectedFileId = useStore((state) => state.selectedFile?.id);
 
   return (
-    <div className="flex w-full gap-2 rounded-tl-lg rounded-tr-lg bg-secondary px-3 py-2">
+    <div className="flex h-9 w-full items-center gap-2 rounded-tl-lg rounded-tr-lg bg-secondary px-3">
       {openedEditorTabs?.map(({ id, name }) => {
         return (
           <FileTab

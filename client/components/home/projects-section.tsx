@@ -38,16 +38,14 @@ export default function ProjectsSection() {
           value="createdProjects"
           className="flex flex-wrap justify-around gap-2"
         >
-          {createdProjects?.map(({ owner, projectName, projectId }) => {
-            return (
-              <ProjectCard
-                key={projectId}
-                owner={owner}
-                projectName={projectName}
-                projectId={projectId}
-              />
-            );
-          })}
+          {createdProjects?.map(({ owner, projectName, projectId }) => (
+            <ProjectCard
+              key={projectId}
+              owner={owner}
+              projectName={projectName}
+              projectId={projectId}
+            />
+          ))}
         </TabsContent>
 
         <TabsContent

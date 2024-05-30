@@ -17,7 +17,9 @@ export default function ExplorerFile({
     if (selectedFile?.id === fileId) return;
 
     setSelectedFile({ name: fileName, id: fileId, type, content });
-    addEditorTab({ name: fileName, id: fileId });
+
+    if (!content) content = "";
+    addEditorTab({ name: fileName, id: fileId, content });
   };
 
   return (

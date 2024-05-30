@@ -29,9 +29,17 @@ type StoreStates = {
   updateCreatingProjectItem: (status: boolean, type: "file" | "folder") => void;
 
   // code editor
-  openedEditorTabs: { name: string; id: string }[];
+  openedEditorTabs: { name: string; id: string; content: string }[];
   removeEditorTab: (id: string) => { name: string; id: string }[];
-  addEditorTab: ({ name, id }: { name: string; id: string }) => void;
+  addEditorTab: ({
+    name,
+    id,
+    content,
+  }: {
+    name: string;
+    id: string;
+    content: string;
+  }) => void;
 };
 
 export const useStore = create<StoreStates>((set) => ({
@@ -95,14 +103,14 @@ export const useStore = create<StoreStates>((set) => ({
     return updatedEditorTabs!;
   },
 
-  addEditorTab: ({ name, id }) => {
+  addEditorTab: ({ name, id, content }) => {
     set((state) => {
       let isAvailable = state.openedEditorTabs.some((tab) => tab.id === id);
 
       return {
         openedEditorTabs: isAvailable
           ? state.openedEditorTabs
-          : [{ name, id }, ...state.openedEditorTabs.slice(0, 4)],
+          : [{ name, id, content }, ...state.openedEditorTabs.slice(0, 4)],
       };
     });
   },
