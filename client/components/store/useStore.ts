@@ -1,8 +1,12 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { ActivityBarButtons, Project } from "@/app/components/types/project";
 import { LocalStorage } from "@/lib/helper";
 import { File, ProjectStructure } from "@/app/components/types/explorer";
 import { DEFAULT_PROJECT_STRUCTURE } from "@/lib/constants";
+import { io, Socket } from "socket.io-client";
+
+const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
 
 type StoreStates = {
   showWelcomeScreen: boolean;
@@ -40,78 +44,124 @@ type StoreStates = {
     id: string;
     content: string;
   }) => void;
+
+  // socket
+  socket: Socket | null;
+  connectSocket: () => void;
+  isConnectedToServer: boolean;
+  updateIsConnectedToServer: (value: boolean) => void;
+
+  // username
+  currentUsername: string;
+  updatedCurrentUsername: (username: string) => void;
 };
 
-export const useStore = create<StoreStates>((set) => ({
-  showWelcomeScreen: false,
-  setShowWelcomeScreen: (value) =>
-    set(() => ({
-      showWelcomeScreen: value,
-    })),
+// store
+export const useStore = create<StoreStates>()(
+  persist(
+    (set) => ({
+      showWelcomeScreen: false,
+      setShowWelcomeScreen: (value) =>
+        set(() => ({
+          showWelcomeScreen: value,
+        })),
 
-  createdProjects: LocalStorage.get("createdProjects") || [],
-  addCreatedProjects: (Project) =>
-    set((state) => ({
-      createdProjects: [...state.createdProjects, Project],
-    })),
+      createdProjects: LocalStorage.get("createdProjects") || [],
+      addCreatedProjects: (Project) =>
+        set((state) => ({
+          createdProjects: [...state.createdProjects, Project],
+        })),
 
-  // projects
-  currentActivityButton: "files",
-  setActivityButton: (value) =>
-    set((state) => ({
-      currentActivityButton: value,
-    })),
+      // projects
+      currentActivityButton: "files",
+      setActivityButton: (value) =>
+        set((state) => ({
+          currentActivityButton: value,
+        })),
 
-  // explorer
-  selectedFile: null,
-  setSelectedFile: (file) =>
-    set((state) => ({
-      selectedFile: file,
-    })),
+      // explorer
+      selectedFile: null,
+      setSelectedFile: (file) =>
+        set((state) => ({
+          selectedFile: file,
+        })),
 
-  selectedFolderId: ":root",
-  setSelectedFolderId: (id) =>
-    set((state) => ({
-      selectedFolderId: id,
-    })),
+      selectedFolderId: ":root",
+      setSelectedFolderId: (id) =>
+        set((state) => ({
+          selectedFolderId: id,
+        })),
 
-  projectStructure: DEFAULT_PROJECT_STRUCTURE,
-  updateProjectStructure: (updatedProjectStructure) =>
-    set(() => ({
-      projectStructure: { ...updatedProjectStructure },
-    })),
+      projectStructure: DEFAULT_PROJECT_STRUCTURE,
+      updateProjectStructure: (updatedProjectStructure) =>
+        set(() => ({
+          projectStructure: { ...updatedProjectStructure },
+        })),
 
-  creatingProjectItem: { status: false, type: "file" },
-  updateCreatingProjectItem: (status, type) =>
-    set(() => ({
-      creatingProjectItem: { status, type },
-    })),
+      creatingProjectItem: { status: false, type: "file" },
+      updateCreatingProjectItem: (status, type) =>
+        set(() => ({
+          creatingProjectItem: { status, type },
+        })),
 
-  // code editor
-  openedEditorTabs: [],
-  removeEditorTab: (id) => {
-    let updatedEditorTabs;
+      // code editor
+      openedEditorTabs: [],
+      removeEditorTab: (id) => {
+        let updatedEditorTabs;
 
-    set((state) => {
-      updatedEditorTabs = state.openedEditorTabs.filter((tab) => tab.id !== id);
+        set((state) => {
+          updatedEditorTabs = state.openedEditorTabs.filter(
+            (tab) => tab.id !== id,
+          );
 
-      return {
-        openedEditorTabs: updatedEditorTabs,
-      };
-    });
+          return {
+            openedEditorTabs: updatedEditorTabs,
+          };
+        });
 
-    return updatedEditorTabs!;
-  },
+        return updatedEditorTabs!;
+      },
 
-  addEditorTab: ({ name, id, content }) => {
-    set((state) => {
-      let isAvailable = state.openedEditorTabs.some((tab) => tab.id === id);
+      addEditorTab: ({ name, id, content }) => {
+        set((state) => {
+          let isAvailable = state.openedEditorTabs.some((tab) => tab.id === id);
 
-      return {
-        openedEditorTabs: isAvailable
-          ? state.openedEditorTabs
-          : [{ name, id, content }, ...state.openedEditorTabs.slice(0, 4)],
-      };
-    });
-  },
-}));
+          return {
+            openedEditorTabs: isAvailable
+              ? state.openedEditorTabs
+              : [{ name, id, content }, ...state.openedEditorTabs.slice(0, 4)],
+          };
+        });
+      },
+
+      // socket
+      socket: null,
+      connectSocket: () =>
+        set((state) => {
+          const socket = io(SOCKET_SERVER_URL);
+
+          return {
+            socket: socket,
+          };
+        }),
+
+      isConnectedToServer: false,
+      updateIsConnectedToServer: (value) =>
+        set((state) => ({ isConnectedToServer: value })),
+
+      // username
+      currentUsername: "dfd",
+      updatedCurrentUsername: (username) =>
+        set(() => ({
+          currentUsername: username,
+        })),
+    }),
+    {
+      name: "store",
+      getStorage: () => localStorage,
+      partialize: (state) => ({
+        currentUsername: state.currentUsername,
+      }),
+    },
+  ),
+);

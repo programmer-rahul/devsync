@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -7,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useStore } from "../store/useStore";
 
 interface ProjectCardProps {
   owner: string;
@@ -19,6 +22,10 @@ export default function ProjectCard({
   projectName,
   projectId,
 }: ProjectCardProps) {
+  const updatedCurrentUsername = useStore(
+    (state) => state.updatedCurrentUsername,
+  );
+
   return (
     <Card className="w-5/12 max-w-80">
       <CardHeader>
@@ -33,9 +40,14 @@ export default function ProjectCard({
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="ml-auto">
-          <Link href={`/project/${projectId}`}>Open</Link>
-        </Button>
+        <Link
+          href={`/project/${projectId}`}
+          onClick={() => {
+            updatedCurrentUsername(owner);
+          }}
+        >
+          <Button className="ml-auto">Open</Button>
+        </Link>
       </CardFooter>
     </Card>
   );

@@ -4,7 +4,7 @@ import EditorTabs from "./editor-tabs";
 
 export default function CodeEditor() {
   return (
-    <section className="w-full rounded-lg border flex flex-col">
+    <section className="flex w-full flex-col rounded-lg border">
       {/* editor tabs  */}
 
       <EditorTabs />

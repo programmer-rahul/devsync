@@ -1,7 +1,6 @@
 "use client";
 
 import { useStore } from "@/components/store/useStore";
-import useSocket from "@/hooks/useSocket";
 import { useEffect, useState } from "react";
 
 export default function CheckWelcomeScreen({

@@ -9,22 +9,6 @@ import { SOCKET_ENUMS } from "@/lib/constants";
 
 export default function ProjectsSection() {
   const createdProjects = useStore((state) => state.createdProjects);
-  const socket = useSocket();
-
-  const onConnect = () => {
-    console.log("connected to server");
-  };
-
-  useEffect(() => {
-    if (!socket) return;
-
-    socket.emit(SOCKET_ENUMS.LOGIN);
-    socket.on(SOCKET_ENUMS.CONNECT, onConnect);
-
-    return () => {
-      socket.off(SOCKET_ENUMS.CONNECT, onConnect);
-    };
-  }, [socket]);
 
   return (
     <section>

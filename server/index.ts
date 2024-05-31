@@ -25,8 +25,10 @@ app.get("/users", (req, res) => {
 });
 
 // io connection
-io.on("connection", ioListener);
+io.on("connection", (socket) => ioListener(socket, io));
 
 server.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
 });
+
+export { app };
