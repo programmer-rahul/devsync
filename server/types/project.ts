@@ -2,12 +2,10 @@ export interface Project {
   owner: string;
   projectName: string;
   projectId: string;
-  joinedUsers: [
-    {
-      socketId: string;
-      username: string;
-    }
-  ];
+  joinedUsers: {
+    socketId: string;
+    username: string;
+  }[];
   structure: {};
 }
 

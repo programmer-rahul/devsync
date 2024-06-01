@@ -6,9 +6,12 @@ import { useStore } from "../store/useStore";
 import { useEffect } from "react";
 import useSocket from "@/hooks/useSocket";
 import { SOCKET_ENUMS } from "@/lib/constants";
+import JoinProjectBtn from "./join-project";
+import CreateProjectBtn from "./create-project";
 
 export default function ProjectsSection() {
   const createdProjects = useStore((state) => state.createdProjects);
+  const joinedProjects = useStore((state) => state.joinedProjects);
 
   return (
     <section>
@@ -35,8 +38,22 @@ export default function ProjectsSection() {
         <TabsContent
           value="joinedProjects"
           className="flex flex-wrap justify-around gap-2"
-        ></TabsContent>
+        >
+          {joinedProjects?.map(({ owner, projectName, projectId }) => (
+            <ProjectCard
+              key={projectId}
+              owner={owner}
+              projectName={projectName}
+              projectId={projectId}
+            />
+          ))}
+        </TabsContent>
       </Tabs>
+
+      <div className="flex gap-4">
+        <JoinProjectBtn />
+        <CreateProjectBtn />
+      </div>
     </section>
   );
 }

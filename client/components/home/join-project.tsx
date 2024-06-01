@@ -14,10 +14,12 @@ import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
 import { LocalStorage } from "@/lib/helper";
 import { useStore } from "../store/useStore";
+import { SOCKET_ENUMS } from "@/lib/constants";
 
 export default function JoinProjectBtn() {
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
   const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
+  const socket = useStore((state) => state.socket);
 
   const [joinProjectValues, setJoinProjectValues] = useState({
     username: "",
@@ -41,6 +43,12 @@ export default function JoinProjectBtn() {
       LocalStorage.set("isWelcomeScreen", false);
       setShowWelcomeScreen(true);
     }
+
+    socket &&
+      socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
+        ...joinProjectValues,
+        projectName: ":unknown",
+      });
   };
 
   return (

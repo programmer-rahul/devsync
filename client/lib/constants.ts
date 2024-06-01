@@ -3,6 +3,8 @@ import { ProjectStructure } from "@/app/components/types/explorer";
 export const SOCKET_ENUMS = {
   CONNECT: "connect",
   LOGIN: "login",
+  JOIN_PROJECT: "join-project",
+  UPDATED_JOINED_USER_LIST: "updated-joined-users-list",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {

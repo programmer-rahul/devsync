@@ -15,6 +15,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStore } from "@/components/store/useStore";
 import { LocalStorage } from "@/lib/helper";
+import { SOCKET_ENUMS } from "@/lib/constants";
 
 export default function CreateProjectBtn() {
   // store imports
@@ -22,6 +23,7 @@ export default function CreateProjectBtn() {
   const createdProjects = useStore((state) => state.createdProjects);
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
   const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
+  const socket = useStore((state) => state.socket);
 
   const [newProjectValues, setNewProjectValues] = useState({
     username: "",
@@ -48,6 +50,9 @@ export default function CreateProjectBtn() {
       LocalStorage.set("isWelcomeScreen", false);
       setShowWelcomeScreen(true);
     }
+
+    socket && socket.emit(SOCKET_ENUMS.JOIN_PROJECT, newProjectValues);
+    
   };
 
   // to change projectId every time when opening dialog box

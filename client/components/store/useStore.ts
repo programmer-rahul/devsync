@@ -15,6 +15,9 @@ type StoreStates = {
   createdProjects: Project[];
   addCreatedProjects: (Project: Project) => void;
 
+  joinedProjects: Project[];
+  addJoinedProjects: (Project: Project) => void;
+
   // project
   currentActivityButton: ActivityBarButtons;
   setActivityButton: (value: ActivityBarButtons) => void;
@@ -54,6 +57,12 @@ type StoreStates = {
   // username
   currentUsername: string;
   updatedCurrentUsername: (username: string) => void;
+
+  // clients
+  projectClientsList: { username: string; socketId: string }[];
+  updateProjectClientsList: (
+    updatedList: { username: string; socketId: string }[],
+  ) => void;
 };
 
 // store
@@ -68,6 +77,12 @@ export const useStore = create<StoreStates>()(
 
       createdProjects: LocalStorage.get("createdProjects") || [],
       addCreatedProjects: (Project) =>
+        set((state) => ({
+          createdProjects: [...state.createdProjects, Project],
+        })),
+
+      joinedProjects: LocalStorage.get("joinedProjects") || [],
+      addJoinedProjects: (Project) =>
         set((state) => ({
           createdProjects: [...state.createdProjects, Project],
         })),
@@ -154,6 +169,13 @@ export const useStore = create<StoreStates>()(
       updatedCurrentUsername: (username) =>
         set(() => ({
           currentUsername: username,
+        })),
+
+      // clients
+      projectClientsList: [],
+      updateProjectClientsList: (updatedList) =>
+        set(() => ({
+          projectClientsList: updatedList,
         })),
     }),
     {
