@@ -46,7 +46,6 @@ export default function ProjectCard({
           href={`/project/${projectId}`}
           onClick={() => {
             updatedCurrentUsername(owner);
-            console.log("socket", socket);
             socket &&
               socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
                 username: owner,

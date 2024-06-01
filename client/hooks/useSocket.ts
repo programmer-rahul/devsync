@@ -3,8 +3,6 @@ import { SOCKET_ENUMS } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 
-const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
-
 const useSocket = (): Socket => {
   const socket = useStore((state) => state.socket);
   const connectSocket = useStore((state) => state.connectSocket);
@@ -13,6 +11,14 @@ const useSocket = (): Socket => {
     (state) => state.updateIsConnectedToServer,
   );
 
+  const onSocketConnect = () => {
+    console.log("successfully connected to server");
+  };
+
+  const onLogin = () => {
+    console.log("Login successfully");
+  };
+
   useEffect(() => {
     if (!socket) {
       connectSocket();
@@ -20,9 +26,9 @@ const useSocket = (): Socket => {
     if (socket && !isConnectedToServer) {
       updateIsConnectedToServer(true);
 
-      socket.on(SOCKET_ENUMS.CONNECT, () => {
-        console.log("successfully connected to server");
-      });
+      socket.on(SOCKET_ENUMS.CONNECT, onSocketConnect);
+      socket.on(SOCKET_ENUMS.LOGIN, onLogin);
+
       socket.emit(SOCKET_ENUMS.LOGIN);
     }
   }, [socket]);

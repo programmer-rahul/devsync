@@ -12,9 +12,6 @@ export default function Home() {
         <WelcomeScreen />
         <HomeScreen />
       </CheckWelcomeScreen>
-
-        
-
     </div>
   );
 }
