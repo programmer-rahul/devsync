@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { SOCKET_ENUMS } from "@/lib/constants";
 import { usePathname } from "next/navigation";
 import useSocket from "@/hooks/useSocket";
-import ProjectPage from "@/app/components/project/project-page";
 import { useStore } from "../store/useStore";
+import ProjectPageLoading from "@/app/components/project/project-page-loading";
+import ProjectPageIsNotAvailable from "@/app/components/project/project-page-not-available";
+import ProjectPage from "@/app/components/project/project-page";
 
 export default function CheckProjectAvailability() {
   const socket = useSocket();
@@ -74,6 +76,7 @@ export default function CheckProjectAvailability() {
   };
 
   useEffect(() => {
+    console.log("useEffect rendered");
     if (!socket) return;
 
     socket.emit(SOCKET_ENUMS.PROJECT_ID_VALIDATION, {
@@ -98,14 +101,14 @@ export default function CheckProjectAvailability() {
   }, [socket]);
 
   return (
-    <div>
-      {isLoading ? <div>isLoading...</div> : <div>isLoading completed</div>}
-
-      {!isLoading && isProjectAvailable ? (
-        <ProjectPage />
+    <main className="flex h-screen border p-2">
+      {isLoading ? (
+        <ProjectPageLoading />
       ) : (
-        <div>Project is not Available</div>
+        !isProjectAvailable && <ProjectPageIsNotAvailable />
       )}
-    </div>
+
+      {!isLoading && isProjectAvailable && <ProjectPage />}
+    </main>
   );
 }
