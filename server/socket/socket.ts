@@ -1,6 +1,7 @@
 import { DEFAULT_PROJECT_STRUCTURE, SOCKET_ENUMS } from "../utils/constants";
 import { IoType, SocketType, UserSockets } from "../types/socket";
-import { UserProjects } from "../types/project";
+import { File, UserProjects } from "../types/project";
+import { addItemToProject } from "../utils/project-structure-utils";
 
 const { LOGIN, DISCONNECT } = SOCKET_ENUMS;
 
@@ -30,6 +31,11 @@ const ioListener = (socket: SocketType, io: IoType) => {
   // to check is given projectId is valid or not
   socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, ({ projectId }) =>
     onProjectIdValidation({ projectId, socket })
+  );
+
+  // structure
+  socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, ({ newItem, folderId }) =>
+    onFileCreated({ socket, newItem, folderId })
   );
 };
 
@@ -141,6 +147,43 @@ const onProjectIdValidation = ({
 
   socket.emit(SOCKET_ENUMS.PROJECT_ID_VALIDATION, {
     isProjectIdValid: isProjectAvailable,
+  });
+};
+
+// structure
+const onFileCreated = ({
+  socket,
+  newItem,
+  folderId,
+}: {
+  socket: SocketType;
+  newItem: File;
+  folderId: string;
+}) => {
+  const currentUser = userSockets[socket.id];
+  const projectId = currentUser?.joinedProject;
+
+  if (!newItem || !projectId) return;
+
+  const structure = userProjects[projectId].structure;
+
+  // add item in project structure
+  const { updatedProject, status } = addItemToProject(
+    structure,
+    folderId,
+    newItem.type,
+    newItem
+  );
+  if (!status) return;
+
+  // now update project structure in userProjects
+  userProjects[projectId].structure = updatedProject;
+
+  // emit event to other user that a new items created
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.PROJECT_ITEM_CREATED, {
+    createdBy: currentUser,
+    newItem,
+    folderId,
   });
 };
 

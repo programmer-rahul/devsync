@@ -8,11 +8,13 @@ import { useStore } from "../store/useStore";
 import ProjectPageLoading from "@/app/components/project/project-page-loading";
 import ProjectPageIsNotAvailable from "@/app/components/project/project-page-not-available";
 import ProjectPage from "@/app/components/project/project-page";
-import { ProjectStructure } from "@/app/components/types/explorer";
+import { File, ProjectStructure } from "@/app/components/types/explorer";
+import useProjectCrud from "@/hooks/useProjectCrud";
 
 export default function CheckProjectAvailability() {
   const socket = useSocket();
   const pathname = usePathname();
+  const { createProjectItem } = useProjectCrud();
 
   const currentUsername = useStore((state) => state.currentUsername);
   const updateCurrentProjectName = useStore(
@@ -95,13 +97,34 @@ export default function CheckProjectAvailability() {
     console.log("A user disconnected", { username, socketId });
   };
 
-  useEffect(() => {
-    console.log("useEffect rendered");
-    if (!socket) return;
+  // zustand store states
+  const selectedFolderId = useStore((state) => state.selectedFolderId);
 
-    socket.emit(SOCKET_ENUMS.PROJECT_ID_VALIDATION, {
-      projectId: projectId,
+  const projectStructure = useStore((state) => state.projectStructure);
+
+  const onNewProjectItemCreated = ({
+    createdBy,
+    newItem,
+    folderId,
+  }: {
+    createdBy: { username: string; socketId: string };
+    newItem: File;
+    folderId: string;
+  }) => {
+    console.log("new file created by :-", newItem);
+
+    console.log("chekcing", projectStructure);
+
+    createProjectItem({
+      itemId: newItem.id,
+      itemType: newItem.type,
+      itemName: newItem.name,
+      toEmit: false,
     });
+  };
+
+  useEffect(() => {
+    if (!socket) return;
 
     // to get that the current project is valid or not
     socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
@@ -116,6 +139,9 @@ export default function CheckProjectAvailability() {
     socket.on(SOCKET_ENUMS.JOIN_PROJECT, onNewUserJoined);
     socket.on(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);
 
+    // project structure listeners
+    socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
+
     return () => {
       if (!socket) return;
       socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
@@ -124,6 +150,17 @@ export default function CheckProjectAvailability() {
       socket.off(SOCKET_ENUMS.JOIN_PROJECT, onNewUserJoined);
       socket.off(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);
 
+      socket.off(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
+    };
+  }, [socket, projectStructure, selectedFolderId]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit(SOCKET_ENUMS.PROJECT_ID_VALIDATION, {
+        projectId: projectId,
+      });
+    }
+    return () => {
       setIsLoading(true);
       setIsProjectAvailable(false);
     };

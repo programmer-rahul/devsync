@@ -1,17 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  File as FileInterface,
-  Folder as FolderInterface,
-} from "@/app/components/types/explorer";
+import { Folder as FolderInterface } from "@/app/components/types/explorer";
 import { useEffect, useRef, useState } from "react";
 import ExplorerFile from "./explorer-file";
 import ExplorerFolderName from "./explorer-folder-name";
 import { Input } from "@/components/ui/input";
 import { useStore } from "@/components/store/useStore";
-import { addItemToProject } from "@/lib/project-structure-utils";
-import { v4 as uuid } from "uuid";
+
+import useProjectCrud from "@/hooks/useProjectCrud";
 
 export default function ExplorerFolder({
   id: folderId,
@@ -21,21 +18,17 @@ export default function ExplorerFolder({
 }: FolderInterface) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const projectStructure = useStore((state) => state.projectStructure);
-  const updateProjectStructure = useStore(
-    (state) => state.updateProjectStructure,
-  );
+  // custom hook for managing project crud operations
+  const { createProjectItem } = useProjectCrud();
+
+  // zunstand store states
   const selectedFolderId = useStore((state) => state.selectedFolderId);
   const creatingProjectItem = useStore((state) => state.creatingProjectItem);
   const updateCreatingProjectItem = useStore(
     (state) => state.updateCreatingProjectItem,
   );
 
-  const setSelectedFile = useStore((state) => state.setSelectedFile);
-  const addEditorTab = useStore((state) => state.addEditorTab);
-
-  const setSelectedFolderId = useStore((state) => state.setSelectedFolderId);
-
+  // to maintain folder collapsing state
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   // input
@@ -44,13 +37,14 @@ export default function ExplorerFolder({
     let type = creatingProjectItem.type;
 
     if (event.key === "Enter" && text.trim() !== "") {
-      createProjectItem({ type, text });
+      createProjectItem({ itemName: text, itemType: type, toEmit: true });
     }
     if (event.key === "Escape") {
       updateCreatingProjectItem(false, "file");
     }
   };
 
+  // when user unfocus from input
   const onInputBlur = () => {
     if (!inputRef.current) return;
 
@@ -58,57 +52,10 @@ export default function ExplorerFolder({
       return updateCreatingProjectItem(false, "file");
 
     createProjectItem({
-      type: creatingProjectItem.type,
-      text: inputRef.current.value,
+      itemType: creatingProjectItem.type,
+      itemName: inputRef.current.value,
+      toEmit: true,
     });
-  };
-
-  const createProjectItem = ({
-    type,
-    text,
-  }: {
-    type: "file" | "folder";
-    text: string;
-  }) => {
-    let response;
-
-    let newFile: FileInterface = {
-      id: uuid(),
-      name: text.trim(),
-      type: "file",
-      content: "",
-    };
-    let newFolder: FolderInterface = {
-      id: uuid(),
-      name: text.trim(),
-      type: "folder",
-      files: [],
-      subFolders: [],
-    };
-
-    response = addItemToProject(
-      projectStructure,
-      selectedFolderId,
-      type,
-      type === "file" ? newFile : newFolder,
-    );
-
-    if (response.status) {
-      updateProjectStructure(response.updatedProject);
-      updateCreatingProjectItem(false, "file");
-
-      // to select file if newly created for showing in tabs
-      if (type === "file") {
-        setSelectedFile(newFile);
-        addEditorTab({
-          name: newFile.name,
-          id: newFile.id,
-          content: "",
-        });
-      } else {
-        setSelectedFolderId(newFolder.id);
-      }
-    }
   };
 
   useEffect(() => {

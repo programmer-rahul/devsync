@@ -9,6 +9,9 @@ export const SOCKET_ENUMS = {
   PROJECT_ID_VALIDATION: "project_id-validation",
   UPDATED_PROJECT_STRUCTURE: "updated-project-structure",
   INITIAL_PROJECT_DETAILS: "initial-project-details",
+
+  // structure
+  PROJECT_ITEM_CREATED: "project-item-created",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
