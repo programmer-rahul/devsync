@@ -4,6 +4,9 @@ export default function ExplorerPanelHeader() {
   const updateCreatingProjectItem = useStore(
     (state) => state.updateCreatingProjectItem,
   );
+  const projectName = useStore(
+    (state) => state.currentProjectName,
+  );
 
   const createFileHandler = () => {
     updateCreatingProjectItem(true, "file");
@@ -15,7 +18,7 @@ export default function ExplorerPanelHeader() {
 
   return (
     <div className="flex items-center justify-between">
-      <h2 className="text-xl font-semibold">Project Name</h2>
+      <h2 className="text-xl font-semibold">{projectName}</h2>
       <div className="flex gap-2">
         <div
           className="w-8 cursor-pointer rounded-md bg-primary p-2 text-secondary transition-all hover:bg-primary/70"

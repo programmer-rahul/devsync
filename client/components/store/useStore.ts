@@ -58,6 +58,10 @@ type StoreStates = {
   currentUsername: string;
   updatedCurrentUsername: (username: string) => void;
 
+  // project name
+  currentProjectName: string;
+  updateCurrentProjectName: (projectName: string) => void;
+
   // clients
   projectClientsList: { username: string; socketId: string }[];
   updateProjectClientsList: (
@@ -169,6 +173,13 @@ export const useStore = create<StoreStates>()(
       updatedCurrentUsername: (username) =>
         set(() => ({
           currentUsername: username,
+        })),
+
+      // project name
+      currentProjectName: "dfd",
+      updateCurrentProjectName: (projectName) =>
+        set(() => ({
+          currentProjectName: projectName,
         })),
 
       // clients

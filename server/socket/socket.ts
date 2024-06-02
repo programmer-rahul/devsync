@@ -5,7 +5,15 @@ import { UserProjects } from "../types/project";
 const { LOGIN, DISCONNECT } = SOCKET_ENUMS;
 
 let userSockets: UserSockets = {};
-let userProjects: UserProjects = {};
+let userProjects: UserProjects = {
+  "ac251d95-3c54-410c-a148-546e01b18413": {
+    owner: "dev",
+    projectId: "ac251d95-3c54-410c-a148-546e01b18413",
+    projectName: "project1",
+    joinedUsers: [],
+    structure: DEFAULT_PROJECT_STRUCTURE,
+  },
+};
 
 const ioListener = (socket: SocketType, io: IoType) => {
   // login
@@ -23,14 +31,6 @@ const ioListener = (socket: SocketType, io: IoType) => {
   socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, ({ projectId }) =>
     onProjectIdValidation({ projectId, socket })
   );
-
-  // to give updated project structure to users
-  socket.on(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, ({ projectId }) => {
-    console.log(projectId);
-    socket.emit(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, {
-      updatedProjectStructure: userProjects[projectId]?.structure,
-    });
-  });
 };
 
 const onLogin = (socket: SocketType) => {
@@ -99,6 +99,7 @@ const onJoinProject = ({
 
   // check if project is already available
   const isProjectAvailable = userProjects[projectId] ? true : false;
+
   if (isProjectAvailable) {
     userProjects[projectId].joinedUsers.push(userSocket);
   } else {
@@ -112,21 +113,19 @@ const onJoinProject = ({
     };
   }
 
-  // emit event to client to send notification about new user joined
+  const currentProject = userProjects[projectId];
   socket.join(projectId);
+
+  // emit event to users to send notification about new user joined
   socket.broadcast.to(projectId).emit(SOCKET_ENUMS.JOIN_PROJECT, userSocket);
 
-  // emit event to client with updated users list
-  io.to(projectId).emit(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, {
-    updatedList: userProjects[projectId].joinedUsers,
+  // emit event to other users with updated users list
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, {
+    updatedList: currentProject.joinedUsers,
   });
 
-  // emit event to client with updated project structure
-  io.to(projectId).emit(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, {
-    updatedProjectStructure: userProjects[projectId].structure,
-  });
-
-  console.log("user joined into project", userProjects);
+  // emit event to user with initialProjectDetails
+  socket.emit(SOCKET_ENUMS.INITIAL_PROJECT_DETAILS, currentProject);
 };
 
 const onProjectIdValidation = ({
@@ -140,16 +139,8 @@ const onProjectIdValidation = ({
 
   const isProjectAvailable = userProjects[projectId] ? true : false;
 
-  console.log(projectId);
-  console.log(isProjectAvailable);
-
-  const isUserJoined = userProjects[projectId]?.joinedUsers?.some(
-    (user) => user.socketId === socket.id
-  );
-
   socket.emit(SOCKET_ENUMS.PROJECT_ID_VALIDATION, {
-    isValid: isProjectAvailable,
-    isUserJoined: isUserJoined,
+    isProjectIdValid: isProjectAvailable,
   });
 };
 

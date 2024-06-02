@@ -15,6 +15,9 @@ export default function CheckProjectAvailability() {
   const pathname = usePathname();
 
   const currentUsername = useStore((state) => state.currentUsername);
+  const updateCurrentProjectName = useStore(
+    (state) => state.updateCurrentProjectName,
+  );
   const updateProjectClientsList = useStore(
     (state) => state.updateProjectClientsList,
   );
@@ -25,6 +28,41 @@ export default function CheckProjectAvailability() {
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectAvailable, setIsProjectAvailable] = useState(false);
   const projectId = pathname.split("/")[2];
+
+  const onProjectIdValidation = ({
+    isProjectIdValid,
+  }: {
+    isProjectIdValid: boolean;
+  }) => {
+    // update states to showing components
+    setIsLoading(false);
+    setIsProjectAvailable(isProjectIdValid);
+
+    if (!isProjectIdValid) return;
+
+    // emit join event to join user in project
+    socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
+      projectName: "",
+      projectId: projectId,
+      username: currentUsername,
+    });
+  };
+
+  const onInitialProjectDetails = ({
+    projectName,
+    joinedUsers,
+    structure,
+  }: {
+    projectName: string;
+    joinedUsers: { socketId: string; username: string }[];
+    structure: ProjectStructure;
+  }) => {
+    console.log("initial details", structure);
+
+    if (projectName) updateCurrentProjectName(projectName);
+    if (joinedUsers) updateProjectClientsList(joinedUsers);
+    if (structure) updateProjectStructure(structure);
+  };
 
   const onUpdatedUserList = ({
     updatedList,
@@ -57,41 +95,6 @@ export default function CheckProjectAvailability() {
     console.log("A user disconnected", { username, socketId });
   };
 
-  const onCheckProjectAvailabilty = ({
-    isValid,
-    isUserJoined,
-  }: {
-    isValid: boolean;
-    isUserJoined: boolean;
-  }) => {
-    console.log("got result from server");
-    setIsLoading(false);
-    setIsProjectAvailable(isValid);
-
-    console.log("isUserJoined: " + isUserJoined);
-
-    isValid && !isUserJoined
-      ? socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
-          projectId: projectId,
-          projectName: "",
-          username: currentUsername,
-        })
-      : socket.emit(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, {
-          projectId: projectId,
-        });
-  };
-
-  const onUpdatedProjectStructure = ({
-    updatedProjectStructure,
-  }: {
-    updatedProjectStructure: ProjectStructure;
-  }) => {
-    console.log("onUpdatedProjectStructure", updatedProjectStructure);
-
-    if (!updatedProjectStructure) return;
-    updateProjectStructure(updatedProjectStructure);
-  };
-
   useEffect(() => {
     console.log("useEffect rendered");
     if (!socket) return;
@@ -100,18 +103,23 @@ export default function CheckProjectAvailability() {
       projectId: projectId,
     });
 
-    socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onCheckProjectAvailabilty);
+    // to get that the current project is valid or not
+    socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
+
+    // to get initial project details
+    socket.on(SOCKET_ENUMS.INITIAL_PROJECT_DETAILS, onInitialProjectDetails);
+
+    // to get new updated joinded users list
+    socket.on(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, onUpdatedUserList);
+
+    // on other user connects or disconnects
     socket.on(SOCKET_ENUMS.JOIN_PROJECT, onNewUserJoined);
     socket.on(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);
-    socket.on(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, onUpdatedUserList);
-    socket.on(
-      SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE,
-      onUpdatedProjectStructure,
-    );
 
     return () => {
       if (!socket) return;
-      socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onCheckProjectAvailabilty);
+      socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
+      socket.off(SOCKET_ENUMS.INITIAL_PROJECT_DETAILS, onInitialProjectDetails);
       socket.off(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, onUpdatedUserList);
       socket.off(SOCKET_ENUMS.JOIN_PROJECT, onNewUserJoined);
       socket.off(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);

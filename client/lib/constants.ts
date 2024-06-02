@@ -8,6 +8,7 @@ export const SOCKET_ENUMS = {
   UPDATED_JOINED_USER_LIST: "updated-joined-users-list",
   PROJECT_ID_VALIDATION: "project_id-validation",
   UPDATED_PROJECT_STRUCTURE: "updated-project-structure",
+  INITIAL_PROJECT_DETAILS: "initial-project-details",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
