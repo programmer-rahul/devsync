@@ -1,19 +1,11 @@
-import { SOCKET_ENUMS } from "../utils/constants";
+import { DEFAULT_PROJECT_STRUCTURE, SOCKET_ENUMS } from "../utils/constants";
 import { IoType, SocketType, UserSockets } from "../types/socket";
 import { UserProjects } from "../types/project";
 
 const { LOGIN, DISCONNECT } = SOCKET_ENUMS;
 
 let userSockets: UserSockets = {};
-let userProjects: UserProjects = {
-  "ac251d95-3c54-410c-a148-546e01b18413": {
-    owner: "",
-    projectId: "ac251d95-3c54-410c-a148-546e01b18413",
-    projectName: "dummy",
-    structure: {},
-    joinedUsers: [],
-  },
-};
+let userProjects: UserProjects = {};
 
 const ioListener = (socket: SocketType, io: IoType) => {
   // login
@@ -31,6 +23,14 @@ const ioListener = (socket: SocketType, io: IoType) => {
   socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, ({ projectId }) =>
     onProjectIdValidation({ projectId, socket })
   );
+
+  // to give updated project structure to users
+  socket.on(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, ({ projectId }) => {
+    console.log(projectId);
+    socket.emit(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, {
+      updatedProjectStructure: userProjects[projectId]?.structure,
+    });
+  });
 };
 
 const onLogin = (socket: SocketType) => {
@@ -108,7 +108,7 @@ const onJoinProject = ({
       projectName: projectName,
       projectId: projectId,
       joinedUsers: [userSocket],
-      structure: {},
+      structure: DEFAULT_PROJECT_STRUCTURE,
     };
   }
 
@@ -119,6 +119,11 @@ const onJoinProject = ({
   // emit event to client with updated users list
   io.to(projectId).emit(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, {
     updatedList: userProjects[projectId].joinedUsers,
+  });
+
+  // emit event to client with updated project structure
+  io.to(projectId).emit(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, {
+    updatedProjectStructure: userProjects[projectId].structure,
   });
 
   console.log("user joined into project", userProjects);
@@ -138,7 +143,7 @@ const onProjectIdValidation = ({
   console.log(projectId);
   console.log(isProjectAvailable);
 
-  const isUserJoined = userProjects[projectId].joinedUsers.some(
+  const isUserJoined = userProjects[projectId]?.joinedUsers?.some(
     (user) => user.socketId === socket.id
   );
 

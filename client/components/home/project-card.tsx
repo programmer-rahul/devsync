@@ -10,7 +10,6 @@ import {
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useStore } from "../store/useStore";
-import { SOCKET_ENUMS } from "@/lib/constants";
 
 interface ProjectCardProps {
   owner: string;
@@ -26,7 +25,6 @@ export default function ProjectCard({
   const updatedCurrentUsername = useStore(
     (state) => state.updatedCurrentUsername,
   );
-  const socket = useStore((state) => state.socket);
 
   return (
     <Card className="w-5/12 max-w-80">
@@ -46,12 +44,6 @@ export default function ProjectCard({
           href={`/project/${projectId}`}
           onClick={() => {
             updatedCurrentUsername(owner);
-            socket &&
-              socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
-                username: owner,
-                projectName: projectName,
-                projectId: projectId,
-              });
           }}
         >
           <Button className="ml-auto">Open</Button>

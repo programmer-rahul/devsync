@@ -7,6 +7,7 @@ export const SOCKET_ENUMS = {
   LEAVE_PROJECT: "leave-project",
   UPDATED_JOINED_USER_LIST: "updated-joined-users-list",
   PROJECT_ID_VALIDATION: "project_id-validation",
+  UPDATED_PROJECT_STRUCTURE: "updated-project-structure",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
@@ -15,22 +16,10 @@ export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
   type: "folder",
   files: [
     {
-      id: "file1",
+      id: "index.ts",
       name: "index.ts",
       type: "file",
-      content: "?????/",
-    },
-    {
-      id: "file2",
-      name: "server.ts",
-      type: "file",
-      content: "&&&&&",
-    },
-    {
-      id: "file4",
-      name: "main.ts",
-      type: "file",
-      content: "!!!!!!!!!!!!!!",
+      content: `const filename = "index.ts"`,
     },
   ],
   subFolders: [],

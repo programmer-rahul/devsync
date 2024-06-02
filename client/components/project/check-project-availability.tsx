@@ -8,6 +8,7 @@ import { useStore } from "../store/useStore";
 import ProjectPageLoading from "@/app/components/project/project-page-loading";
 import ProjectPageIsNotAvailable from "@/app/components/project/project-page-not-available";
 import ProjectPage from "@/app/components/project/project-page";
+import { ProjectStructure } from "@/app/components/types/explorer";
 
 export default function CheckProjectAvailability() {
   const socket = useSocket();
@@ -16,6 +17,9 @@ export default function CheckProjectAvailability() {
   const currentUsername = useStore((state) => state.currentUsername);
   const updateProjectClientsList = useStore(
     (state) => state.updateProjectClientsList,
+  );
+  const updateProjectStructure = useStore(
+    (state) => state.updateProjectStructure,
   );
 
   const [isLoading, setIsLoading] = useState(true);
@@ -66,13 +70,26 @@ export default function CheckProjectAvailability() {
 
     console.log("isUserJoined: " + isUserJoined);
 
-    isValid &&
-      !isUserJoined &&
-      socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
-        projectId: projectId,
-        projectName: "",
-        username: currentUsername,
-      });
+    isValid && !isUserJoined
+      ? socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
+          projectId: projectId,
+          projectName: "",
+          username: currentUsername,
+        })
+      : socket.emit(SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE, {
+          projectId: projectId,
+        });
+  };
+
+  const onUpdatedProjectStructure = ({
+    updatedProjectStructure,
+  }: {
+    updatedProjectStructure: ProjectStructure;
+  }) => {
+    console.log("onUpdatedProjectStructure", updatedProjectStructure);
+
+    if (!updatedProjectStructure) return;
+    updateProjectStructure(updatedProjectStructure);
   };
 
   useEffect(() => {
@@ -84,9 +101,13 @@ export default function CheckProjectAvailability() {
     });
 
     socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onCheckProjectAvailabilty);
-    socket.on(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, onUpdatedUserList);
     socket.on(SOCKET_ENUMS.JOIN_PROJECT, onNewUserJoined);
     socket.on(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);
+    socket.on(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, onUpdatedUserList);
+    socket.on(
+      SOCKET_ENUMS.UPDATED_PROJECT_STRUCTURE,
+      onUpdatedProjectStructure,
+    );
 
     return () => {
       if (!socket) return;

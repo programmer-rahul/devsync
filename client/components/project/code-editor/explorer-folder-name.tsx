@@ -29,17 +29,20 @@ export default function ExplorerFolderName({
   return (
     <div
       className={cn(
-        "flex cursor-pointer items-center rounded-md p-1",
+        "flex cursor-pointer items-center justify-between rounded-md p-1",
         folderId === ":root" && "hidden",
-        selectedFolderId === folderId && "bg-lime-800/60 text-lime-500 font-semibold",
+        selectedFolderId === folderId &&
+          "bg-lime-800/60 font-semibold text-lime-500",
       )}
       onClick={handleFolderClick}
     >
+      <div className="flex items-center">
+        <div className="mr-2 w-5">{folderIcon}</div>
+        <p>{folderName}</p>
+      </div>
       <div className={cn("w-5 -rotate-90", isCollapsed && "rotate-0")}>
         {collapseIcon}
       </div>
-      <div className="w-5 mr-2">{folderIcon}</div>
-      <p>{folderName}</p>
     </div>
   );
 }
