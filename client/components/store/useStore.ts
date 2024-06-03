@@ -79,13 +79,13 @@ export const useStore = create<StoreStates>()(
           showWelcomeScreen: value,
         })),
 
-      createdProjects: LocalStorage.get("createdProjects") || [],
+      createdProjects: [],
       addCreatedProjects: (Project) =>
         set((state) => ({
           createdProjects: [...state.createdProjects, Project],
         })),
 
-      joinedProjects: LocalStorage.get("joinedProjects") || [],
+      joinedProjects: [],
       addJoinedProjects: (Project) =>
         set((state) => ({
           createdProjects: [...state.createdProjects, Project],
@@ -190,10 +190,13 @@ export const useStore = create<StoreStates>()(
         })),
     }),
     {
+      // to store values in localStorage
       name: "store",
       getStorage: () => localStorage,
       partialize: (state) => ({
         currentUsername: state.currentUsername,
+        createdProjects: state.createdProjects,
+        joinedProjects: state.joinedProjects,
       }),
     },
   ),

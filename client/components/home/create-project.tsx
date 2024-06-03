@@ -25,13 +25,16 @@ export default function CreateProjectBtn() {
   const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
   const socket = useStore((state) => state.socket);
 
+  // user input values
   const [newProjectValues, setNewProjectValues] = useState({
     username: "",
     projectName: "",
     projectId: "",
   });
+  // to handle dialog box
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // create project handler
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { username, projectName, projectId } = newProjectValues;
@@ -43,16 +46,12 @@ export default function CreateProjectBtn() {
     let newProject = { owner: username, projectName, projectId };
     addCreatedProjects(newProject);
 
-    // set in localStoreage
-    LocalStorage.set("createdProjects", [...createdProjects, newProject]);
-
     if (!showWelcomeScreen) {
       LocalStorage.set("isWelcomeScreen", false);
       setShowWelcomeScreen(true);
     }
 
-    socket && socket.emit(SOCKET_ENUMS.JOIN_PROJECT, newProjectValues);
-    
+    socket && socket.emit(SOCKET_ENUMS.CREATE_PROJECT, newProject);
   };
 
   // to change projectId every time when opening dialog box

@@ -49,9 +49,9 @@ export default function CodeArea() {
       {currentFileContent === null ? (
         <div>No selected files</div>
       ) : (
-        <div className="h-full border border-red-500 p-2">
+        <div className="h-full p-2">
           <textarea
-            className="h-full w-full border bg-transparent text-xl"
+            className="h-full w-full outline-none bg-transparent text-xl"
             value={currentFileContent}
             onChange={handleContentFileChange}
           />

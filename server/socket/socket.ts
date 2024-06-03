@@ -1,6 +1,6 @@
 import { DEFAULT_PROJECT_STRUCTURE, SOCKET_ENUMS } from "../utils/constants";
 import { IoType, SocketType, UserSockets } from "../types/socket";
-import { File, UserProjects } from "../types/project";
+import { File, Project, UserProjects } from "../types/project";
 import {
   addItemToProject,
   deleteItemToProject,
@@ -27,6 +27,11 @@ const ioListener = (socket: SocketType, io: IoType) => {
 
   // on disconnect
   socket.on(DISCONNECT, () => onDisconnect(socket));
+
+  // on createProject
+  socket.on(SOCKET_ENUMS.CREATE_PROJECT, (values) =>
+    onCreateProject({ ...values, socket, io })
+  );
 
   // on joinProject
   socket.on(SOCKET_ENUMS.JOIN_PROJECT, (values) =>
@@ -97,6 +102,37 @@ const onDisconnect = (socket: SocketType) => {
 
   console.log("isAvailable", isAvailable);
   console.log("userProjects", userProjects);
+};
+
+const onCreateProject = ({
+  projectId,
+  projectName,
+  owner,
+  socket,
+}: {
+  projectId: string;
+  projectName: string;
+  owner: string;
+  socket: SocketType;
+}) => {
+  if (!projectId?.trim() || !projectName?.trim() || !owner?.trim()) return;
+
+  const userSocket = userSockets[socket.id];
+
+  // create new project
+  const newProject: Project = {
+    owner: owner,
+    projectId: projectId,
+    projectName: projectName,
+    joinedUsers: [],
+    structure: DEFAULT_PROJECT_STRUCTURE,
+  };
+
+  // update userprojects object
+  userProjects[projectId] = newProject;
+
+  console.log(userProjects[projectId]);
+  // socket.emit(SOCKET_ENUMS.CREATE_PROJECT, { status: true });
 };
 
 const onJoinProject = ({
