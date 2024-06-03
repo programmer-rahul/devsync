@@ -16,7 +16,6 @@ const addItemToProject = (
   itemType: "file" | "folder",
   newItem: FileInterface | FolderInterface,
 ): AddItemResult => {
-
   const addItem = (folder: FolderInterface): boolean => {
     if (folder.id === targetFolderId) {
       if (itemType === "file" && folder.files) {
@@ -59,6 +58,7 @@ const addItemToProject = (
     };
   }
 };
+
 const deleteItemToProject = (
   project: ProjectStructure,
   itemId: string,
@@ -73,7 +73,7 @@ const deleteItemToProject = (
       }
     } else if (itemType === "folder" && folder.subFolders) {
       const index = folder.subFolders.findIndex(
-        (subFolder) => subFolder.id === itemId
+        (subFolder) => subFolder.id === itemId,
       );
       if (index !== -1) {
         folder.subFolders.splice(index, 1);
@@ -81,8 +81,6 @@ const deleteItemToProject = (
       }
     }
 
-
-    
     if (!folder.subFolders) return false;
     for (const subFolder of folder.subFolders) {
       if (deleteItem(subFolder)) {
@@ -109,5 +107,52 @@ const deleteItemToProject = (
   }
 };
 
+const renameItemToProject = (
+  project: ProjectStructure,
+  itemId: string,
+  itemType: "file" | "folder",
+  newName: string,
+): AddItemResult => {
+  const renameItem = (folder: FolderInterface): boolean => {
+    if (itemType === "folder" && folder.id === itemId) {
+      folder.name = newName;
+      console.log("inside folder");
+      return true;
+    } else if (itemType === "file" && folder.files) {
+      const isChanged = folder.files.some((file) => {
+        if (file.id === itemId) {
+          file.name = newName;
+          console.log("inside file");
+          return true;
+        }
+      });
+      if (isChanged) return true;
+    }
 
-export { addItemToProject, deleteItemToProject };
+    if (!folder.subFolders) return false;
+    for (const subFolder of folder.subFolders) {
+      if (renameItem(subFolder)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const success = renameItem(project);
+
+  if (success) {
+    return {
+      updatedProject: project,
+      status: true,
+      error: null,
+    };
+  } else {
+    return {
+      updatedProject: project,
+      status: false,
+      error: `A  with the name "" already exists in the folder with ID "".`,
+    };
+  }
+};
+
+export { addItemToProject, deleteItemToProject, renameItemToProject };

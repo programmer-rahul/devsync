@@ -14,6 +14,7 @@ export const SOCKET_ENUMS = {
   // structure
   PROJECT_ITEM_CREATED: "project-item-created",
   PROJECT_ITEM_DELETED: "project-item-deleted",
+  PROJECT_ITEM_RENAMED: "project-item-renamed",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {

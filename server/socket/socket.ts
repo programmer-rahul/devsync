@@ -4,6 +4,7 @@ import { File, UserProjects } from "../types/project";
 import {
   addItemToProject,
   deleteItemToProject,
+  renameItemToProject,
 } from "../utils/project-structure-utils";
 
 const { LOGIN, DISCONNECT } = SOCKET_ENUMS;
@@ -42,6 +43,11 @@ const ioListener = (socket: SocketType, io: IoType) => {
   );
   socket.on(SOCKET_ENUMS.PROJECT_ITEM_DELETED, ({ itemId, itemType }) =>
     onProjectItemDeleted({ socket, itemId, itemType })
+  );
+  socket.on(
+    SOCKET_ENUMS.PROJECT_ITEM_RENAMED,
+    ({ itemId, itemType, newName }) =>
+      onProjectItemRenamed({ socket, itemId, itemType, newName })
   );
 };
 
@@ -225,6 +231,47 @@ const onProjectItemDeleted = ({
     deletedBy: currentUser,
     itemId,
     itemType,
+  });
+
+  console.log(projectId);
+};
+
+const onProjectItemRenamed = ({
+  socket,
+  itemId,
+  itemType,
+  newName,
+}: {
+  socket: SocketType;
+  itemId: string;
+  itemType: "file" | "folder";
+  newName: string;
+}) => {
+  const currentUser = userSockets[socket.id];
+  const projectId = currentUser?.joinedProject;
+
+  if (!itemId || !itemType || !newName || !projectId) return;
+
+  const structure = userProjects[projectId].structure;
+
+  // rename item in project structure
+  const { updatedProject, status } = renameItemToProject(
+    structure,
+    itemId,
+    itemType,
+    newName
+  );
+  if (!status) return;
+
+  // now update project structure in userProjects
+  userProjects[projectId].structure = updatedProject;
+
+  // emit event to other user that a item renamed
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, {
+    renamedBy: currentUser,
+    itemId,
+    itemType,
+    newName,
   });
 
   console.log(projectId);

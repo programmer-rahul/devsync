@@ -2,6 +2,9 @@ import { File as FileInterface } from "@/app/components/types/explorer";
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
 import FileControls from "../sidebar-panel/file-explorer/file-controls";
+import { useRef, useState } from "react";
+import useProjectCrud from "@/hooks/useProjectCrud";
+import RenameProjectItem from "../sidebar-panel/file-explorer/rename-project-item";
 
 export default function ExplorerFile({
   name: fileName,
@@ -9,9 +12,20 @@ export default function ExplorerFile({
   type,
   content,
 }: FileInterface) {
+  // hook
+  const { renameProjectItem } = useProjectCrud();
+
+  // zustand store states
   const selectedFile = useStore((state) => state.selectedFile);
   const setSelectedFile = useStore((state) => state.setSelectedFile);
   const addEditorTab = useStore((state) => state.addEditorTab);
+
+  // state
+  const [isRenamingItem, setIsRenamingItem] = useState(false);
+  const [inputValue, setInputValue] = useState<string | null>(null);
+
+  // ref
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const fileClickHandler = () => {
     if (selectedFile?.id === fileId) return;
@@ -22,10 +36,28 @@ export default function ExplorerFile({
     addEditorTab({ name: fileName, id: fileId, content });
   };
 
+  const inputKeyPressHandler = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === "Enter") {
+      const newFileName = inputRef.current?.value!;
+      if (newFileName.trim() === fileName) return;
+
+      renameProjectItem({
+        itemId: fileId,
+        itemType: "file",
+        newName: newFileName,
+        toEmit: true,
+      });
+
+      setIsRenamingItem(false);
+    }
+  };
+
   return (
     <div
       className={cn(
-        "group flex cursor-pointer items-center justify-between rounded-md py-1 pl-5 text-primary",
+        "group flex cursor-pointer items-center justify-between rounded-md py-1 pl-4 text-primary",
         selectedFile?.id === fileId && "font-semibold text-lime-500/80",
       )}
     >
@@ -34,7 +66,13 @@ export default function ExplorerFile({
         onClick={fileClickHandler}
       >
         <div className="w-5">{fileIcon}</div>
-        <p>{fileName}</p>
+        <RenameProjectItem
+          itemId={fileId}
+          itemName={fileName}
+          itemType="file"
+          isRenaming={isRenamingItem}
+          setIsRenaming={setIsRenamingItem}
+        />
       </div>
       <div
         className={cn(
@@ -42,7 +80,11 @@ export default function ExplorerFile({
           selectedFile?.id === fileId && "block",
         )}
       >
-        <FileControls type="file" id={fileId} />
+        <FileControls
+          type="file"
+          id={fileId}
+          setIsRenaming={setIsRenamingItem}
+        />
       </div>
     </div>
   );

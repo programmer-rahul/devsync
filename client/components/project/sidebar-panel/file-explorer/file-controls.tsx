@@ -9,14 +9,16 @@ import {
 import useProjectCrud from "@/hooks/useProjectCrud";
 import { deleteItemToProject } from "@/lib/project-structure-utils";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export default function FileControls({
   type,
   id,
+  setIsRenaming,
 }: {
   type: "file" | "folder";
   id: string;
+  setIsRenaming: Dispatch<SetStateAction<boolean>>;
 }) {
   const { deleteProjectItem } = useProjectCrud();
 
@@ -27,9 +29,13 @@ export default function FileControls({
     setIsDialog(false);
   };
 
+  const renameItemHandler = () => {
+    setIsRenaming(true);
+  };
+
   return (
     <div className="flex items-center gap-3">
-      <div className="w-5">
+      <div className="w-5" onClick={renameItemHandler}>
         {type === "file" ? fileRenameIcon : folderRenameIcon}
       </div>
 

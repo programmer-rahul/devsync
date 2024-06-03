@@ -15,7 +15,8 @@ export default function CheckProjectAvailability() {
   // hooks
   const socket = useSocket();
   const pathname = usePathname();
-  const { createProjectItem, deleteProjectItem } = useProjectCrud();
+  const { createProjectItem, deleteProjectItem, renameProjectItem } =
+    useProjectCrud();
 
   // zustand store states
   const currentUsername = useStore((state) => state.currentUsername);
@@ -134,6 +135,24 @@ export default function CheckProjectAvailability() {
     deleteProjectItem({ itemId: itemId, itemType: itemType });
   };
 
+  const onProjectItemRenamed = ({
+    renamedBy,
+    itemId,
+    itemType,
+    newName,
+  }: {
+    renamedBy: { username: string; socketId: string };
+    itemId: string;
+    itemType: "file" | "folder";
+    newName: string;
+  }) => {
+    console.log('here')
+    if (!renamedBy || !itemId || !itemType || !newName) return;
+
+    renameProjectItem({ itemId: itemId, itemType: itemType, newName: newName });
+    console.log(projectStructure)
+  };
+
   useEffect(() => {
     if (!socket) return;
 
@@ -153,6 +172,7 @@ export default function CheckProjectAvailability() {
     // project structure listeners
     socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
     socket.on(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
+    socket.on(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, onProjectItemRenamed);
 
     return () => {
       if (!socket) return;
@@ -164,6 +184,7 @@ export default function CheckProjectAvailability() {
 
       socket.off(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
       socket.off(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
+      socket.off(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, onProjectItemRenamed);
     };
   }, [socket, projectStructure, selectedFolderId]);
 

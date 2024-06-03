@@ -8,6 +8,7 @@ import { SOCKET_ENUMS } from "@/lib/constants";
 import {
   addItemToProject,
   deleteItemToProject,
+  renameItemToProject,
 } from "@/lib/project-structure-utils";
 
 export default function useProjectCrud() {
@@ -100,7 +101,6 @@ export default function useProjectCrud() {
     let response;
 
     response = deleteItemToProject(projectStructure, itemId, itemType);
-    console.log("response", response);
 
     if (response.status && toEmit) {
       // emit socket event for new items created
@@ -112,5 +112,35 @@ export default function useProjectCrud() {
     updateProjectStructure(response.updatedProject);
   };
 
-  return { createProjectItem, deleteProjectItem };
+  const renameProjectItem = ({
+    itemId,
+    itemType,
+    newName,
+    toEmit = false,
+  }: {
+    itemId: string;
+    itemType: "file" | "folder";
+    newName: string;
+    toEmit?: boolean;
+  }) => {
+    const { status, updatedProject } = renameItemToProject(
+      projectStructure,
+      itemId,
+      itemType,
+      newName,
+    );
+
+    if (status) {
+      toEmit &&
+        socket?.emit(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, {
+          itemType,
+          itemId,
+          newName,
+        });
+      updateProjectStructure(updatedProject);
+      
+    }
+  };
+
+  return { createProjectItem, deleteProjectItem, renameProjectItem };
 }

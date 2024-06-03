@@ -1,7 +1,8 @@
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import FileControls from "../sidebar-panel/file-explorer/file-controls";
+import RenameProjectItem from "../sidebar-panel/file-explorer/rename-project-item";
 
 interface ExplorerFolderNameProps {
   folderName: string;
@@ -19,6 +20,8 @@ export default function ExplorerFolderName({
   const selectedFolderId = useStore((state) => state.selectedFolderId);
   const setSelectedFolderId = useStore((state) => state.setSelectedFolderId);
 
+  const [isRenamingItem, setIsRenamingItem] = useState(false);
+
   const handleFolderClick = () => {
     setIsCollapsed(!isCollapsed);
     console.log("selected folder id : ", selectedFolderId);
@@ -35,22 +38,40 @@ export default function ExplorerFolderName({
         selectedFolderId === folderId &&
           "bg-lime-800/60 font-semibold text-lime-500",
       )}
-      onClick={handleFolderClick}
     >
-      <div className="flex items-center">
-        <div className={cn("w-5 -rotate-90", isCollapsed && "rotate-0")}>
+      <div
+        className="relative flex w-full items-center"
+        onClick={handleFolderClick}
+      >
+        <div
+          className={cn(
+            "absolute -left-5 top-1/2 w-5 -translate-y-1/2 -rotate-90",
+            isCollapsed && "rotate-0",
+          )}
+        >
           {collapseIcon}
         </div>
         <div className="mr-2 w-5">{folderIcon}</div>
-        <p>{folderName}</p>
+        <RenameProjectItem
+          itemId={folderId}
+          itemName={folderName}
+          itemType="folder"
+          isRenaming={isRenamingItem}
+          setIsRenaming={setIsRenamingItem}
+        />
       </div>
+
       <div
         className={cn(
           "hidden transition-all group-hover:block",
           selectedFolderId === folderId && "block",
         )}
       >
-        <FileControls type="folder" id={folderId} />
+        <FileControls
+          type="folder"
+          id={folderId}
+          setIsRenaming={setIsRenamingItem}
+        />
       </div>
     </div>
   );
