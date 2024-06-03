@@ -1,6 +1,7 @@
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
+import FileControls from "../sidebar-panel/file-explorer/file-controls";
 
 interface ExplorerFolderNameProps {
   folderName: string;
@@ -29,7 +30,7 @@ export default function ExplorerFolderName({
   return (
     <div
       className={cn(
-        "flex cursor-pointer items-center justify-between rounded-md p-1",
+        "group flex cursor-pointer items-center justify-between rounded-md p-1",
         folderId === ":root" && "hidden",
         selectedFolderId === folderId &&
           "bg-lime-800/60 font-semibold text-lime-500",
@@ -37,11 +38,19 @@ export default function ExplorerFolderName({
       onClick={handleFolderClick}
     >
       <div className="flex items-center">
+        <div className={cn("w-5 -rotate-90", isCollapsed && "rotate-0")}>
+          {collapseIcon}
+        </div>
         <div className="mr-2 w-5">{folderIcon}</div>
         <p>{folderName}</p>
       </div>
-      <div className={cn("w-5 -rotate-90", isCollapsed && "rotate-0")}>
-        {collapseIcon}
+      <div
+        className={cn(
+          "hidden transition-all group-hover:block",
+          selectedFolderId === folderId && "block",
+        )}
+      >
+        <FileControls type="folder" id={folderId} />
       </div>
     </div>
   );

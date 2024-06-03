@@ -1,7 +1,10 @@
 import { DEFAULT_PROJECT_STRUCTURE, SOCKET_ENUMS } from "../utils/constants";
 import { IoType, SocketType, UserSockets } from "../types/socket";
 import { File, UserProjects } from "../types/project";
-import { addItemToProject } from "../utils/project-structure-utils";
+import {
+  addItemToProject,
+  deleteItemToProject,
+} from "../utils/project-structure-utils";
 
 const { LOGIN, DISCONNECT } = SOCKET_ENUMS;
 
@@ -35,7 +38,10 @@ const ioListener = (socket: SocketType, io: IoType) => {
 
   // structure
   socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, ({ newItem, folderId }) =>
-    onFileCreated({ socket, newItem, folderId })
+    onProjectItemCreated({ socket, newItem, folderId })
+  );
+  socket.on(SOCKET_ENUMS.PROJECT_ITEM_DELETED, ({ itemId, itemType }) =>
+    onProjectItemDeleted({ socket, itemId, itemType })
   );
 };
 
@@ -151,7 +157,7 @@ const onProjectIdValidation = ({
 };
 
 // structure
-const onFileCreated = ({
+const onProjectItemCreated = ({
   socket,
   newItem,
   folderId,
@@ -185,6 +191,43 @@ const onFileCreated = ({
     newItem,
     folderId,
   });
+};
+
+const onProjectItemDeleted = ({
+  socket,
+  itemId,
+  itemType,
+}: {
+  socket: SocketType;
+  itemId: string;
+  itemType: "file" | "folder";
+}) => {
+  const currentUser = userSockets[socket.id];
+  const projectId = currentUser?.joinedProject;
+
+  if (!itemId || !itemType || !projectId) return;
+
+  const structure = userProjects[projectId].structure;
+
+  // delete item in project structure
+  const { updatedProject, status } = deleteItemToProject(
+    structure,
+    itemId,
+    itemType
+  );
+  if (!status) return;
+
+  // now update project structure in userProjects
+  userProjects[projectId].structure = updatedProject;
+
+  // emit event to other user that a item deleted
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.PROJECT_ITEM_DELETED, {
+    deletedBy: currentUser,
+    itemId,
+    itemType,
+  });
+
+  console.log(projectId);
 };
 
 export { ioListener, userSockets };

@@ -5,7 +5,10 @@ import {
 import { useStore } from "@/components/store/useStore";
 import { v4 as uuid } from "uuid";
 import { SOCKET_ENUMS } from "@/lib/constants";
-import { addItemToProject } from "@/lib/project-structure-utils";
+import {
+  addItemToProject,
+  deleteItemToProject,
+} from "@/lib/project-structure-utils";
 
 export default function useProjectCrud() {
   // zustand store states
@@ -84,5 +87,30 @@ export default function useProjectCrud() {
     updateCreatingProjectItem(false, "file");
   };
 
-  return { createProjectItem };
+  const deleteProjectItem = ({
+    itemId,
+    itemType,
+    toEmit = false,
+  }: {
+    itemType: "file" | "folder";
+    itemId?: string;
+    toEmit?: boolean;
+  }) => {
+    if (!itemId?.trim()) return;
+    let response;
+
+    response = deleteItemToProject(projectStructure, itemId, itemType);
+    console.log("response", response);
+
+    if (response.status && toEmit) {
+      // emit socket event for new items created
+      socket?.emit(SOCKET_ENUMS.PROJECT_ITEM_DELETED, {
+        itemId: itemId,
+        itemType: itemType,
+      });
+    }
+    updateProjectStructure(response.updatedProject);
+  };
+
+  return { createProjectItem, deleteProjectItem };
 }

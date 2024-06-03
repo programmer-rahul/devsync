@@ -12,10 +12,12 @@ import { File, ProjectStructure } from "@/app/components/types/explorer";
 import useProjectCrud from "@/hooks/useProjectCrud";
 
 export default function CheckProjectAvailability() {
+  // hooks
   const socket = useSocket();
   const pathname = usePathname();
-  const { createProjectItem } = useProjectCrud();
+  const { createProjectItem, deleteProjectItem } = useProjectCrud();
 
+  // zustand store states
   const currentUsername = useStore((state) => state.currentUsername);
   const updateCurrentProjectName = useStore(
     (state) => state.updateCurrentProjectName,
@@ -26,9 +28,13 @@ export default function CheckProjectAvailability() {
   const updateProjectStructure = useStore(
     (state) => state.updateProjectStructure,
   );
+  const selectedFolderId = useStore((state) => state.selectedFolderId);
+  const projectStructure = useStore((state) => state.projectStructure);
 
+  // states
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectAvailable, setIsProjectAvailable] = useState(false);
+
   const projectId = pathname.split("/")[2];
 
   const onProjectIdValidation = ({
@@ -97,11 +103,6 @@ export default function CheckProjectAvailability() {
     console.log("A user disconnected", { username, socketId });
   };
 
-  // zustand store states
-  const selectedFolderId = useStore((state) => state.selectedFolderId);
-
-  const projectStructure = useStore((state) => state.projectStructure);
-
   const onNewProjectItemCreated = ({
     createdBy,
     newItem,
@@ -111,16 +112,26 @@ export default function CheckProjectAvailability() {
     newItem: File;
     folderId: string;
   }) => {
-    console.log("new file created by :-", newItem);
-
-    console.log("chekcing", projectStructure);
-
     createProjectItem({
       itemId: newItem.id,
       itemType: newItem.type,
       itemName: newItem.name,
       toEmit: false,
     });
+  };
+
+  const onProjectItemDeleted = ({
+    deletedBy,
+    itemId,
+    itemType,
+  }: {
+    deletedBy: { username: string; socketId: string };
+    itemId: string;
+    itemType: "file" | "folder";
+  }) => {
+    if (!deletedBy || !itemId || !itemType) return;
+
+    deleteProjectItem({ itemId: itemId, itemType: itemType });
   };
 
   useEffect(() => {
@@ -141,6 +152,7 @@ export default function CheckProjectAvailability() {
 
     // project structure listeners
     socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
+    socket.on(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
 
     return () => {
       if (!socket) return;
@@ -151,6 +163,7 @@ export default function CheckProjectAvailability() {
       socket.off(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);
 
       socket.off(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
+      socket.off(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
     };
   }, [socket, projectStructure, selectedFolderId]);
 

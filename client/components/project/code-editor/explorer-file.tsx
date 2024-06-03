@@ -1,6 +1,7 @@
 import { File as FileInterface } from "@/app/components/types/explorer";
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
+import FileControls from "../sidebar-panel/file-explorer/file-controls";
 
 export default function ExplorerFile({
   name: fileName,
@@ -11,7 +12,6 @@ export default function ExplorerFile({
   const selectedFile = useStore((state) => state.selectedFile);
   const setSelectedFile = useStore((state) => state.setSelectedFile);
   const addEditorTab = useStore((state) => state.addEditorTab);
-  const removeEditorTab = useStore((state) => state.removeEditorTab);
 
   const fileClickHandler = () => {
     if (selectedFile?.id === fileId) return;
@@ -25,13 +25,25 @@ export default function ExplorerFile({
   return (
     <div
       className={cn(
-        "flex cursor-pointer items-center gap-3 rounded-md p-1 pl-5",
+        "group flex cursor-pointer items-center justify-between rounded-md py-1 pl-5 text-primary",
         selectedFile?.id === fileId && "font-semibold text-lime-500/80",
       )}
-      onClick={fileClickHandler}
     >
-      <div className="w-5">{fileIcon}</div>
-      <p>{fileName}</p>
+      <div
+        className="flex flex-1 items-center gap-3"
+        onClick={fileClickHandler}
+      >
+        <div className="w-5">{fileIcon}</div>
+        <p>{fileName}</p>
+      </div>
+      <div
+        className={cn(
+          "transition-all group-hover:block",
+          selectedFile?.id === fileId && "block",
+        )}
+      >
+        <FileControls type="file" id={fileId} />
+      </div>
     </div>
   );
 }

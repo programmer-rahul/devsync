@@ -59,4 +59,54 @@ const addItemToProject = (
   }
 };
 
-export { addItemToProject };
+const deleteItemToProject = (
+  project: ProjectStructure,
+  itemId: string,
+  itemType: "file" | "folder",
+): AddItemResult => {
+  const deleteItem = (folder: FolderInterface): boolean => {
+    if (itemType === "file" && folder.files) {
+      const index = folder.files.findIndex((file) => file.id === itemId);
+      if (index !== -1) {
+        folder.files.splice(index, 1);
+        return true;
+      }
+    } else if (itemType === "folder" && folder.subFolders) {
+      const index = folder.subFolders.findIndex(
+        (subFolder) => subFolder.id === itemId
+      );
+      if (index !== -1) {
+        folder.subFolders.splice(index, 1);
+        return true;
+      }
+    }
+
+
+    
+    if (!folder.subFolders) return false;
+    for (const subFolder of folder.subFolders) {
+      if (deleteItem(subFolder)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const success = deleteItem(project);
+
+  if (success) {
+    return {
+      updatedProject: project,
+      status: true,
+      error: null,
+    };
+  } else {
+    return {
+      updatedProject: project,
+      status: false,
+      error: `No ${itemType} found with ID "${itemId}".`,
+    };
+  }
+};
+
+export { addItemToProject ,deleteItemToProject};
