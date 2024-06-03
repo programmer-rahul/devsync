@@ -5,6 +5,7 @@ import {
   addItemToProject,
   deleteItemToProject,
   renameItemToProject,
+  updateFileContentToProject,
 } from "../utils/project-structure-utils";
 
 const { LOGIN, DISCONNECT } = SOCKET_ENUMS;
@@ -37,17 +38,25 @@ const ioListener = (socket: SocketType, io: IoType) => {
     onProjectIdValidation({ projectId, socket })
   );
 
-  // structure
+  // project structure
+  // on new project item creation
   socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, ({ newItem, folderId }) =>
     onProjectItemCreated({ socket, newItem, folderId })
   );
+  // on a project item deletion
   socket.on(SOCKET_ENUMS.PROJECT_ITEM_DELETED, ({ itemId, itemType }) =>
     onProjectItemDeleted({ socket, itemId, itemType })
   );
+  // on a project item renamed
   socket.on(
     SOCKET_ENUMS.PROJECT_ITEM_RENAMED,
     ({ itemId, itemType, newName }) =>
       onProjectItemRenamed({ socket, itemId, itemType, newName })
+  );
+
+  // on a file content changes in project
+  socket.on(SOCKET_ENUMS.FILE_CONTENT_CHANGED, ({ fileId, updatedContent }) =>
+    onFileContentChanged({ socket, updatedContent, fileId })
   );
 };
 
@@ -275,6 +284,42 @@ const onProjectItemRenamed = ({
   });
 
   console.log(projectId);
+};
+
+const onFileContentChanged = ({
+  socket,
+  fileId,
+  updatedContent,
+}: {
+  socket: SocketType;
+  fileId: string;
+  updatedContent: string;
+}) => {
+  const currentUser = userSockets[socket.id];
+  const projectId = currentUser?.joinedProject;
+
+  if (!fileId || !updatedContent) return;
+  if (!projectId) return;
+
+  const structure = userProjects[projectId].structure;
+
+  // update file content in project structure
+  const { updatedProject, status } = updateFileContentToProject({
+    project: structure,
+    fileId: fileId,
+    updatedContent: updatedContent,
+  });
+  if (!status) return;
+
+  // now update project structure in userProjects
+  userProjects[projectId].structure = updatedProject;
+
+  // emit event to other user that a file content has been updated
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.FILE_CONTENT_CHANGED, {
+    changedBy: currentUser,
+    fileId: fileId,
+    updatedContent: updatedContent,
+  });
 };
 
 export { ioListener, userSockets };

@@ -10,6 +10,7 @@ import {
   deleteItemToProject,
   readItemContentToProject,
   renameItemToProject,
+  updateFileContentToProject,
 } from "@/lib/project-structure-utils";
 
 export default function useProjectCrud() {
@@ -142,6 +143,31 @@ export default function useProjectCrud() {
     }
   };
 
+  const updateFileContent = ({
+    fileId,
+    updatedContent,
+    toEmit = false,
+  }: {
+    fileId: string;
+    updatedContent: string;
+    toEmit?: boolean;
+  }) => {
+    const { status, updatedProject } = updateFileContentToProject({
+      project: projectStructure,
+      fileId: fileId,
+      updatedContent: updatedContent,
+    });
+
+    if (status) {
+      toEmit &&
+        socket?.emit(SOCKET_ENUMS.FILE_CONTENT_CHANGED, {
+          fileId: fileId,
+          updatedContent: updatedContent,
+        });
+      updateProjectStructure(updatedProject);
+    }
+  };
+
   const readFileContent = ({
     fileId,
   }: {
@@ -164,5 +190,6 @@ export default function useProjectCrud() {
     deleteProjectItem,
     renameProjectItem,
     readFileContent,
+    updateFileContent,
   };
 }

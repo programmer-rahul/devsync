@@ -2,16 +2,34 @@
 
 import { useStore } from "@/components/store/useStore";
 import useProjectCrud from "@/hooks/useProjectCrud";
-import { useEffect, useState } from "react";
+import { SOCKET_ENUMS } from "@/lib/constants";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function CodeArea() {
   // hooks
   const selectedFile = useStore((state) => state.selectedFile);
   const openedEditorTabs = useStore((state) => state.openedEditorTabs);
-  const { readFileContent } = useProjectCrud();
+  const socket = useStore((state) => state.socket);
+  const { readFileContent, updateFileContent } = useProjectCrud();
 
   // states
-  const [currentFileContent, setCurrentFileContent] = useState("");
+  const [currentFileContent, setCurrentFileContent] = useState<string | null>(
+    null,
+  );
+
+  const handleContentFileChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentFileContent(event.target.value);
+
+    if (currentFileContent?.trim() === event.target.value.trim()) return;
+
+    // update updatedfilecontent in project
+    if (!selectedFile) return;
+    updateFileContent({
+      fileId: selectedFile.id,
+      updatedContent: event.target.value,
+      toEmit: true,
+    });
+  };
 
   useEffect(() => {
     if (selectedFile) {
@@ -22,13 +40,23 @@ export default function CodeArea() {
 
   useEffect(() => {
     if (!openedEditorTabs.length) {
-      setCurrentFileContent("");
+      setCurrentFileContent(null);
     }
   }, [openedEditorTabs]);
 
   return (
     <div className="flex-1 border">
-      <p>{currentFileContent}</p>
+      {currentFileContent === null ? (
+        <div>No selected files</div>
+      ) : (
+        <div className="h-full border border-red-500 p-2">
+          <textarea
+            className="h-full w-full border bg-transparent text-xl"
+            value={currentFileContent}
+            onChange={handleContentFileChange}
+          />
+        </div>
+      )}
     </div>
   );
 }

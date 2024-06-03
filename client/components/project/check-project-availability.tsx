@@ -15,8 +15,12 @@ export default function CheckProjectAvailability() {
   // hooks
   const socket = useSocket();
   const pathname = usePathname();
-  const { createProjectItem, deleteProjectItem, renameProjectItem } =
-    useProjectCrud();
+  const {
+    createProjectItem,
+    deleteProjectItem,
+    renameProjectItem,
+    updateFileContent,
+  } = useProjectCrud();
 
   // zustand store states
   const currentUsername = useStore((state) => state.currentUsername);
@@ -30,6 +34,8 @@ export default function CheckProjectAvailability() {
     (state) => state.updateProjectStructure,
   );
   const selectedFolderId = useStore((state) => state.selectedFolderId);
+  const selectedFile = useStore((state) => state.selectedFile);
+  const setSelectedFile = useStore((state) => state.setSelectedFile);
   const projectStructure = useStore((state) => state.projectStructure);
 
   // states
@@ -66,8 +72,6 @@ export default function CheckProjectAvailability() {
     joinedUsers: { socketId: string; username: string }[];
     structure: ProjectStructure;
   }) => {
-    console.log("initial details", structure);
-
     if (projectName) updateCurrentProjectName(projectName);
     if (joinedUsers) updateProjectClientsList(joinedUsers);
     if (structure) updateProjectStructure(structure);
@@ -146,11 +150,28 @@ export default function CheckProjectAvailability() {
     itemType: "file" | "folder";
     newName: string;
   }) => {
-    console.log('here')
+    console.log("here");
     if (!renamedBy || !itemId || !itemType || !newName) return;
 
     renameProjectItem({ itemId: itemId, itemType: itemType, newName: newName });
-    console.log(projectStructure)
+  };
+
+  const onFileContentChanged = ({
+    changedBy,
+    fileId,
+    updatedContent,
+  }: {
+    changedBy: { username: string; socketId: string };
+    fileId: string;
+    updatedContent: string;
+  }) => {
+    if (!changedBy || !fileId || !updatedContent) return;
+
+    updateFileContent({ fileId: fileId, updatedContent: updatedContent });
+
+    if (selectedFile?.id === fileId) {
+      setSelectedFile({ ...selectedFile });
+    }
   };
 
   useEffect(() => {
@@ -174,6 +195,8 @@ export default function CheckProjectAvailability() {
     socket.on(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
     socket.on(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, onProjectItemRenamed);
 
+    socket.on(SOCKET_ENUMS.FILE_CONTENT_CHANGED, onFileContentChanged);
+
     return () => {
       if (!socket) return;
       socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
@@ -185,6 +208,8 @@ export default function CheckProjectAvailability() {
       socket.off(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
       socket.off(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
       socket.off(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, onProjectItemRenamed);
+
+      socket.off(SOCKET_ENUMS.FILE_CONTENT_CHANGED, onFileContentChanged);
     };
   }, [socket, projectStructure, selectedFolderId]);
 

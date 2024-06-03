@@ -201,9 +201,56 @@ const readItemContentToProject = ({
   }
 };
 
+const updateFileContentToProject = ({
+  project,
+  fileId,
+  updatedContent,
+}: {
+  project: ProjectStructure;
+  fileId: string;
+  updatedContent: string;
+}) => {
+  const updateContent = (folder: FolderInterface): boolean => {
+    if (folder.files) {
+      const isUpdated = folder.files.some((file) => {
+        if (file.id === fileId) {
+          file.content = updatedContent;
+          return true;
+        }
+      });
+      if (isUpdated) return true;
+    }
+
+    if (!folder.subFolders) return false;
+    for (const subFolder of folder.subFolders) {
+      if (updateContent(subFolder)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const success = updateContent(project);
+
+  if (success) {
+    return {
+      updatedProject: project,
+      status: true,
+      error: null,
+    };
+  } else {
+    return {
+      updatedProject: project,
+      status: false,
+      error: `A  with the name "" already exists in the folder with ID "".`,
+    };
+  }
+};
+
 export {
   addItemToProject,
   deleteItemToProject,
   renameItemToProject,
   readItemContentToProject,
+  updateFileContentToProject,
 };
