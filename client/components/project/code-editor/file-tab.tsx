@@ -17,9 +17,6 @@ export default function FileTab({
   const setSelectedFile = useStore((state) => state.setSelectedFile);
 
   const tabClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    console.log("clicked", e.target);
-    console.log("clicked", e.currentTarget);
-
     if (
       e.target instanceof HTMLElement &&
       e.target.classList.contains("closebtn")
@@ -45,7 +42,7 @@ export default function FileTab({
   return (
     <div
       className={cn(
-        "fileTab flex cursor-pointer items-center gap-2 rounded-lg bg-primary-foreground/80 px-2 py-1 transition-all select-none",
+        "fileTab flex cursor-pointer select-none items-center gap-2 rounded-lg bg-primary-foreground/80 px-2 py-1 transition-all",
         isActive
           ? "text-secondary-foreground hover:bg-primary-foreground"
           : "text-secondary-foreground/40 hover:text-secondary-foreground",

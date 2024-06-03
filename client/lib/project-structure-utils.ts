@@ -155,4 +155,55 @@ const renameItemToProject = (
   }
 };
 
-export { addItemToProject, deleteItemToProject, renameItemToProject };
+const readItemContentToProject = ({
+  project,
+  fileId,
+}: {
+  project: ProjectStructure;
+  fileId: string;
+}) => {
+  let fileContent = "";
+  const readFile = (folder: FolderInterface): boolean => {
+    if (folder.files) {
+      const contentReaded = folder.files.some((file) => {
+        if (file.id === fileId) {
+          if (file.content) fileContent = file.content;
+          return true;
+        }
+      });
+
+      if (contentReaded) return true;
+    }
+
+    if (!folder.subFolders) return false;
+    for (const subFolder of folder.subFolders) {
+      if (readFile(subFolder)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const success = readFile(project);
+
+  if (success) {
+    return {
+      fileContent: fileContent,
+      status: true,
+      error: null,
+    };
+  } else {
+    return {
+      fileContent: fileContent,
+      status: false,
+      error: `A  with the name "" already exists in the folder with ID "".`,
+    };
+  }
+};
+
+export {
+  addItemToProject,
+  deleteItemToProject,
+  renameItemToProject,
+  readItemContentToProject,
+};

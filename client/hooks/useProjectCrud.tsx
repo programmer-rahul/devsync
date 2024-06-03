@@ -8,6 +8,7 @@ import { SOCKET_ENUMS } from "@/lib/constants";
 import {
   addItemToProject,
   deleteItemToProject,
+  readItemContentToProject,
   renameItemToProject,
 } from "@/lib/project-structure-utils";
 
@@ -138,9 +139,30 @@ export default function useProjectCrud() {
           newName,
         });
       updateProjectStructure(updatedProject);
-      
     }
   };
 
-  return { createProjectItem, deleteProjectItem, renameProjectItem };
+  const readFileContent = ({
+    fileId,
+  }: {
+    fileId: string;
+  }): { fileContent: string } => {
+    let { status, fileContent } = readItemContentToProject({
+      fileId: fileId,
+      project: projectStructure,
+    });
+
+    if (!status) {
+      fileContent = "";
+    }
+
+    return { fileContent };
+  };
+
+  return {
+    createProjectItem,
+    deleteProjectItem,
+    renameProjectItem,
+    readFileContent,
+  };
 }
