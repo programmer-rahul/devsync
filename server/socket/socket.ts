@@ -37,6 +37,8 @@ const ioListener = (socket: SocketType, io: IoType) => {
   socket.on(SOCKET_ENUMS.JOIN_PROJECT, (values) =>
     onJoinProject({ ...values, socket, io })
   );
+  // on leaveProject
+  socket.on(SOCKET_ENUMS.LEAVE_PROJECT, () => onLeaveProject({ socket }));
 
   // to check is given projectId is valid or not
   socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, ({ projectId }) =>
@@ -117,8 +119,6 @@ const onCreateProject = ({
 }) => {
   if (!projectId?.trim() || !projectName?.trim() || !owner?.trim()) return;
 
-  const userSocket = userSockets[socket.id];
-
   // create new project
   const newProject: Project = {
     owner: owner,
@@ -191,6 +191,26 @@ const onJoinProject = ({
   socket.emit(SOCKET_ENUMS.INITIAL_PROJECT_DETAILS, currentProject);
 };
 
+const onLeaveProject = ({ socket }: { socket: SocketType }) => {
+  const userSocket = userSockets[socket.id];
+  const projectId = userSocket.joinedProject;
+  if (!projectId) return;
+
+  // remove user from socket and project
+  delete userSockets[socket.id].joinedProject;
+
+  const updatedJoinedUsers = userProjects[projectId].joinedUsers.filter(
+    (user) => user.socketId !== userSocket.socketId
+  );
+  userProjects[projectId].joinedUsers = updatedJoinedUsers;
+
+  // emit event
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.LEAVE_PROJECT, userSocket);
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, {
+    updatedList: updatedJoinedUsers,
+  });
+};
+
 const onProjectIdValidation = ({
   projectId,
   socket,
@@ -198,7 +218,7 @@ const onProjectIdValidation = ({
   projectId: string;
   socket: SocketType;
 }) => {
-  if (!projectId.trim()) return;
+  if (!projectId?.trim()) return;
 
   const isProjectAvailable = userProjects[projectId] ? true : false;
 

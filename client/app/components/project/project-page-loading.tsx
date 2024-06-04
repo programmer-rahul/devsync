@@ -1,3 +1,7 @@
 export default function ProjectPageLoading() {
-  return <div className="flex justify-center items-center w-full text-6xl">Loading........</div>;
+  return (
+    <div className="flex w-full items-center justify-center text-6xl">
+      Loading........
+    </div>
+  );
 }

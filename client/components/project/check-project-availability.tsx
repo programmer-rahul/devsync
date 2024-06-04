@@ -1,17 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { SOCKET_ENUMS } from "@/lib/constants";
 import { usePathname } from "next/navigation";
 import useSocket from "@/hooks/useSocket";
 import { useStore } from "../store/useStore";
-import ProjectPageLoading from "@/app/components/project/project-page-loading";
-import ProjectPageIsNotAvailable from "@/app/components/project/project-page-not-available";
-import ProjectPage from "@/app/components/project/project-page";
 import { File, ProjectStructure } from "@/app/components/types/explorer";
 import useProjectCrud from "@/hooks/useProjectCrud";
+import { toast } from "react-toastify";
 
-export default function CheckProjectAvailability() {
+export default function CheckProjectAvailability({
+  LoadingScreen,
+  NotAvailableScreen,
+  ProjectPage,
+}: {
+  LoadingScreen: ReactNode;
+  NotAvailableScreen: ReactNode;
+  ProjectPage: ReactNode;
+}) {
   // hooks
   const socket = useSocket();
   const pathname = usePathname();
@@ -96,6 +102,7 @@ export default function CheckProjectAvailability() {
     socketId: string;
   }) => {
     console.log("A new User Joined", { username, socketId });
+    toast.dark(`User ${username} joined`);
   };
 
   const onUserLeaveProject = ({
@@ -106,6 +113,7 @@ export default function CheckProjectAvailability() {
     socketId: string;
   }) => {
     console.log("A user disconnected", { username, socketId });
+    toast.dark(`User ${username} disconnected`);
   };
 
   const onNewProjectItemCreated = ({
@@ -220,6 +228,7 @@ export default function CheckProjectAvailability() {
       });
     }
     return () => {
+      socket && socket.emit(SOCKET_ENUMS.LEAVE_PROJECT);
       setIsLoading(true);
       setIsProjectAvailable(false);
     };
@@ -227,13 +236,11 @@ export default function CheckProjectAvailability() {
 
   return (
     <main className="flex h-screen border p-2">
-      {isLoading ? (
-        <ProjectPageLoading />
-      ) : (
-        !isProjectAvailable && <ProjectPageIsNotAvailable />
-      )}
+      {/* show loading and not available screen if project is not available  */}
+      {isLoading ? LoadingScreen : !isProjectAvailable && NotAvailableScreen}
 
-      {!isLoading && isProjectAvailable && <ProjectPage />}
+      {/* show projectpage if project is available  */}
+      {!isLoading && isProjectAvailable && ProjectPage}
     </main>
   );
 }

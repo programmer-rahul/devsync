@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-// import { Toaster } from "@/components/ui/toaster";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.min.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn("dark")}>
         {children}
-        {/* <Toaster /> */}
+        <ToastContainer transition={Bounce} hideProgressBar />
       </body>
     </html>
   );
