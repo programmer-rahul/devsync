@@ -9,8 +9,9 @@ export default function CheckWelcomeScreen({
   children: React.ReactNode[];
 }) {
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
+  const [loading, setloading] = useState(true);
 
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
     const isVisible = localStorage.getItem("isWelcomeScreen");
@@ -18,10 +19,24 @@ export default function CheckWelcomeScreen({
     if (isVisible === null) {
       localStorage.setItem("isWelcomeScreen", "true");
       setShowWelcome(true);
+      setloading(false);
     } else {
       setShowWelcome(isVisible === "true");
+      setloading(false);
     }
   }, [showWelcomeScreen]);
 
-  return <>{showWelcome ? children[0] : children[1]}</>;
+  return (
+    <>
+      {loading ? (
+        <div className="flex h-full items-center justify-center border text-4xl">
+          <div className="loading-animation"></div>
+        </div>
+      ) : showWelcome ? (
+        children[0]
+      ) : (
+        children[1]
+      )}
+    </>
+  );
 }

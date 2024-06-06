@@ -4,7 +4,7 @@ import CreateProjectBtn from "@/components/home/create-project";
 
 export default function WelcomeScreen() {
   return (
-    <main className="flex flex-1 flex-col gap-20 border-2 border-emerald-600 border-t-transparent p-4 md:justify-between md:gap-0 md:p-8">
+    <main className="flex flex-1 flex-col gap-20 p-4 md:justify-between md:gap-8 md:p-8 overflow-hidden">
       <section className="flex w-full flex-col items-center">
         <div className="flex flex-col items-center lg:mx-32 xl:mx-56 2xl:mx-96 ">
           <h2 className="text-xl text-slate-200 lg:text-2xl">

@@ -15,6 +15,7 @@ import { FormEvent, useState } from "react";
 import { LocalStorage } from "@/lib/helper";
 import { useStore } from "../store/useStore";
 import { SOCKET_ENUMS } from "@/lib/constants";
+import Link from "next/link";
 
 export default function JoinProjectBtn() {
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
@@ -43,12 +44,6 @@ export default function JoinProjectBtn() {
       LocalStorage.set("isWelcomeScreen", false);
       setShowWelcomeScreen(true);
     }
-
-    socket &&
-      socket.emit(SOCKET_ENUMS.JOIN_PROJECT, {
-        ...joinProjectValues,
-        projectName: ":unknown",
-      });
   };
 
   return (
@@ -100,7 +95,9 @@ export default function JoinProjectBtn() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Join</Button>
+            <Link href={`/project/${joinProjectValues.projectId}`}>
+              <Button type="submit">Join</Button>
+            </Link>
           </DialogFooter>
         </form>
       </DialogContent>
