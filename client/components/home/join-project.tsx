@@ -50,7 +50,7 @@ export default function JoinProjectBtn() {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="lg">
-          Join Project
+          Join
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

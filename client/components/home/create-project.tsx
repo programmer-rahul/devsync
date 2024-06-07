@@ -69,7 +69,7 @@ export default function CreateProjectBtn() {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="default" size="lg">
-          New Project
+          Create
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
