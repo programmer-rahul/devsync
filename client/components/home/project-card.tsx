@@ -1,8 +1,16 @@
 "use client";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useStore } from "../store/useStore";
+import { toast } from "react-toastify";
 
 interface ProjectCardProps {
   owner: string;
@@ -19,6 +27,23 @@ export default function ProjectCard({
     (state) => state.updatedCurrentUsername,
   );
 
+  console.log(window.location.hostname);
+  console.log(window.location);
+
+  const copyProjectUrlHandler = () => {
+    const projectUrl = window.location.href + "project/" + projectId;
+    console.log(projectUrl);
+
+    window.navigator.clipboard
+      .writeText(projectUrl)
+      .then(() =>
+        toast.success("Copied to clipboard", { position: "bottom-right" }),
+      )
+      .catch(() => toast.error("Couldn't copy", { position: "bottom-right" }));
+  };
+
+  const deleteProjectHandler = () => {};
+
   return (
     <div className="text-car w-80 space-y-3 rounded-md border-emerald-600 bg-secondary px-6 py-4 shadow">
       <div className="flex items-center justify-between">
@@ -32,7 +57,22 @@ export default function ProjectCard({
           >
             <Button className="h-7">Open</Button>
           </Link>
-          <div className="w-6 rotate-90 cursor-pointer">{dotSvg}</div>
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className="w-6 rotate-90 cursor-pointer">{dotSvg}</div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={deleteProjectHandler}>
+                  Delete
+                </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={copyProjectUrlHandler}>
+                  Copy project
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
 
