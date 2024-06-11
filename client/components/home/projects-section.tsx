@@ -4,8 +4,7 @@ import ProjectCard from "./project-card";
 import { useStore } from "../store/useStore";
 
 export default function ProjectsSection() {
-  const createdProjects = useStore((state) => state.createdProjects);
-  const joinedProjects = useStore((state) => state.joinedProjects);
+  const initialProjects = useStore((state) => state.initialProjects);
 
   return (
     <section className="flex h-full w-full">
@@ -22,14 +21,23 @@ export default function ProjectsSection() {
           </div>
 
           <div className="flex h-full flex-wrap items-start gap-8 border-2 bg-primary-foreground px-4 py-8">
-            {createdProjects?.map(({ owner, projectName, projectId }) => (
-              <ProjectCard
-                key={projectId}
-                owner={owner}
-                projectName={projectName}
-                projectId={projectId}
-              />
-            ))}
+            {initialProjects?.map(
+              ({
+                owner,
+                projectName,
+                projectId,
+                connectedUsersCount,
+                isCreated,
+              }) => (
+                <ProjectCard
+                  key={projectId}
+                  owner={owner}
+                  projectName={projectName}
+                  projectId={projectId}
+                  connectedUsersCount={connectedUsersCount}
+                />
+              ),
+            )}
           </div>
         </div>
       </div>

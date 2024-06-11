@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ActivityBarButtons, Project } from "@/app/components/types/project";
-import { LocalStorage } from "@/lib/helper";
+import {
+  ActivityBarButtons,
+  Project as ProjectInterface,
+} from "@/app/components/types/project";
 import { File, ProjectStructure } from "@/app/components/types/explorer";
 import { DEFAULT_PROJECT_STRUCTURE } from "@/lib/constants";
 import { io, Socket } from "socket.io-client";
@@ -12,11 +14,12 @@ type StoreStates = {
   showWelcomeScreen: boolean;
   setShowWelcomeScreen: (value: boolean) => void;
 
-  createdProjects: Project[];
-  addCreatedProjects: (Project: Project) => void;
+  projectIds: { id: string; isCreated: boolean }[];
+  addProjectId: ({ id, isCreated }: { id: string; isCreated: boolean }) => void;
 
-  joinedProjects: Project[];
-  addJoinedProjects: (Project: Project) => void;
+  initialProjects: ProjectInterface[];
+  addProjectinProjects: (newProject: ProjectInterface) => void;
+  updateInitialProjects: (updateProjects: ProjectInterface[]) => void;
 
   // project
   currentActivityButton: ActivityBarButtons;
@@ -79,16 +82,22 @@ export const useStore = create<StoreStates>()(
           showWelcomeScreen: value,
         })),
 
-      createdProjects: [],
-      addCreatedProjects: (Project) =>
+      projectIds: [
+        { id: "ac251d95-3c54-410c-a148-546e01b18413", isCreated: true },
+      ],
+      addProjectId: (newProjectId) =>
         set((state) => ({
-          createdProjects: [...state.createdProjects, Project],
+          projectIds: [...state.projectIds, newProjectId],
         })),
 
-      joinedProjects: [],
-      addJoinedProjects: (Project) =>
+      initialProjects: [],
+      addProjectinProjects: (newProject) =>
         set((state) => ({
-          createdProjects: [...state.createdProjects, Project],
+          initialProjects: [...state.initialProjects, newProject],
+        })),
+      updateInitialProjects: (updatedProjects) =>
+        set(() => ({
+          initialProjects: updatedProjects,
         })),
 
       // projects
@@ -195,8 +204,7 @@ export const useStore = create<StoreStates>()(
       getStorage: () => localStorage,
       partialize: (state) => ({
         currentUsername: state.currentUsername,
-        createdProjects: state.createdProjects,
-        joinedProjects: state.joinedProjects,
+        projectIds: state.projectIds,
       }),
     },
   ),

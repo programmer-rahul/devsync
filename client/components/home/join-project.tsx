@@ -20,7 +20,8 @@ import Link from "next/link";
 export default function JoinProjectBtn() {
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
   const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
-  const socket = useStore((state) => state.socket);
+  const addProjectInProjects = useStore((state) => state.addProjectinProjects);
+  const addProjectId = useStore((state) => state.addProjectId);
 
   const [joinProjectValues, setJoinProjectValues] = useState({
     username: "",
@@ -31,14 +32,18 @@ export default function JoinProjectBtn() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (
-      joinProjectValues.username.trim() === "" ||
-      joinProjectValues.projectId.trim() === ""
-    )
-      return;
+    const { projectId, username } = joinProjectValues;
 
-    console.log("submitted", joinProjectValues);
+    if (username.trim() === "" || projectId.trim() === "") return;
+
     setIsDialogOpen(false);
+    addProjectId({ id: projectId, isCreated: false });
+    addProjectInProjects({
+      isCreated: false,
+      owner: "unknown",
+      projectId,
+      projectName: "unknown",
+    });
 
     if (!showWelcomeScreen) {
       LocalStorage.set("isWelcomeScreen", false);

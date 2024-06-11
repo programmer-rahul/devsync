@@ -20,6 +20,8 @@ export const SOCKET_ENUMS = {
 
   // project
   CREATE_PROJECT: "create-project",
+
+  GET_INITIAL_PROJECTS_DETAILS: "get-initial-projects-details",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {

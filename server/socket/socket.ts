@@ -28,6 +28,14 @@ const ioListener = (socket: SocketType, io: IoType) => {
   // on disconnect
   socket.on(DISCONNECT, () => onDisconnect(socket));
 
+  // for getting projects initial details
+  socket.on(SOCKET_ENUMS.GET_INITIAL_PROJECTS_DETAILS, ({ projectIds }) =>
+    onGetProjectInitialDetails({
+      projectIds,
+      socket,
+    })
+  );
+
   // on createProject
   socket.on(SOCKET_ENUMS.CREATE_PROJECT, (values) =>
     onCreateProject({ ...values, socket, io })
@@ -104,6 +112,26 @@ const onDisconnect = (socket: SocketType) => {
 
   console.log("isAvailable", isAvailable);
   console.log("userProjects", userProjects);
+};
+
+const onGetProjectInitialDetails = ({
+  projectIds,
+  socket,
+}: {
+  projectIds: { id: string; isCreated: boolean }[];
+  socket: SocketType;
+}) => {
+  let initialProjects = projectIds.map((project) => {
+    if (userProjects[project.id]) {
+      const { owner, projectId, projectName } = userProjects[project.id];
+      return { owner, projectId, projectName, isCreated: project.isCreated };
+    }
+  });
+  initialProjects = initialProjects.filter((project) => project !== undefined);
+
+  socket.emit(SOCKET_ENUMS.GET_INITIAL_PROJECTS_DETAILS, {
+    initialProjects: initialProjects,
+  });
 };
 
 const onCreateProject = ({

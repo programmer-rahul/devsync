@@ -11,24 +11,17 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { useStore } from "../store/useStore";
 import { toast } from "react-toastify";
-
-interface ProjectCardProps {
-  owner: string;
-  projectName: string;
-  projectId: string;
-}
+import { Project as ProjectInterface } from "@/app/components/types/project";
 
 export default function ProjectCard({
   owner,
   projectName,
   projectId,
-}: ProjectCardProps) {
+  connectedUsersCount,
+}: Omit<ProjectInterface, "isCreated">) {
   const updatedCurrentUsername = useStore(
     (state) => state.updatedCurrentUsername,
   );
-
-  console.log(window.location.hostname);
-  console.log(window.location);
 
   const copyProjectUrlHandler = () => {
     const projectUrl = window.location.href + "project/" + projectId;

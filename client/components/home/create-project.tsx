@@ -19,10 +19,10 @@ import { SOCKET_ENUMS } from "@/lib/constants";
 
 export default function CreateProjectBtn() {
   // store imports
-  const addCreatedProjects = useStore((state) => state.addCreatedProjects);
-  const createdProjects = useStore((state) => state.createdProjects);
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
   const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
+  const addProjectInProjects = useStore((state) => state.addProjectinProjects);
+  const addProjectId = useStore((state) => state.addProjectId);
   const socket = useStore((state) => state.socket);
 
   // user input values
@@ -43,8 +43,14 @@ export default function CreateProjectBtn() {
     setIsDialogOpen(false);
 
     // update createProjects
-    let newProject = { owner: username, projectName, projectId };
-    addCreatedProjects(newProject);
+    let newProject = {
+      owner: username,
+      projectName,
+      projectId,
+      isCreated: true,
+    };
+    addProjectId({ id: newProject.projectId, isCreated: true });
+    addProjectInProjects(newProject);
 
     if (!showWelcomeScreen) {
       LocalStorage.set("isWelcomeScreen", false);
