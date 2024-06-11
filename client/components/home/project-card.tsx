@@ -12,15 +12,22 @@ import Link from "next/link";
 import { useStore } from "../store/useStore";
 import { toast } from "react-toastify";
 import { Project as ProjectInterface } from "@/app/components/types/project";
+import { SOCKET_ENUMS } from "@/lib/constants";
 
 export default function ProjectCard({
   owner,
   projectName,
   projectId,
   connectedUsersCount,
-}: Omit<ProjectInterface, "isCreated">) {
+  isCreated,
+}: ProjectInterface) {
+  const socket = useStore((state) => state.socket);
   const updatedCurrentUsername = useStore(
     (state) => state.updatedCurrentUsername,
+  );
+  const removeProjectId = useStore((state) => state.removeProjectId);
+  const removeProjectInProjects = useStore(
+    (state) => state.removeProjectInProjects,
   );
 
   const copyProjectUrlHandler = () => {
@@ -35,7 +42,14 @@ export default function ProjectCard({
       .catch(() => toast.error("Couldn't copy", { position: "bottom-right" }));
   };
 
-  const deleteProjectHandler = () => {};
+  const deleteProjectHandler = () => {
+    console.log("yes");
+    removeProjectId({ id: projectId });
+    removeProjectInProjects({ projectId: projectId });
+    isCreated &&
+      socket &&
+      socket.emit(SOCKET_ENUMS.DELETE_PROJECT, { projectId: projectId });
+  };
 
   return (
     <div className="text-car w-80 space-y-3 rounded-md border-emerald-600 bg-secondary px-6 py-4 shadow">

@@ -53,8 +53,16 @@ const ioListener = (socket: SocketType, io: IoType) => {
     onProjectIdValidation({ projectId, socket })
   );
 
+  // on a project deletion
+  socket.on(SOCKET_ENUMS.DELETE_PROJECT, ({ projectId }) =>
+    onProjectDelete({ projectId })
+  );
+
   // project structure
   // on new project item creation
+  socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, ({ newItem, folderId }) =>
+    onProjectItemCreated({ socket, newItem, folderId })
+  );
   socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, ({ newItem, folderId }) =>
     onProjectItemCreated({ socket, newItem, folderId })
   );
@@ -221,7 +229,7 @@ const onJoinProject = ({
 
 const onLeaveProject = ({ socket }: { socket: SocketType }) => {
   const userSocket = userSockets[socket.id];
-  const projectId = userSocket.joinedProject;
+  const projectId = userSocket?.joinedProject;
   if (!projectId) return;
 
   // remove user from socket and project
@@ -237,6 +245,11 @@ const onLeaveProject = ({ socket }: { socket: SocketType }) => {
   socket.broadcast.to(projectId).emit(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, {
     updatedList: updatedJoinedUsers,
   });
+};
+
+const onProjectDelete = ({ projectId }: { projectId: string }) => {
+  if (!projectId?.trim()) return;
+  delete userProjects[projectId];
 };
 
 const onProjectIdValidation = ({

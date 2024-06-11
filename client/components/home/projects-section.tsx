@@ -60,6 +60,7 @@ export default function ProjectsSection() {
                     projectName={projectName}
                     projectId={projectId}
                     connectedUsersCount={connectedUsersCount}
+                    isCreated={isCreated}
                   />
                 );
               },

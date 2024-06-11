@@ -21,6 +21,7 @@ export const SOCKET_ENUMS = {
   CREATE_PROJECT: "create-project",
 
   GET_INITIAL_PROJECTS_DETAILS: "get-initial-projects-details",
+  DELETE_PROJECT: "delete-project",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {

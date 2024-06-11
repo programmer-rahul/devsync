@@ -16,9 +16,11 @@ type StoreStates = {
 
   projectIds: { id: string; isCreated: boolean }[];
   addProjectId: ({ id, isCreated }: { id: string; isCreated: boolean }) => void;
+  removeProjectId: ({ id }: { id: string }) => void;
 
   initialProjects: ProjectInterface[];
   addProjectinProjects: (newProject: ProjectInterface) => void;
+  removeProjectInProjects: ({ projectId }: { projectId: string }) => void;
   updateInitialProjects: (updateProjects: ProjectInterface[]) => void;
 
   // project
@@ -87,12 +89,29 @@ export const useStore = create<StoreStates>()(
         set((state) => ({
           projectIds: [...state.projectIds, newProjectId],
         })),
+      removeProjectId: ({ id }) =>
+        set((state) => {
+          return {
+            projectIds: state.projectIds.filter(
+              (projectId) => projectId.id !== id,
+            ),
+          };
+        }),
 
       initialProjects: [],
       addProjectinProjects: (newProject) =>
         set((state) => ({
           initialProjects: [...state.initialProjects, newProject],
         })),
+      removeProjectInProjects: ({ projectId }) =>
+        set((state) => {
+          return {
+            initialProjects: state.initialProjects.filter(
+              (project) => project.projectId !== projectId,
+            ),
+          };
+        }),
+
       updateInitialProjects: (updatedProjects) =>
         set(() => ({
           initialProjects: updatedProjects,
