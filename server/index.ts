@@ -10,8 +10,9 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
+  pingTimeout: 50000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN?.split(","),
   },
 });
 const PORT = process.env.PORT || 4000;
