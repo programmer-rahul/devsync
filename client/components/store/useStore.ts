@@ -82,9 +82,7 @@ export const useStore = create<StoreStates>()(
           showWelcomeScreen: value,
         })),
 
-      projectIds: [
-        { id: "ac251d95-3c54-410c-a148-546e01b18413", isCreated: true },
-      ],
+      projectIds: [],
       addProjectId: (newProjectId) =>
         set((state) => ({
           projectIds: [...state.projectIds, newProjectId],
@@ -200,7 +198,7 @@ export const useStore = create<StoreStates>()(
     }),
     {
       // to store values in localStorage
-      name: "store",
+      name: "store-states",
       getStorage: () => localStorage,
       partialize: (state) => ({
         currentUsername: state.currentUsername,

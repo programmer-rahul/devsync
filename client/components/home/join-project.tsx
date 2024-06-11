@@ -11,10 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { LocalStorage } from "@/lib/helper";
 import { useStore } from "../store/useStore";
-import { SOCKET_ENUMS } from "@/lib/constants";
 import Link from "next/link";
 
 export default function JoinProjectBtn() {
@@ -29,9 +28,7 @@ export default function JoinProjectBtn() {
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleJoinProject = () => {
     const { projectId, username } = joinProjectValues;
 
     if (username.trim() === "" || projectId.trim() === "") return;
@@ -59,7 +56,7 @@ export default function JoinProjectBtn() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
+        <form>
           <DialogHeader>
             <DialogTitle>Join Project</DialogTitle>
           </DialogHeader>
@@ -101,7 +98,9 @@ export default function JoinProjectBtn() {
           </div>
           <DialogFooter>
             <Link href={`/project/${joinProjectValues.projectId}`}>
-              <Button type="submit">Join</Button>
+              <Button type="submit" onClick={handleJoinProject}>
+                Join
+              </Button>
             </Link>
           </DialogFooter>
         </form>
