@@ -201,9 +201,47 @@ const updateFileContentToProject = ({
   }
 };
 
+const getFoldersAndFilesCount = (project: ProjectStructure) => {
+  let filesCount = 0;
+  let foldersCount = 0;
+
+  const countFolderAndFiles = (folder: FolderInterface): boolean => {
+    foldersCount++;
+
+    if (folder.files) {
+      filesCount += folder.files.length;
+    }
+
+    if (!folder.subFolders) return false;
+    for (const subFolder of folder.subFolders) {
+      if (countFolderAndFiles(subFolder)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const success = countFolderAndFiles(project);
+
+  if (success) {
+    return {
+      count: { foldersCount, filesCount },
+      status: true,
+      error: null,
+    };
+  } else {
+    return {
+      count: { foldersCount, filesCount },
+      status: false,
+      error: `Error during calculating total numbers of folders and files`,
+    };
+  }
+};
+
 export {
   addItemToProject,
   deleteItemToProject,
   renameItemToProject,
   updateFileContentToProject,
+  getFoldersAndFilesCount,
 };

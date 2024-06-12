@@ -4,6 +4,7 @@ import { File, Project, UserProjects } from "../types/project";
 import {
   addItemToProject,
   deleteItemToProject,
+  getFoldersAndFilesCount,
   renameItemToProject,
   updateFileContentToProject,
 } from "../utils/project-structure-utils";
@@ -130,9 +131,24 @@ const onGetProjectInitialDetails = ({
   socket: SocketType;
 }) => {
   let initialProjects = projectIds.map((project) => {
-    if (userProjects[project.id]) {
-      const { owner, projectId, projectName } = userProjects[project.id];
-      return { owner, projectId, projectName, isCreated: project.isCreated };
+    let currentProject = userProjects[project.id];
+    if (currentProject) {
+      const { owner, projectId, projectName, joinedUsers } = currentProject;
+
+      const { count } = getFoldersAndFilesCount(currentProject.structure);
+
+      console.log("count :", count);
+
+      return {
+        owner,
+        projectId,
+        projectName,
+        isCreated: project.isCreated,
+        counts: {
+          ...count,
+          connectedUsersCount: joinedUsers?.length,
+        },
+      };
     }
   });
   initialProjects = initialProjects.filter((project) => project !== undefined);

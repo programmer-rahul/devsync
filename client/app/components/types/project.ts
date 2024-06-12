@@ -3,7 +3,11 @@ export type Project = {
   owner: string;
   projectName: string;
   projectId: string;
-  connectedUsersCount?: number;
+  counts?: {
+    connectedUsersCount: number;
+    foldersCount: number;
+    filesCount: number;
+  };
 };
 
 export type ActivityBarButtons = "files" | "chats" | "users";

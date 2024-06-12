@@ -44,7 +44,7 @@ export default function ProjectsSection() {
                 owner,
                 projectName,
                 projectId,
-                connectedUsersCount,
+                counts,
                 isCreated,
               }) => {
                 // Check if it's your projects tab or not
@@ -59,10 +59,10 @@ export default function ProjectsSection() {
                     owner={owner}
                     projectName={projectName}
                     projectId={projectId}
-                    connectedUsersCount={connectedUsersCount}
+                    counts={counts}
                     isCreated={isCreated}
                   />
-                );
+              );
               },
             )}
           </div>

@@ -18,7 +18,7 @@ export default function ProjectCard({
   owner,
   projectName,
   projectId,
-  connectedUsersCount,
+  counts,
   isCreated,
 }: ProjectInterface) {
   const socket = useStore((state) => state.socket);
@@ -32,7 +32,6 @@ export default function ProjectCard({
 
   const copyProjectUrlHandler = () => {
     const projectUrl = window.location.href + "project/" + projectId;
-    console.log(projectUrl);
 
     window.navigator.clipboard
       .writeText(projectUrl)
@@ -43,7 +42,6 @@ export default function ProjectCard({
   };
 
   const deleteProjectHandler = () => {
-    console.log("yes");
     removeProjectId({ id: projectId });
     removeProjectInProjects({ projectId: projectId });
     isCreated &&
@@ -87,11 +85,11 @@ export default function ProjectCard({
         <div className="pl-2 text-xl">
           <div className="flex">
             <p>Folders</p>
-            <p className="font-semibold">- 5</p>
+            <p className="font-semibold">- {counts?.foldersCount}</p>
           </div>
           <div className="flex">
             <p>Files</p>
-            <p className="font-semibold">- 7</p>
+            <p className="font-semibold">- {counts?.filesCount}</p>
           </div>
         </div>
 
@@ -103,10 +101,12 @@ export default function ProjectCard({
             </p>
           </div>
 
-          <div className="flex items-center gap-1 pr-2">
-            <p className="h-3 w-3 rounded-full bg-green-600"></p>
-            <p>6</p>
-          </div>
+          {counts && counts.connectedUsersCount !== 0 && (
+            <div className="flex items-center gap-1 pr-2">
+              <p className="h-3 w-3 rounded-full bg-green-600"></p>
+              <p>{String(counts?.connectedUsersCount)}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
