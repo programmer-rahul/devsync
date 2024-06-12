@@ -8,6 +8,7 @@ import { useStore } from "../store/useStore";
 import { File, ProjectStructure } from "@/app/components/types/explorer";
 import useProjectCrud from "@/hooks/useProjectCrud";
 import { toast } from "react-toastify";
+import { Message as MessageInterface } from "@/app/components/types/chat";
 
 export default function CheckProjectAvailability({
   LoadingScreen,
@@ -43,6 +44,9 @@ export default function CheckProjectAvailability({
   const selectedFile = useStore((state) => state.selectedFile);
   const setSelectedFile = useStore((state) => state.setSelectedFile);
   const projectStructure = useStore((state) => state.projectStructure);
+  const addMessageInProjectChat = useStore(
+    (state) => state.addMessageInProjectChat,
+  );
 
   // states
   const [isLoading, setIsLoading] = useState(true);
@@ -182,6 +186,11 @@ export default function CheckProjectAvailability({
     }
   };
 
+  const onNewMessageRecieve = (newMessage: MessageInterface) => {
+    // console.log("new message recieved :", newMessage);
+    addMessageInProjectChat(newMessage);
+  };
+
   useEffect(() => {
     if (!socket) return;
 
@@ -205,6 +214,9 @@ export default function CheckProjectAvailability({
 
     socket.on(SOCKET_ENUMS.FILE_CONTENT_CHANGED, onFileContentChanged);
 
+    // chat
+    socket.on(SOCKET_ENUMS.RECIEVE_MESSAGE, onNewMessageRecieve);
+
     return () => {
       if (!socket) return;
       socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
@@ -218,6 +230,8 @@ export default function CheckProjectAvailability({
       socket.off(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, onProjectItemRenamed);
 
       socket.off(SOCKET_ENUMS.FILE_CONTENT_CHANGED, onFileContentChanged);
+
+      socket.off(SOCKET_ENUMS.RECIEVE_MESSAGE, onNewMessageRecieve);
     };
   }, [socket, projectStructure, selectedFolderId]);
 

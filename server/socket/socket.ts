@@ -82,6 +82,23 @@ const ioListener = (socket: SocketType, io: IoType) => {
   socket.on(SOCKET_ENUMS.FILE_CONTENT_CHANGED, ({ fileId, updatedContent }) =>
     onFileContentChanged({ socket, updatedContent, fileId })
   );
+
+  // chat
+  socket.on(SOCKET_ENUMS.SEND_MESSAGE, ({ message }) => {
+    if (!message.trim()) return;
+
+    const userSocket = userSockets[socket.id];
+    const projectId = userSocket.joinedProject;
+    const username = userSocket.username;
+
+    if (!projectId) return;
+
+    socket.broadcast.to(projectId).emit(SOCKET_ENUMS.RECIEVE_MESSAGE, {
+      message: message,
+      sender: username,
+      createdAt: Date.now(),
+    });
+  });
 };
 
 const onLogin = (socket: SocketType) => {

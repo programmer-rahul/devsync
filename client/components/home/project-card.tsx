@@ -50,9 +50,9 @@ export default function ProjectCard({
   };
 
   return (
-    <div className="text-car w-80 space-y-3 rounded-md border-emerald-600 bg-secondary px-6 py-4 shadow">
+    <div className="text-car w-96 space-y-3 rounded-md border-emerald-600 bg-secondary px-8 py-6 shadow">
       <div className="flex items-center justify-between">
-        <div className="text-2xl font-semibold capitalize">{projectName}</div>
+        <div className="text-3xl font-semibold capitalize">{projectName}</div>
         <div className="flex gap-2">
           <Link
             href={`/project/${projectId}`}
@@ -65,7 +65,7 @@ export default function ProjectCard({
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <div className="w-6 rotate-90 cursor-pointer">{dotSvg}</div>
+                <div className="w-7 rotate-90 cursor-pointer">{dotSvg}</div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={deleteProjectHandler}>
@@ -82,7 +82,7 @@ export default function ProjectCard({
       </div>
 
       <div className="space-y-2 rounded-sm border border-emerald-600/50 py-2">
-        <div className="pl-2 text-xl">
+        <div className="pl-2 text-2xl">
           <div className="flex">
             <p>Folders</p>
             <p className="font-semibold">- {counts?.foldersCount}</p>
@@ -94,7 +94,7 @@ export default function ProjectCard({
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="rounded-r-full bg-emerald-600/90 px-8 py-1 pl-2">
+          <div className="rounded-r-full bg-emerald-600/90 px-8 py-1 pl-4">
             <p className="flex items-end gap-1">
               <span>By</span>
               <span className="text-xl font-semibold underline">{"you"}</span>

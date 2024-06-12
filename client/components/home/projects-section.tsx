@@ -38,33 +38,36 @@ export default function ProjectsSection() {
             </p>
           </div>
 
-          <div className="flex h-full flex-wrap items-start gap-8 border-2 bg-primary-foreground px-4 py-8">
-            {initialProjects?.map(
-              ({
-                owner,
-                projectName,
-                projectId,
-                counts,
-                isCreated,
-              }) => {
-                // Check if it's your projects tab or not
-                const shouldRender = isYourProjectsTab ? isCreated : !isCreated;
+          <div className="flex h-full flex-col border-2 bg-primary-foreground p-4">
+            <h4 className="pb-6 text-3xl text-zinc-500">
+              {isYourProjectsTab
+                ? "All your created projects"
+                : "All your recently joined projects"}
+            </h4>
+            <div className="flex flex-wrap items-start gap-8">
+              {initialProjects?.map(
+                ({ owner, projectName, projectId, counts, isCreated }) => {
+                  // Check if it's your projects tab or not
+                  const shouldRender = isYourProjectsTab
+                    ? isCreated
+                    : !isCreated;
 
-                // If shouldRender is false, don't render anything
-                if (!shouldRender) return null;
+                  // If shouldRender is false, don't render anything
+                  if (!shouldRender) return null;
 
-                return (
-                  <ProjectCard
-                    key={projectId}
-                    owner={owner}
-                    projectName={projectName}
-                    projectId={projectId}
-                    counts={counts}
-                    isCreated={isCreated}
-                  />
-              );
-              },
-            )}
+                  return (
+                    <ProjectCard
+                      key={projectId}
+                      owner={owner}
+                      projectName={projectName}
+                      projectId={projectId}
+                      counts={counts}
+                      isCreated={isCreated}
+                    />
+                  );
+                },
+              )}
+            </div>
           </div>
         </div>
       </div>

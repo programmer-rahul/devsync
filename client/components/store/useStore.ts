@@ -7,6 +7,7 @@ import {
 import { File, ProjectStructure } from "@/app/components/types/explorer";
 import { DEFAULT_PROJECT_STRUCTURE } from "@/lib/constants";
 import { io, Socket } from "socket.io-client";
+import { Message as MessageInterface } from "@/app/components/types/chat";
 
 const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
 
@@ -72,6 +73,10 @@ type StoreStates = {
   updateProjectClientsList: (
     updatedList: { username: string; socketId: string }[],
   ) => void;
+
+  // chats
+  projectChat: MessageInterface[];
+  addMessageInProjectChat: (message: MessageInterface) => void;
 };
 
 // store
@@ -213,6 +218,13 @@ export const useStore = create<StoreStates>()(
       updateProjectClientsList: (updatedList) =>
         set(() => ({
           projectClientsList: updatedList,
+        })),
+
+      // chat
+      projectChat: [],
+      addMessageInProjectChat: (message) =>
+        set((state) => ({
+          projectChat: [...state.projectChat, message],
         })),
     }),
     {

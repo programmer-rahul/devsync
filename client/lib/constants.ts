@@ -22,6 +22,10 @@ export const SOCKET_ENUMS = {
 
   GET_INITIAL_PROJECTS_DETAILS: "get-initial-projects-details",
   DELETE_PROJECT: "delete-project",
+
+  // chat
+  SEND_MESSAGE: "send-message",
+  RECIEVE_MESSAGE: "recieve-message",
 };
 
 export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
