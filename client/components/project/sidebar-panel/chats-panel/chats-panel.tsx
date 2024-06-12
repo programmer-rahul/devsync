@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SOCKET_ENUMS } from "@/lib/constants";
 import { cn, formatMessageDate } from "@/lib/utils";
-import { useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 export default function ChatPanel() {
+  const scrollZoomRef = useRef<HTMLDivElement>(null);
+
   const [messageText, setMessageText] = useState("");
 
   const socket = useStore((state) => state.socket);
@@ -15,7 +17,8 @@ export default function ChatPanel() {
     (state) => state.addMessageInProjectChat,
   );
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!messageText.trim() || !socket) return;
 
     socket.emit(SOCKET_ENUMS.SEND_MESSAGE, { message: messageText });
@@ -26,15 +29,28 @@ export default function ChatPanel() {
       sender: "You",
       isYour: true,
     });
+
+    setMessageText("");
+
+    scrollIntoLastMessage();
   };
 
+  const scrollIntoLastMessage = () => {
+    if (scrollZoomRef.current)
+      scrollZoomRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollIntoLastMessage();
+  }, [projectChat]);
+
   return (
-    <div className="flex h-full flex-col">
-      <div>
+    <div className="relative h-full max-h-full flex-col">
+      <div className="h-[4%]">
         <h3 className="text-2xl">Project Chat</h3>
       </div>
-      <div className="flex h-full flex-col justify-between gap-2 py-4">
-        <div className="messages flex flex-col gap-4">
+      <div className="no-scrollbar h-full max-h-[83%] overflow-x-hidden overflow-y-scroll pt-8">
+        <div className="messages flex h-full flex-col gap-4">
           {projectChat?.map(({ createdAt, message, sender, isYour }, index) => {
             return (
               <div className={cn("message self-start", isYour && "self-end")}>
@@ -48,8 +64,14 @@ export default function ChatPanel() {
               </div>
             );
           })}
+
+          <div ref={scrollZoomRef} className="pb-20" />
         </div>
-        <div className="input flex gap-2">
+
+        <form
+          className="input absolute bottom-5 left-1/2 flex w-full -translate-x-1/2 items-center gap-2"
+          onSubmit={sendMessageHandler}
+        >
           <Input
             className="border-2"
             placeholder="Type here..."
@@ -57,8 +79,10 @@ export default function ChatPanel() {
             onChange={(e) => setMessageText(e.target.value)}
           />
 
-          <Button onClick={sendMessageHandler}>Send</Button>
-        </div>
+          <Button className="h-8" type="submit">
+            Send
+          </Button>
+        </form>
       </div>
     </div>
   );
