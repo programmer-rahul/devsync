@@ -4,9 +4,7 @@ export default function ExplorerPanelHeader() {
   const updateCreatingProjectItem = useStore(
     (state) => state.updateCreatingProjectItem,
   );
-  const projectName = useStore(
-    (state) => state.currentProjectName,
-  );
+  const projectName = useStore((state) => state.currentProjectName);
 
   const createFileHandler = () => {
     updateCreatingProjectItem(true, "file");
