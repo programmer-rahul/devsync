@@ -3,6 +3,7 @@ import { useStore } from "@/components/store/useStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SOCKET_ENUMS } from "@/lib/constants";
+import { cn, formatMessageDate } from "@/lib/utils";
 import { useState } from "react";
 
 export default function ChatPanel() {
@@ -36,11 +37,13 @@ export default function ChatPanel() {
         <div className="messages flex flex-col gap-4">
           {projectChat?.map(({ createdAt, message, sender, isYour }, index) => {
             return (
-              <div className="message self-start">
+              <div className={cn("message self-start", isYour && "self-end")}>
                 <ChatMessage
+                  key={index}
                   message={message}
                   sender={sender}
                   createdAt={createdAt}
+                  isYour={isYour}
                 />
               </div>
             );
@@ -61,16 +64,25 @@ export default function ChatPanel() {
   );
 }
 
-const ChatMessage = ({ createdAt, message, sender }: MessageInterface) => {
+const ChatMessage = ({
+  createdAt,
+  message,
+  sender,
+  isYour,
+}: MessageInterface) => {
+  const formatedDate = formatMessageDate(createdAt);
+
   return (
     <>
       <div className="flex flex-col rounded-md bg-lime-800 px-2 py-1 leading-5">
         <p>{message}</p>
         <p className="self-end text-xs tracking-tighter text-zinc-400">
-          {String(createdAt)} ago
+          {formatedDate}
         </p>
       </div>
-      <div className="text-sm text-zinc-400">{sender}</div>
+      <div className={cn("text-sm text-zinc-400", isYour && "text-end")}>
+        {sender}
+      </div>
     </>
   );
 };

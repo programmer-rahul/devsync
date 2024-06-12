@@ -9,8 +9,8 @@ export default function UsersPanel() {
         <h3 className="text-2xl">Available Users</h3>
       </div>
       <div className="flex flex-col gap-2 pt-4">
-        {connectedUsers.map((user) => (
-          <ConnectedUser username={user.username} />
+        {connectedUsers.map((user, index) => (
+          <ConnectedUser username={user.username} key={index} />
         ))}
       </div>
     </div>
