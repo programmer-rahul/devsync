@@ -48,6 +48,31 @@ export default function JoinProjectBtn() {
     }
   };
 
+  const onProjectIdPaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const pastedText = event.clipboardData.getData("text");
+    const pastedTextArray = pastedText.split("/");
+
+    // if pasted text contains full url of project
+    if (
+      pastedTextArray.length > 2 &&
+      pastedTextArray[pastedTextArray.length - 2] === "project"
+    ) {
+      setJoinProjectValues((prev) => ({
+        ...prev,
+        projectId: pastedTextArray[pastedTextArray.length - 1],
+      }));
+    }
+
+    // to check if pasted text is a projec id
+    if (pastedText.length === 36) {
+      setJoinProjectValues((prev) => ({
+        ...prev,
+        projectId: pastedText,
+      }));
+    }
+  };
+
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
@@ -86,6 +111,7 @@ export default function JoinProjectBtn() {
                 id="projectId"
                 placeholder="paste here..."
                 value={joinProjectValues.projectId}
+                onPaste={onProjectIdPaste}
                 onChange={(event) =>
                   setJoinProjectValues((prev) => ({
                     ...prev,

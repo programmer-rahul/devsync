@@ -24,7 +24,7 @@ export const SOCKET_ENUMS = {
   GET_INITIAL_PROJECTS_DETAILS: "get-initial-projects-details",
   DELETE_PROJECT: "delete-project",
 
-  // chat 
+  // chat
   SEND_MESSAGE: "send-message",
   RECIEVE_MESSAGE: "recieve-message",
 };
@@ -33,28 +33,6 @@ export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
   id: ":root",
   name: "root",
   type: "folder",
-  files: [
-    {
-      id: "index.ts",
-      name: "index.ts",
-      type: "file",
-      content: `const filename = "index.ts"`,
-    },
-  ],
-  subFolders: [
-    {
-      id: "components",
-      name: "components",
-      type: "folder",
-      files: [
-        {
-          id: "components/index.ts",
-          name: "index.ts",
-          type: "file",
-          content: `const filename = "components/index.ts"`,
-        },
-      ],
-      subFolders: [],
-    },
-  ],
+  files: [],
+  subFolders: [],
 };

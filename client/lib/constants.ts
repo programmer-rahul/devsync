@@ -32,13 +32,6 @@ export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
   id: ":root",
   name: "root",
   type: "folder",
-  files: [
-    {
-      id: "index.ts",
-      name: "index.ts",
-      type: "file",
-      content: `const filename = "index.ts"`,
-    },
-  ],
+  files: [],
   subFolders: [],
 };

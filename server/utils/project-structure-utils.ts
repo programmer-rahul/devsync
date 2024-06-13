@@ -206,7 +206,7 @@ const getFoldersAndFilesCount = (project: ProjectStructure) => {
   let foldersCount = 0;
 
   const countFolderAndFiles = (folder: FolderInterface): boolean => {
-    foldersCount++;
+    if (folder.id !== ":root") foldersCount++;
 
     if (folder.files) {
       filesCount += folder.files.length;

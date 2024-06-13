@@ -12,15 +12,7 @@ import {
 const { LOGIN, DISCONNECT } = SOCKET_ENUMS;
 
 let userSockets: UserSockets = {};
-let userProjects: UserProjects = {
-  "ac251d95-3c54-410c-a148-546e01b18413": {
-    owner: "dev",
-    projectId: "ac251d95-3c54-410c-a148-546e01b18413",
-    projectName: "project1",
-    joinedUsers: [],
-    structure: DEFAULT_PROJECT_STRUCTURE,
-  },
-};
+let userProjects: UserProjects = {};
 
 const ioListener = (socket: SocketType, io: IoType) => {
   // login
@@ -84,21 +76,9 @@ const ioListener = (socket: SocketType, io: IoType) => {
   );
 
   // chat
-  socket.on(SOCKET_ENUMS.SEND_MESSAGE, ({ message }) => {
-    if (!message.trim()) return;
-
-    const userSocket = userSockets[socket.id];
-    const projectId = userSocket?.joinedProject;
-    const username = userSocket?.username;
-
-    if (!projectId) return;
-
-    socket.broadcast.to(projectId).emit(SOCKET_ENUMS.RECIEVE_MESSAGE, {
-      message: message,
-      sender: username,
-      createdAt: new Date(),
-    });
-  });
+  socket.on(SOCKET_ENUMS.SEND_MESSAGE, ({ message }) =>
+    onNewMessageSend({ message, socket })
+  );
 };
 
 const onLogin = (socket: SocketType) => {
@@ -449,6 +429,28 @@ const onFileContentChanged = ({
     changedBy: currentUser,
     fileId: fileId,
     updatedContent: updatedContent,
+  });
+};
+
+const onNewMessageSend = ({
+  message,
+  socket,
+}: {
+  message: string;
+  socket: SocketType;
+}) => {
+  if (!message.trim()) return;
+
+  const userSocket = userSockets[socket.id];
+  const projectId = userSocket?.joinedProject;
+  const username = userSocket?.username;
+
+  if (!projectId) return;
+
+  socket.broadcast.to(projectId).emit(SOCKET_ENUMS.RECIEVE_MESSAGE, {
+    message: message,
+    sender: username,
+    createdAt: new Date(),
   });
 };
 
