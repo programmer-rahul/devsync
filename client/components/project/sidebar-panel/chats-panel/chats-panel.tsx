@@ -53,9 +53,11 @@ export default function ChatPanel() {
         <div className="messages flex h-full flex-col gap-4">
           {projectChat?.map(({ createdAt, message, sender, isYour }, index) => {
             return (
-              <div className={cn("message self-start", isYour && "self-end")}>
+              <div
+                className={cn("message self-start", isYour && "self-end")}
+                key={index}
+              >
                 <ChatMessage
-                  key={index}
                   message={message}
                   sender={sender}
                   createdAt={createdAt}

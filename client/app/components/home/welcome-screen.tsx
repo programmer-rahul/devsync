@@ -4,26 +4,34 @@ import CreateProjectBtn from "@/components/home/create-project";
 
 export default function WelcomeScreen() {
   return (
-    <main className="flex flex-1 flex-col gap-20 p-4 md:justify-between md:gap-8 md:p-8 overflow-hidden">
-      <section className="flex w-full flex-col items-center">
-        <div className="flex flex-col items-center lg:mx-32 xl:mx-56 2xl:mx-96 ">
-          <h2 className="text-xl text-slate-200 lg:text-2xl">
-            Welcome to <Logo />
-          </h2>
-          <p className="py-4 text-center text-slate-200/60 lg:text-xl">
-            Your go-to platform for real-time project collaboration. Easily work
-            on projects, modify code, and perform CRUD operations on files and
-            folders all within one interface.
-          </p>
+    <main className="flex flex-1 flex-col items-center justify-center gap-20 overflow-hidden bg-[#101820] p-4 md:gap-8 md:p-8">
+      <section className="-mt-20 flex w-full flex-col items-center xl:flex-row xl:gap-4 2xl:px-40">
+        
+        <div className="flex flex-col items-center xl:gap-10">
+          <div className="flex flex-col items-center lg:mx-32 xl:mx-0 lg:px-10">
+            <h2 className="text-2xl text-gray-100 lg:text-3xl xl:text-4xl 2xl:text-5xl">
+              Welcome to DevSync!
+            </h2>
+            <p className="py-4 text-center text-gray-100/60 lg:text-xl">
+              Your solution for real-time project collaboration. Create and join
+              projects, edit code together, and manage your workspace with ease.
+              Enhance your teamwork today.
+            </p>
+          </div>
+          <div className="flex gap-4 xl:justify-center">
+            <CreateProjectBtn />
+            <JoinProjectBtn />
+          </div>
         </div>
-        <div className="flex gap-4">
-          <JoinProjectBtn />
-          <CreateProjectBtn />
-        </div>
-      </section>
 
-      <section>
-        <div className="preview-animation aspect-video h-full rounded-md border-4 lg:mx-auto lg:max-h-96 xl:max-h-[30rem] 2xl:max-h-[33rem]"></div>
+        <div className="pt-12 xl:py-0">
+          <img
+            src="./illustrations/collaboration.svg"
+            alt="collaboration"
+            className="w-96 lg:w-[30rem] xl:w-[80rem] 2xl:w-[90rem]"
+          />
+        </div>
+
       </section>
     </main>
   );
