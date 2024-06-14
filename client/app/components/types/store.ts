@@ -5,6 +5,7 @@ import {
   ActivityBarButtons,
   Project as ProjectInterface,
 } from "@/app/components/types/project";
+import { File as FileInterface } from "./explorer";
 
 export type StoreStates = EditorSlice &
   SocketSlice &
@@ -37,8 +38,8 @@ export type SocketSlice = {
 };
 
 export type ExplorerSlice = {
-  selectedFile: File | null;
-  setSelectedFile: (file: File) => void;
+  selectedFile: FileInterface | null;
+  setSelectedFile: (file: FileInterface) => void;
 
   selectedFolderId: string;
   setSelectedFolderId: (id: string) => void;
