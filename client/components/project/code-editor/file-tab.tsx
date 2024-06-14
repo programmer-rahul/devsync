@@ -1,5 +1,6 @@
 import { useStore } from "@/components/store/useStore";
-import { cn } from "@/lib/utils";
+import { cn, getFileIcon } from "@/lib/utils";
+import Image from "next/image";
 
 interface FileTabProps {
   isActive: boolean;
@@ -49,6 +50,12 @@ export default function FileTab({
       )}
       onClick={tabClickHandler}
     >
+      <Image
+        src={getFileIcon(fileName)}
+        width={20}
+        height={20}
+        alt="file-icon"
+      />
       <p>{fileName}</p>
       <div className="grid h-4 w-4 place-content-center">
         <p

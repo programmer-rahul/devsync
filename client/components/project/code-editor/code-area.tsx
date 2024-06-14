@@ -2,14 +2,12 @@
 
 import { useStore } from "@/components/store/useStore";
 import useProjectCrud from "@/hooks/useProjectCrud";
-import { SOCKET_ENUMS } from "@/lib/constants";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export default function CodeArea() {
   // hooks
   const selectedFile = useStore((state) => state.selectedFile);
   const openedEditorTabs = useStore((state) => state.openedEditorTabs);
-  const socket = useStore((state) => state.socket);
   const { readFileContent, updateFileContent } = useProjectCrud();
 
   // states
@@ -47,11 +45,13 @@ export default function CodeArea() {
   return (
     <div className="flex-1 border">
       {currentFileContent === null ? (
-        <div>No selected files</div>
+        <div className="flex h-full items-center justify-center border text-xl lg:text-2xl xl:text-5xl">
+          No selected files
+        </div>
       ) : (
         <div className="h-full p-2">
           <textarea
-            className="h-full w-full outline-none bg-transparent text-xl"
+            className="h-full w-full bg-transparent text-xl outline-none"
             value={currentFileContent}
             onChange={handleContentFileChange}
           />

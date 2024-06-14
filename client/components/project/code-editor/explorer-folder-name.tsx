@@ -51,7 +51,7 @@ export default function ExplorerFolderName({
         >
           {collapseIcon}
         </div>
-        <div className="mr-2 w-5">{folderIcon}</div>
+        <div className="mr-1 w-5">{folderIcon}</div>
         <RenameProjectItem
           itemId={folderId}
           itemName={folderName}
@@ -61,12 +61,7 @@ export default function ExplorerFolderName({
         />
       </div>
 
-      <div
-        className={cn(
-          "hidden transition-all group-hover:block",
-          selectedFolderId === folderId && "block",
-        )}
-      >
+      <div className={cn("hidden transition-all group-hover:block")}>
         <FileControls
           type="folder"
           id={folderId}

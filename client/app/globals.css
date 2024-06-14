@@ -98,34 +98,6 @@
   }
 }
 
-.card {
-  width: 50%;
-  height: 30%;
-  position: relative;
-  z-index: 10 !important;
-  background-color: black !important;
-}
-.card::after {
-  position: absolute;
-  content: "&";
-  width: 105%;
-  height: 105%;
-  top: 0px;
-  left: 0px;
-  background-color: red;
-  z-index: -10;
-}
-.card:hover::after {
-  animation: animated 3s infinite linear;
-  cursor: pointer;
-  z-index: -10;
-}
-@keyframes animated {
-  50% {
-    filter: hue-rotate(350deg);
-  }
-}
-
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

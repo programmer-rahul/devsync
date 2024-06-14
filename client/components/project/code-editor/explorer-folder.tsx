@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, getFileIcon } from "@/lib/utils";
 import { Folder as FolderInterface } from "@/app/components/types/explorer";
 import { useEffect, useRef, useState } from "react";
 import ExplorerFile from "./explorer-file";
@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useStore } from "@/components/store/useStore";
 
 import useProjectCrud from "@/hooks/useProjectCrud";
+import Image from "next/image";
 
 export default function ExplorerFolder({
   id: folderId,
@@ -30,6 +31,7 @@ export default function ExplorerFolder({
 
   // to maintain folder collapsing state
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [fileIcon, setFileIcon] = useState("/files/default-file.svg");
 
   // input
   const onInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -103,13 +105,27 @@ export default function ExplorerFolder({
 
         {/* new project item creation input  */}
         {creatingProjectItem.status && selectedFolderId === folderId && (
-          <div className="pl-5">
+          <div className="flex items-center gap-1 pl-5">
+            <Image
+              src={
+                creatingProjectItem.type === "file"
+                  ? fileIcon
+                  : "/files/default-folder.svg"
+              }
+              width={20}
+              height={20}
+              alt="file-icon"
+            />
             <Input
               className="h-7"
               ref={inputRef}
               autoFocus
               onBlur={onInputBlur}
               onKeyDown={onInputKeyPress}
+              onChange={(e) => {
+                if (creatingProjectItem.type === "file")
+                  setFileIcon(getFileIcon(e.target.value));
+              }}
             />
           </div>
         )}

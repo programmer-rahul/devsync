@@ -35,3 +35,15 @@ export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
   files: [],
   subFolders: [],
 };
+
+export const FILE_ICONS: { [key: string]: string } = {
+  html: "/files/html.svg",
+  css: "/files/css.svg",
+  java: "/files/java.svg",
+  js: "/files/javascript.svg",
+  json: "/files/json.svg",
+  md: "/files/markdown.svg",
+  py: "/files/python.svg",
+  txt: "/files/txt.svg",
+  ts: "/files/typescript.svg",
+};

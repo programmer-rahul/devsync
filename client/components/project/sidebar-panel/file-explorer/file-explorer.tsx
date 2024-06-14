@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ExplorerFolder from "../../code-editor/explorer-folder";
 import { useStore } from "@/components/store/useStore";
 

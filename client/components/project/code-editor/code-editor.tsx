@@ -13,7 +13,7 @@ export default function CodeEditor() {
       <CodeArea />
 
       {/* status bar  */}
-      <EditorStatusBar />
+      {/* <EditorStatusBar /> */}
     </section>
   );
 }
