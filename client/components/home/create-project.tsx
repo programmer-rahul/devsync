@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useStore } from "@/components/store/useStore";
 import { LocalStorage } from "@/lib/helper";
 import { SOCKET_ENUMS } from "@/lib/constants";
+import { Project as ProjectInterface } from "@/app/components/types/project";
 
 export default function CreateProjectBtn() {
   // store imports
@@ -35,7 +36,7 @@ export default function CreateProjectBtn() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // create project handler
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleNewProjectCreation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { username, projectName, projectId } = newProjectValues;
 
@@ -43,11 +44,16 @@ export default function CreateProjectBtn() {
     setIsDialogOpen(false);
 
     // update createProjects
-    let newProject = {
+    let newProject: ProjectInterface = {
       owner: username,
       projectName,
       projectId,
       isCreated: true,
+      counts: {
+        filesCount: 0,
+        foldersCount: 0,
+        connectedUsersCount: 0,
+      },
     };
     addProjectId({ id: newProject.projectId, isCreated: true });
     addProjectInProjects(newProject);
@@ -79,7 +85,7 @@ export default function CreateProjectBtn() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleNewProjectCreation}>
           <DialogHeader>
             <DialogTitle>New Project</DialogTitle>
           </DialogHeader>

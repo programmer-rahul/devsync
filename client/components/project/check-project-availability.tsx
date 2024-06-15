@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { SOCKET_ENUMS } from "@/lib/constants";
+import { DEFAULT_PROJECT_STRUCTURE, SOCKET_ENUMS } from "@/lib/constants";
 import { usePathname } from "next/navigation";
 import useSocket from "@/hooks/useSocket";
 import { useStore } from "../store/useStore";
@@ -31,6 +31,14 @@ export default function CheckProjectAvailability({
 
   // zustand store states
   const currentUsername = useStore((state) => state.currentUsername);
+  const selectedFolderId = useStore((state) => state.selectedFolderId);
+  const selectedFile = useStore((state) => state.selectedFile);
+  const projectStructure = useStore((state) => state.projectStructure);
+
+  const addMessageInProjectChat = useStore(
+    (state) => state.addMessageInProjectChat,
+  );
+  const setSelectedFile = useStore((state) => state.setSelectedFile);
   const updateCurrentProjectName = useStore(
     (state) => state.updateCurrentProjectName,
   );
@@ -39,13 +47,6 @@ export default function CheckProjectAvailability({
   );
   const updateProjectStructure = useStore(
     (state) => state.updateProjectStructure,
-  );
-  const selectedFolderId = useStore((state) => state.selectedFolderId);
-  const selectedFile = useStore((state) => state.selectedFile);
-  const setSelectedFile = useStore((state) => state.setSelectedFile);
-  const projectStructure = useStore((state) => state.projectStructure);
-  const addMessageInProjectChat = useStore(
-    (state) => state.addMessageInProjectChat,
   );
 
   // states
@@ -245,6 +246,12 @@ export default function CheckProjectAvailability({
       socket && socket.emit(SOCKET_ENUMS.LEAVE_PROJECT);
       setIsLoading(true);
       setIsProjectAvailable(false);
+      console.log("unmounted");
+
+      setSelectedFile(null);
+      updateCurrentProjectName("");
+      updateProjectClientsList([]);
+      updateProjectStructure(DEFAULT_PROJECT_STRUCTURE);
     };
   }, [socket]);
 

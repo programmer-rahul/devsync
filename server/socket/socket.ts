@@ -115,9 +115,6 @@ const onDisconnect = (socket: SocketType) => {
     });
 
   socket.leave(isProjectJoined);
-
-  console.log("isAvailable", isAvailable);
-  console.log("userProjects", userProjects);
 };
 
 const onGetProjectInitialDetails = ({
@@ -159,12 +156,10 @@ const onCreateProject = ({
   projectId,
   projectName,
   owner,
-  socket,
 }: {
   projectId: string;
   projectName: string;
   owner: string;
-  socket: SocketType;
 }) => {
   if (!projectId?.trim() || !projectName?.trim() || !owner?.trim()) return;
 
@@ -174,14 +169,11 @@ const onCreateProject = ({
     projectId: projectId,
     projectName: projectName,
     joinedUsers: [],
-    structure: DEFAULT_PROJECT_STRUCTURE,
+    structure: JSON.parse(JSON.stringify(DEFAULT_PROJECT_STRUCTURE)),
   };
 
   // update userprojects object
   userProjects[projectId] = newProject;
-
-  console.log(userProjects[projectId]);
-  // socket.emit(SOCKET_ENUMS.CREATE_PROJECT, { status: true });
 };
 
 const onJoinProject = ({
@@ -189,13 +181,11 @@ const onJoinProject = ({
   projectId,
   projectName,
   socket,
-  io,
 }: {
   username: string;
   projectId: string;
   projectName?: string;
   socket: SocketType;
-  io: IoType;
 }) => {
   // check upcoming user fields
   if (!username?.trim() || !projectId?.trim()) return;
@@ -221,7 +211,7 @@ const onJoinProject = ({
       projectName: projectName,
       projectId: projectId,
       joinedUsers: [userSocket],
-      structure: DEFAULT_PROJECT_STRUCTURE,
+      structure: JSON.parse(JSON.stringify(DEFAULT_PROJECT_STRUCTURE)),
     };
   }
 

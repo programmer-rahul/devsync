@@ -39,16 +39,13 @@ export type SocketSlice = {
 
 export type ExplorerSlice = {
   selectedFile: FileInterface | null;
-  setSelectedFile: (file: FileInterface) => void;
+  setSelectedFile: (file: FileInterface | null) => void;
 
   selectedFolderId: string;
   setSelectedFolderId: (id: string) => void;
 
-  projectStructure: ProjectStructure;
-  updateProjectStructure: (updatedProjectStructure: ProjectStructure) => void;
-
-  creatingProjectItem: { status: boolean; type: "file" | "folder" };
-  updateCreatingProjectItem: (status: boolean, type: "file" | "folder") => void;
+  currentActivityButton: ActivityBarButtons;
+  setActivityButton: (value: ActivityBarButtons) => void;
 };
 
 export type UserSlice = {
@@ -69,9 +66,11 @@ export type ProjectSlice = {
   addProjectinProjects: (newProject: ProjectInterface) => void;
   removeProjectInProjects: ({ projectId }: { projectId: string }) => void;
   updateInitialProjects: (updateProjects: ProjectInterface[]) => void;
+  projectStructure: ProjectStructure;
+  updateProjectStructure: (updatedProjectStructure: ProjectStructure) => void;
 
-  currentActivityButton: ActivityBarButtons;
-  setActivityButton: (value: ActivityBarButtons) => void;
+  creatingProjectItem: { status: boolean; type: "file" | "folder" };
+  updateCreatingProjectItem: (status: boolean, type: "file" | "folder") => void;
 
   projectClientsList: { username: string; socketId: string }[];
   updateProjectClientsList: (

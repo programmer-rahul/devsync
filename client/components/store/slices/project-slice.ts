@@ -1,4 +1,5 @@
 import { SetStateType, ProjectSlice } from "@/app/components/types/store";
+import { DEFAULT_PROJECT_STRUCTURE } from "@/lib/constants";
 
 export const createProjectSlice = (set: SetStateType): ProjectSlice => ({
   projectIds: [],
@@ -32,10 +33,16 @@ export const createProjectSlice = (set: SetStateType): ProjectSlice => ({
       initialProjects: updatedProjects,
     })),
 
-  currentActivityButton: "files",
-  setActivityButton: (value) =>
-    set((state) => ({
-      currentActivityButton: value,
+  projectStructure: DEFAULT_PROJECT_STRUCTURE,
+  updateProjectStructure: (updatedProjectStructure) =>
+    set(() => ({
+      projectStructure: { ...updatedProjectStructure },
+    })),
+
+  creatingProjectItem: { status: false, type: "file" },
+  updateCreatingProjectItem: (status, type) =>
+    set(() => ({
+      creatingProjectItem: { status, type },
     })),
 
   projectClientsList: [],
