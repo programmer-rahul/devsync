@@ -1,6 +1,6 @@
 import { useStore } from "@/components/store/useStore";
 import { SOCKET_ENUMS } from "@/lib/constants";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Socket } from "socket.io-client";
 
 const useSocket = (): Socket => {
@@ -23,7 +23,7 @@ const useSocket = (): Socket => {
     if (!socket) {
       connectSocket();
     }
-    if (socket && !isConnectedToServer) {
+    if (socket?.connected && !isConnectedToServer) {
       updateIsConnectedToServer(true);
 
       socket.on(SOCKET_ENUMS.CONNECT, onSocketConnect);

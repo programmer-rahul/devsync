@@ -2,6 +2,7 @@
 
 import { useStore } from "@/components/store/useStore";
 import useProjectCrud from "@/hooks/useProjectCrud";
+import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export default function CodeArea() {
@@ -45,8 +46,15 @@ export default function CodeArea() {
   return (
     <div className="flex-1 border">
       {currentFileContent === null ? (
-        <div className="flex h-full items-center justify-center border text-xl lg:text-2xl xl:text-5xl">
-          No selected files
+        <div className="flex h-full flex-col items-center justify-center gap-20 border text-xl lg:text-2xl xl:text-5xl">
+          <Image
+            src="/illustrations/no-file-selected.svg"
+            className="w-96"
+            width={40}
+            height={40}
+            alt="no-file-selected"
+          />
+          <p>No File Selected</p>
         </div>
       ) : (
         <div className="h-full p-2">

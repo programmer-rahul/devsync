@@ -6,8 +6,10 @@ const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
 export const createSocketSlice = (set: SetStateType): SocketSlice => ({
   socket: null,
   connectSocket: () =>
-    set((state) => {
-      const socket = io(SOCKET_SERVER_URL);
+    set(() => {
+      const socket = io(SOCKET_SERVER_URL, {
+        timeout: 10000,
+      });
 
       return {
         socket: socket,
@@ -16,5 +18,5 @@ export const createSocketSlice = (set: SetStateType): SocketSlice => ({
 
   isConnectedToServer: false,
   updateIsConnectedToServer: (value) =>
-    set((state) => ({ isConnectedToServer: value })),
+    set(() => ({ isConnectedToServer: value })),
 });
