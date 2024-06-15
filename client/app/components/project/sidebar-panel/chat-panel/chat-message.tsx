@@ -11,13 +11,13 @@ export default function ChatMessage({
 
   return (
     <>
-      <div className="flex flex-col rounded-md bg-lime-800 px-2 py-1 leading-5">
+      <div className="flex flex-col rounded-md bg-main px-2 py-1 leading-5">
         <p>{message}</p>
-        <p className="self-end text-xs tracking-tighter text-zinc-400">
+        <p className="self-end text-xs tracking-tighter opacity-60">
           {formatedDate}
         </p>
       </div>
-      <div className={cn("text-sm text-zinc-400", isYour && "text-end")}>
+      <div className={cn("text-sm opacity-60", isYour && "text-end")}>
         {sender}
       </div>
     </>
