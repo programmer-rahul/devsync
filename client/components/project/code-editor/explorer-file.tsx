@@ -34,7 +34,7 @@ export default function ExplorerFile({
     <div
       className={cn(
         "group flex cursor-pointer items-center justify-between rounded-md py-1 pl-3 text-primary",
-        selectedFile?.id === fileId && "font-semibold text-lime-500/80",
+        selectedFile?.id === fileId && "text-main font-semibold",
       )}
     >
       <div className="flex flex-1 items-end gap-1" onClick={fileClickHandler}>

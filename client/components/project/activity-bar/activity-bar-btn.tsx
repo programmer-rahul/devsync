@@ -25,15 +25,15 @@ export default function ActivityBarButtton({
   return (
     <div
       className={cn(
-        "flex cursor-pointer flex-col items-center gap-1 rounded-lg p-4",
+        "flex cursor-pointer flex-col items-center gap-1 rounded-lg border-2 border-transparent px-3 py-2",
         currentActivityButton === name
-          ? "bg-lime-800/60 text-lime-500"
-          : "bg-primary-foreground text-primary",
+          ? "bg-main/30 border-main/90 text-main"
+          : "text-primary border-transparent",
       )}
       onClick={activityButtonClickHandler}
     >
       <div className="w-8">{icon}</div>
-      <p className="select-none uppercase">{name}</p>
+      <p className="select-none uppercase text-sm">{name}</p>
     </div>
   );
 }

@@ -37,13 +37,13 @@ export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
 };
 
 export const FILE_ICONS: { [key: string]: string } = {
-  html: "/files/html.svg",
-  css: "/files/css.svg",
-  java: "/files/java.svg",
-  js: "/files/javascript.svg",
-  json: "/files/json.svg",
-  md: "/files/markdown.svg",
-  py: "/files/python.svg",
-  txt: "/files/txt.svg",
-  ts: "/files/typescript.svg",
+  html: "/files/languages/html.svg",
+  css: "/files/languages/css.svg",
+  java: "/files/languages/java.svg",
+  js: "/files/languages/javascript.svg",
+  json: "/files/languages/json.svg",
+  md: "/files/languages/markdown.svg",
+  py: "/files/languages/python.svg",
+  txt: "/files/languages/txt.svg",
+  ts: "/files/languages/typescript.svg",
 };

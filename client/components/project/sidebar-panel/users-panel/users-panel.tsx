@@ -19,7 +19,7 @@ export default function UsersPanel() {
 
 const ConnectedUser = ({ username }: { username: string }) => {
   return (
-    <div className="user rounded-md border bg-lime-800 px-2 py-1 text-xl">
+    <div className="user rounded-md border bg-main/90 px-2 py-1 text-xl">
       {username}
     </div>
   );
