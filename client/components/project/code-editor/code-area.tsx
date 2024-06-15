@@ -3,7 +3,8 @@
 import { useStore } from "@/components/store/useStore";
 import useProjectCrud from "@/hooks/useProjectCrud";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import MonacoEditor from "@/lib/monaco-editor";
 
 export default function CodeArea() {
   // hooks
@@ -16,16 +17,19 @@ export default function CodeArea() {
     null,
   );
 
-  const handleContentFileChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setCurrentFileContent(event.target.value);
+  const handleFileContentChange = (value: string | undefined) => {
+    if (!value) return;
 
-    if (currentFileContent?.trim() === event.target.value.trim()) return;
+    console.log(value);
+    setCurrentFileContent(value);
+
+    if (currentFileContent?.trim() === value.trim()) return;
 
     // update updatedfilecontent in project
     if (!selectedFile) return;
     updateFileContent({
       fileId: selectedFile.id,
-      updatedContent: event.target.value,
+      updatedContent: value,
       toEmit: true,
     });
   };
@@ -57,11 +61,10 @@ export default function CodeArea() {
           <p>No File Selected</p>
         </div>
       ) : (
-        <div className="h-full p-2">
-          <textarea
-            className="h-full w-full bg-transparent text-xl outline-none"
+        <div className="h-full">
+          <MonacoEditor
             value={currentFileContent}
-            onChange={handleContentFileChange}
+            onChange={handleFileContentChange}
           />
         </div>
       )}

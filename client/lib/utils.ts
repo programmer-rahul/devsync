@@ -11,8 +11,10 @@ export const formatMessageDate = (date: Date, formatStr: string = "p") => {
   return format(date, formatStr);
 };
 
+export const getFileExtention = (fileName: string) => fileName.split(".").pop();
+
 export const getFileIcon = (fileName: string) => {
-  const fileExtention = fileName.split(".").pop();
+  const fileExtention = getFileExtention(fileName);
   let fileIcon = "/files/default-file.svg";
 
   if (fileExtention && FILE_ICONS[fileExtention]) {
