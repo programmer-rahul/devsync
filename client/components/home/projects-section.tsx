@@ -44,7 +44,7 @@ export default function ProjectsSection() {
             {/* if there are not projects  */}
             {initialProjects.length === 0 && (
               <>
-                <h4 className="pb-10 text-center text-2xl text-slate-400 lg:text-5xl">
+                <h4 className="pb-10 text-center font-secondary text-2xl text-slate-400 lg:text-5xl">
                   {isYourProjectsTab
                     ? "No Projects Created Yet"
                     : "No Projects Joined Yet"}
@@ -71,7 +71,7 @@ export default function ProjectsSection() {
             {/* if projects are available  */}
             {initialProjects.length > 0 && (
               <>
-                <h4 className="pb-6 text-center text-2xl text-slate-400 lg:text-3xl">
+                <h4 className="pb-6 text-center font-secondary text-2xl text-slate-400 lg:text-3xl">
                   {isYourProjectsTab
                     ? "Projects You've Created."
                     : "Projects You're Collaborating On."}

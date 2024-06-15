@@ -11,9 +11,9 @@ export default function ChatMessage({
 
   return (
     <>
-      <div className="flex flex-col rounded-md bg-main px-2 py-1 leading-5">
-        <p>{message}</p>
-        <p className="self-end text-xs tracking-tighter opacity-60">
+      <div className="flex flex-col rounded-md border border-main/30 bg-main/50 px-2 py-1 leading-5">
+        <p className="font-secondary font-semibold">{message}</p>
+        <p className="font-secondary self-end text-xs tracking-tighter opacity-60">
           {formatedDate}
         </p>
       </div>

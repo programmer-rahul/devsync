@@ -78,6 +78,11 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         border: "border 4s ease infinite",
       },
+
+      fontFamily: {
+        primary: "var(--font-primary)",
+        secondary: "var(--font-secondary)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

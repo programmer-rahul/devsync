@@ -3,5 +3,9 @@ export default function CardProjectName({
 }: {
   projectName: string;
 }) {
-  return <div className="text-3xl font-semibold capitalize">{projectName}</div>;
+  return (
+    <div className="font-secondary text-3xl font-semibold capitalize">
+      {projectName}
+    </div>
+  );
 }

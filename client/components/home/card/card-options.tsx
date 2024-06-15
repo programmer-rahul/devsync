@@ -49,7 +49,7 @@ export default function CardOptions({
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <div className="w-7 rotate-90 cursor-pointer">
+          <div className="w-6 rotate-90 cursor-pointer">
             <Image
               src="/files/3-dots.svg"
               width={40}
@@ -58,7 +58,7 @@ export default function CardOptions({
             />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="font-secondary">
           <DropdownMenuItem onClick={deleteProjectHandler}>
             Delete
           </DropdownMenuItem>

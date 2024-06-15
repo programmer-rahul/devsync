@@ -17,10 +17,10 @@ export default function ExplorerPanelHeader() {
 
   return (
     <div className="flex items-center justify-between">
-      <h2 className="text-xl font-semibold capitalize">{projectName}</h2>
+      <h2 className="text-2xl font-semibold capitalize">{projectName}</h2>
       <div className="flex gap-2">
         <div
-          className="grid w-8 cursor-pointer place-content-center rounded-md bg-primary px-1 py-[.1rem] text-secondary transition-all hover:bg-primary/70"
+          className="grid w-8 cursor-pointer place-content-center rounded-md px-1 py-[.1rem] text-secondary transition-all border border-transparent hover:border-main/70 hover:bg-main/20"
           onClick={createFileHandler}
         >
           <Image
@@ -31,7 +31,7 @@ export default function ExplorerPanelHeader() {
           />
         </div>
         <div
-          className="grid w-8 cursor-pointer place-content-center rounded-md bg-primary px-1 py-[.1rem] text-secondary transition-all hover:bg-primary/70"
+          className="grid w-8 cursor-pointer place-content-center rounded-md px-1 py-[.1rem] text-secondary transition-all border border-transparent hover:border-main/70 hover:bg-main/20"
           onClick={createFolderHandler}
         >
           <Image

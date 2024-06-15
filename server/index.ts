@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import http from "http";
+import cors from "cors";
 import { Server } from "socket.io";
 import { ioListener, userSockets } from "./socket/socket";
 
@@ -15,8 +16,12 @@ const io = new Server(server, {
     origin: process.env.CORS_ORIGIN?.split(","),
   },
 });
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN?.split(","),
+  })
+);
 const PORT = process.env.PORT || 4000;
-console.log(process.env.PORT);
 
 //midddlewares
 app.use(express.json());

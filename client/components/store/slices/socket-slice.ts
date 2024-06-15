@@ -9,6 +9,7 @@ export const createSocketSlice = (set: SetStateType): SocketSlice => ({
     set(() => {
       const socket = io(SOCKET_SERVER_URL, {
         timeout: 10000,
+        reconnectionAttempts: 3,
       });
 
       return {

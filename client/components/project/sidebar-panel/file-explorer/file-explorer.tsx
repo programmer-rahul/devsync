@@ -6,7 +6,7 @@ export default function FileExplorer() {
   const projectStructure = useStore((state) => state.projectStructure);
 
   return (
-    <div className="pt-4">
+    <div className="pt-4 font-secondary">
       <ExplorerFolder
         key={projectStructure.id}
         id={projectStructure.id}

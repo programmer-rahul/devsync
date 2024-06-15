@@ -23,13 +23,12 @@ const useSocket = (): Socket => {
     if (!socket) {
       connectSocket();
     }
-    if (socket?.connected && !isConnectedToServer) {
+    if (socket && !isConnectedToServer) {
       updateIsConnectedToServer(true);
+      socket.emit(SOCKET_ENUMS.LOGIN);
 
       socket.on(SOCKET_ENUMS.CONNECT, onSocketConnect);
       socket.on(SOCKET_ENUMS.LOGIN, onLogin);
-
-      socket.emit(SOCKET_ENUMS.LOGIN);
     }
   }, [socket]);
 

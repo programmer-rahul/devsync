@@ -18,7 +18,7 @@ export default function ChatPanel() {
   return (
     <div className="relative h-full max-h-full flex-col">
       <div className="h-[4%]">
-        <h3 className="text-2xl">Project Chat</h3>
+        <h3 className="text-2xl font-semibold">Project Chat</h3>
       </div>
 
       <div className="no-scrollbar h-full max-h-[83%] overflow-x-hidden overflow-y-scroll pt-8">
