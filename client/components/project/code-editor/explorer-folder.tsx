@@ -39,7 +39,12 @@ export default function ExplorerFolder({
     let type = creatingProjectItem.type;
 
     if (event.key === "Enter" && text.trim() !== "") {
-      createProjectItem({ itemName: text, itemType: type, toEmit: true });
+      createProjectItem({
+        itemName: text,
+        itemType: type,
+        toEmit: true,
+        folderId: selectedFolderId,
+      });
     }
     if (event.key === "Escape") {
       updateCreatingProjectItem(false, "file");
@@ -57,6 +62,7 @@ export default function ExplorerFolder({
       itemType: creatingProjectItem.type,
       itemName: inputRef.current.value,
       toEmit: true,
+      folderId: selectedFolderId,
     });
   };
 

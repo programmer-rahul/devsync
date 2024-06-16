@@ -5,6 +5,7 @@ import useProjectCrud from "@/hooks/useProjectCrud";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import MonacoEditor from "@/lib/monaco-editor";
+import { cn } from "@/lib/utils";
 
 export default function CodeArea() {
   // hooks
@@ -49,7 +50,7 @@ export default function CodeArea() {
 
   return (
     <div className="flex-1 border">
-      {currentFileContent === null ? (
+      {selectedFile === null && (
         <div className="flex h-full flex-col items-center justify-center gap-20 border text-xl lg:text-2xl xl:text-5xl">
           <Image
             src="/illustrations/no-file-selected.svg"
@@ -60,14 +61,14 @@ export default function CodeArea() {
           />
           <p>No File Selected</p>
         </div>
-      ) : (
-        <div className="h-full">
-          <MonacoEditor
-            value={currentFileContent}
-            onChange={handleFileContentChange}
-          />
-        </div>
       )}
+
+      <div className={cn("h-full", !selectedFile && "hidden")}>
+        <MonacoEditor
+          value={currentFileContent ? currentFileContent : ""}
+          onChange={handleFileContentChange}
+        />
+      </div>
     </div>
   );
 }

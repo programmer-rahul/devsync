@@ -59,8 +59,8 @@ export default function MonacoEditor({
   return (
     <Editor
       language={currentLanguage}
-      theme={"vs-dark"}
-      loading={<h1>Loading.....</h1>}
+      theme={"blackboard"}
+      loading={<h1>Opening.....</h1>}
       value={value}
       onChange={onChange}
       options={{

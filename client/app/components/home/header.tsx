@@ -4,7 +4,7 @@ import JoinProjectBtn from "@/components/home/join-project";
 
 export default function Header() {
   return (
-    <header className="flex w-full items-center justify-between px-8 lg:px-8">
+    <header className="flex w-full items-center justify-between px-8 py-2 lg:px-8">
       <Logo />
       <div>
         <div className="flex gap-2">

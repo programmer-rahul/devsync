@@ -35,10 +35,12 @@ export default function useProjectCrud() {
     itemId,
     itemType,
     itemName,
+    folderId,
     toEmit = false,
   }: {
     itemType: "file" | "folder";
     itemName: string;
+    folderId : string,
     itemId?: string;
     toEmit?: boolean;
   }) => {
@@ -59,10 +61,9 @@ export default function useProjectCrud() {
       subFolders: [],
     };
 
-    console.log("projectStructure", projectStructure);
     response = addItemToProject(
       projectStructure,
-      selectedFolderId,
+      folderId,
       itemType,
       itemType === "file" ? newFile : newFolder,
     );
@@ -83,7 +84,7 @@ export default function useProjectCrud() {
       // emit socket event for new items created
       socket?.emit(SOCKET_ENUMS.PROJECT_ITEM_CREATED, {
         newItem: itemType === "file" ? newFile : newFolder,
-        folderId: selectedFolderId,
+        folderId: folderId,
       });
     }
     updateProjectStructure(response.updatedProject);

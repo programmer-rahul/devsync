@@ -122,7 +122,6 @@ export default function CheckProjectAvailability({
   };
 
   const onNewProjectItemCreated = ({
-    createdBy,
     newItem,
     folderId,
   }: {
@@ -134,6 +133,7 @@ export default function CheckProjectAvailability({
       itemId: newItem.id,
       itemType: newItem.type,
       itemName: newItem.name,
+      folderId: folderId,
       toEmit: false,
     });
   };

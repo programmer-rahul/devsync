@@ -3,7 +3,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { Advent_Pro, Work_Sans } from "next/font/google";
+import { Advent_Pro, Asap } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "Dev Sync",
@@ -17,8 +17,8 @@ const primaryFont = Advent_Pro({
   variable: "--font-primary",
 });
 
-const secondaryFont = Work_Sans({
-  weight: "400",
+const secondaryFont = Asap({
+  weight: "variable",
   display: "swap",
   subsets: ["latin"],
   variable: "--font-secondary",
