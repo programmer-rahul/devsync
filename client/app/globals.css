@@ -41,7 +41,7 @@
     --background: 210, 33%, 9%;
     --foreground: 210 40% 98%;
 
-    --main: 108,99,255;
+    --main: 108, 99, 255;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -75,7 +75,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-primary;
+    @apply bg-gradient-to-l from-gray-900 to-neutral-900  font-primary text-foreground;
   }
 }
 

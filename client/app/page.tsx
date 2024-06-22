@@ -5,13 +5,9 @@ import HomeScreen from "./components/home/home-screen";
 
 export default function Home() {
   return (
-    <div className="flex h-screen w-full flex-col">
-      <Header />
-
-      <CheckWelcomeScreen>
-        <WelcomeScreen />
-        <HomeScreen />
-      </CheckWelcomeScreen>
-    </div>
+    <CheckWelcomeScreen>
+      <WelcomeScreen />
+      <HomeScreen />
+    </CheckWelcomeScreen>
   );
 }
