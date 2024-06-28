@@ -29,9 +29,9 @@ export default function CheckWelcomeScreen({
   return (
     <>
       {loading ? (
-        <div className="flex h-full items-center justify-center border text-4xl">
+        <section className="flex h-full items-center justify-center border text-4xl">
           <div className="loading-animation"></div>
-        </div>
+        </section>
       ) : showWelcome ? (
         children[0]
       ) : (

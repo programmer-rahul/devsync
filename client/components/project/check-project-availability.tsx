@@ -256,12 +256,12 @@ export default function CheckProjectAvailability({
   }, [socket]);
 
   return (
-    <main className="flex h-screen border p-2">
+    <div className="flex h-screen border p-2">
       {/* show loading and not available screen if project is not available  */}
       {isLoading ? LoadingScreen : !isProjectAvailable && NotAvailableScreen}
 
       {/* show projectpage if project is available  */}
       {!isLoading && isProjectAvailable && ProjectPage}
-    </main>
+    </div>
   );
 }

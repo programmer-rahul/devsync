@@ -4,10 +4,10 @@ import SideBarPanel from "@/components/project/sidebar-panel/sidebar-panel";
 
 export default function ProjectPage() {
   return (
-    <div className="flex w-full gap-2">
+    <section className="flex w-full gap-2">
       <ActivityBar />
       <SideBarPanel />
       <CodeEditor />
-    </div>
+    </section>
   );
 }

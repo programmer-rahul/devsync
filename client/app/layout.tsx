@@ -4,11 +4,10 @@ import { cn } from "@/lib/utils";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { Advent_Pro, Asap } from "next/font/google";
-import Header from "./components/home/header";
 
 export const metadata: Metadata = {
-  title: "Dev Sync",
-  description: "Realtime coding and programming",
+  title: "Project",
+  description: "Your Project",
 };
 
 const primaryFont = Advent_Pro({
@@ -35,10 +34,7 @@ export default function RootLayout({
       <body
         className={cn("dark", primaryFont.variable, secondaryFont.variable)}
       >
-        <main className="flex h-screen w-full flex-col">
-          <Header />
-          {children}
-        </main>
+        <main className="flex h-screen w-full flex-col">{children}</main>
         <ToastContainer transition={Bounce} hideProgressBar />
       </body>
     </html>
