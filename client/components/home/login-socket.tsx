@@ -8,10 +8,8 @@ import { Project as ProjectInterface } from "@/app/components/types/project";
 
 export default function LoginSocket() {
   const socket = useSocket();
-  const projectIds = useStore((state) => state.projectIds);
-  const updateInitialProjects = useStore(
-    (state) => state.updateInitialProjects,
-  );
+
+  const { projectIds, updateInitialProjects } = useStore((state) => state);
 
   const onGetInitialProjectDetails = ({
     initialProjects,
@@ -19,7 +17,6 @@ export default function LoginSocket() {
     initialProjects: ProjectInterface[];
   }) => {
     updateInitialProjects(initialProjects);
-    console.log(initialProjects);
   };
 
   useEffect(() => {
@@ -43,5 +40,5 @@ export default function LoginSocket() {
     };
   }, [socket]);
 
-  return <></>;
+  return null;
 }

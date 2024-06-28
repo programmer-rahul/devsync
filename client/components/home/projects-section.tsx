@@ -8,6 +8,7 @@ import CreateProjectBtn from "./create-project";
 import JoinProjectBtn from "./join-project";
 
 export default function ProjectsSection() {
+  
   const initialProjects = useStore((state) => state.initialProjects);
 
   const [isYourProjectsTab, setIsYourProjectsTab] = useState(true);

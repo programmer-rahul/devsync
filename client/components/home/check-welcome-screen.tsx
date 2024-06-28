@@ -9,6 +9,7 @@ export default function CheckWelcomeScreen({
   children: React.ReactNode[];
 }) {
   const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
+  
   const [loading, setloading] = useState(true);
 
   const [showWelcome, setShowWelcome] = useState(true);

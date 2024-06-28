@@ -18,27 +18,18 @@ export default function MountProjectSocketEvents() {
   } = useProjectCrud();
 
   // zustand store states
-  const socket = useStore((state) => state.socket);
-  const selectedFile = useStore((state) => state.selectedFile);
-  const setSelectedFolderId = useStore((state) => state.setSelectedFolderId);
-
-  const addMessageInProjectChat = useStore(
-    (state) => state.addMessageInProjectChat,
-  );
-  const setSelectedFile = useStore((state) => state.setSelectedFile);
-  const setActivityButton = useStore((state) => state.setActivityButton);
-  const updateCurrentProjectName = useStore(
-    (state) => state.updateCurrentProjectName,
-  );
-  const updateProjectClientsList = useStore(
-    (state) => state.updateProjectClientsList,
-  );
-  const updateProjectStructure = useStore(
-    (state) => state.updateProjectStructure,
-  );
-  const clearChat = useStore((state) => state.clearChat);
-
-  console.log("from inside project page");
+  const {
+    socket,
+    selectedFile,
+    addMessageInProjectChat,
+    setSelectedFile,
+    setSelectedFolderId,
+    setActivityButton,
+    updateCurrentProjectName,
+    updateProjectClientsList,
+    updateProjectStructure,
+    clearChat,
+  } = useStore((state) => state);
 
   //   event listeners
   const onInitialProjectDetails = ({
