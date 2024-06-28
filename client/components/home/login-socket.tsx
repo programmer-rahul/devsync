@@ -6,7 +6,7 @@ import { useStore } from "../store/useStore";
 import { SOCKET_ENUMS } from "@/lib/constants";
 import { Project as ProjectInterface } from "@/app/components/types/project";
 
-export default function LoginScoket() {
+export default function LoginSocket() {
   const socket = useSocket();
   const projectIds = useStore((state) => state.projectIds);
   const updateInitialProjects = useStore(

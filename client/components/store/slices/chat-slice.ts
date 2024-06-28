@@ -6,4 +6,9 @@ export const createChatSlice = (set: SetStateType): ChatSlice => ({
     set((state) => ({
       projectChat: [...state.projectChat, message],
     })),
+
+  clearChat: () =>
+    set(() => ({
+      projectChat: [],
+    })),
 });

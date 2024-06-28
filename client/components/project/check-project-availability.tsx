@@ -1,14 +1,10 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { DEFAULT_PROJECT_STRUCTURE, SOCKET_ENUMS } from "@/lib/constants";
+import { SOCKET_ENUMS } from "@/lib/constants";
 import { usePathname } from "next/navigation";
 import useSocket from "@/hooks/useSocket";
 import { useStore } from "../store/useStore";
-import { File, ProjectStructure } from "@/app/components/types/explorer";
-import useProjectCrud from "@/hooks/useProjectCrud";
-import { toast } from "react-toastify";
-import { Message as MessageInterface } from "@/app/components/types/chat";
 
 export default function CheckProjectAvailability({
   LoadingScreen,
@@ -22,32 +18,9 @@ export default function CheckProjectAvailability({
   // hooks
   const socket = useSocket();
   const pathname = usePathname();
-  const {
-    createProjectItem,
-    deleteProjectItem,
-    renameProjectItem,
-    updateFileContent,
-  } = useProjectCrud();
 
   // zustand store states
   const currentUsername = useStore((state) => state.currentUsername);
-  const selectedFolderId = useStore((state) => state.selectedFolderId);
-  const selectedFile = useStore((state) => state.selectedFile);
-  const projectStructure = useStore((state) => state.projectStructure);
-
-  const addMessageInProjectChat = useStore(
-    (state) => state.addMessageInProjectChat,
-  );
-  const setSelectedFile = useStore((state) => state.setSelectedFile);
-  const updateCurrentProjectName = useStore(
-    (state) => state.updateCurrentProjectName,
-  );
-  const updateProjectClientsList = useStore(
-    (state) => state.updateProjectClientsList,
-  );
-  const updateProjectStructure = useStore(
-    (state) => state.updateProjectStructure,
-  );
 
   // states
   const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +28,7 @@ export default function CheckProjectAvailability({
 
   const projectId = pathname.split("/")[2];
 
+  // check if the current projectid is valid or not
   const onProjectIdValidation = ({
     isProjectIdValid,
   }: {
@@ -74,184 +48,24 @@ export default function CheckProjectAvailability({
     });
   };
 
-  const onInitialProjectDetails = ({
-    projectName,
-    joinedUsers,
-    structure,
-  }: {
-    projectName: string;
-    joinedUsers: { socketId: string; username: string }[];
-    structure: ProjectStructure;
-  }) => {
-    if (projectName) updateCurrentProjectName(projectName);
-    if (joinedUsers) updateProjectClientsList(joinedUsers);
-    if (structure) updateProjectStructure(structure);
-  };
-
-  const onUpdatedUserList = ({
-    updatedList,
-  }: {
-    updatedList: { username: string; socketId: string }[];
-  }) => {
-    console.log("updated list", updatedList);
-    if (!updatedList) return;
-
-    updateProjectClientsList(updatedList);
-  };
-
-  const onNewUserJoined = ({
-    username,
-    socketId,
-  }: {
-    username: string;
-    socketId: string;
-  }) => {
-    console.log("A new User Joined", { username, socketId });
-    toast.dark(`User ${username} joined`);
-  };
-
-  const onUserLeaveProject = ({
-    username,
-    socketId,
-  }: {
-    username: string;
-    socketId: string;
-  }) => {
-    console.log("A user disconnected", { username, socketId });
-    toast.dark(`User ${username} disconnected`);
-  };
-
-  const onNewProjectItemCreated = ({
-    newItem,
-    folderId,
-  }: {
-    createdBy: { username: string; socketId: string };
-    newItem: File;
-    folderId: string;
-  }) => {
-    createProjectItem({
-      itemId: newItem.id,
-      itemType: newItem.type,
-      itemName: newItem.name,
-      folderId: folderId,
-      toEmit: false,
-    });
-  };
-
-  const onProjectItemDeleted = ({
-    deletedBy,
-    itemId,
-    itemType,
-  }: {
-    deletedBy: { username: string; socketId: string };
-    itemId: string;
-    itemType: "file" | "folder";
-  }) => {
-    if (!deletedBy || !itemId || !itemType) return;
-
-    deleteProjectItem({ itemId: itemId, itemType: itemType });
-  };
-
-  const onProjectItemRenamed = ({
-    renamedBy,
-    itemId,
-    itemType,
-    newName,
-  }: {
-    renamedBy: { username: string; socketId: string };
-    itemId: string;
-    itemType: "file" | "folder";
-    newName: string;
-  }) => {
-    console.log("here");
-    if (!renamedBy || !itemId || !itemType || !newName) return;
-
-    renameProjectItem({ itemId: itemId, itemType: itemType, newName: newName });
-  };
-
-  const onFileContentChanged = ({
-    changedBy,
-    fileId,
-    updatedContent,
-  }: {
-    changedBy: { username: string; socketId: string };
-    fileId: string;
-    updatedContent: string;
-  }) => {
-    if (!changedBy || !fileId || !updatedContent) return;
-
-    updateFileContent({ fileId: fileId, updatedContent: updatedContent });
-
-    if (selectedFile?.id === fileId) {
-      setSelectedFile({ ...selectedFile });
-    }
-  };
-
-  const onNewMessageRecieve = (newMessage: MessageInterface) => {
-    // console.log("new message recieved :", newMessage);
-    addMessageInProjectChat(newMessage);
-  };
-
   useEffect(() => {
     if (!socket) return;
 
-    // to get that the current project is valid or not
+    // to emit project id validation event
+    socket.emit(SOCKET_ENUMS.PROJECT_ID_VALIDATION, {
+      projectId: projectId,
+    });
+
+    // listener for projectid validation
     socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
 
-    // to get initial project details
-    socket.on(SOCKET_ENUMS.INITIAL_PROJECT_DETAILS, onInitialProjectDetails);
-
-    // to get new updated joinded users list
-    socket.on(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, onUpdatedUserList);
-
-    // on other user connects or disconnects
-    socket.on(SOCKET_ENUMS.JOIN_PROJECT, onNewUserJoined);
-    socket.on(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);
-
-    // project structure listeners
-    socket.on(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
-    socket.on(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
-    socket.on(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, onProjectItemRenamed);
-
-    socket.on(SOCKET_ENUMS.FILE_CONTENT_CHANGED, onFileContentChanged);
-
-    // chat
-    socket.on(SOCKET_ENUMS.RECIEVE_MESSAGE, onNewMessageRecieve);
-
-    return () => {
-      if (!socket) return;
-      socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
-      socket.off(SOCKET_ENUMS.INITIAL_PROJECT_DETAILS, onInitialProjectDetails);
-      socket.off(SOCKET_ENUMS.UPDATED_JOINED_USER_LIST, onUpdatedUserList);
-      socket.off(SOCKET_ENUMS.JOIN_PROJECT, onNewUserJoined);
-      socket.off(SOCKET_ENUMS.LEAVE_PROJECT, onUserLeaveProject);
-
-      socket.off(SOCKET_ENUMS.PROJECT_ITEM_CREATED, onNewProjectItemCreated);
-      socket.off(SOCKET_ENUMS.PROJECT_ITEM_DELETED, onProjectItemDeleted);
-      socket.off(SOCKET_ENUMS.PROJECT_ITEM_RENAMED, onProjectItemRenamed);
-
-      socket.off(SOCKET_ENUMS.FILE_CONTENT_CHANGED, onFileContentChanged);
-
-      socket.off(SOCKET_ENUMS.RECIEVE_MESSAGE, onNewMessageRecieve);
-    };
-  }, [socket, projectStructure, selectedFolderId]);
-
-  useEffect(() => {
-    if (socket) {
-      socket.emit(SOCKET_ENUMS.PROJECT_ID_VALIDATION, {
-        projectId: projectId,
-      });
-    }
     return () => {
       socket && socket.emit(SOCKET_ENUMS.LEAVE_PROJECT);
+      socket &&
+        socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
+
       setIsLoading(true);
       setIsProjectAvailable(false);
-      console.log("unmounted");
-
-      setSelectedFile(null);
-      updateCurrentProjectName("");
-      updateProjectClientsList([]);
-      updateProjectStructure(DEFAULT_PROJECT_STRUCTURE);
     };
   }, [socket]);
 

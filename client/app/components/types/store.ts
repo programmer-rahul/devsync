@@ -81,6 +81,7 @@ export type ProjectSlice = {
 export type ChatSlice = {
   projectChat: MessageInterface[];
   addMessageInProjectChat: (message: MessageInterface) => void;
+  clearChat : () => void;
 };
 
 export type SetStateType = (
