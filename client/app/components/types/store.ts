@@ -6,7 +6,12 @@ import {
   Project as ProjectInterface,
 } from "@/app/components/types/project";
 import { File as FileInterface } from "./explorer";
-import { EditorFontSize, EditorTheme, EditorThemeColors } from "./editor";
+import {
+  EditorFontSize,
+  EditorLineHeight,
+  EditorTheme,
+  EditorThemeColors,
+} from "./editor";
 
 export type StoreStates = EditorSlice &
   SocketSlice &
@@ -37,7 +42,10 @@ export type EditorSlice = {
   changeEditorThemeColors: (newThemeColors: EditorThemeColors) => void;
 
   editorFontSize: EditorFontSize;
-  changeEditorFontSize : (fontSize : EditorFontSize) => void;
+  changeEditorFontSize: (fontSize: EditorFontSize) => void;
+
+  editorLineHeight: EditorLineHeight;
+  changeEditorLineHeight: (lineHeight: EditorLineHeight) => void;
 };
 
 export type SocketSlice = {

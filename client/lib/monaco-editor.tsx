@@ -15,7 +15,7 @@ export default function MonacoEditor({
 
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
-  const { selectedFile, editorTheme, editorFontSize } = useStore(
+  const { selectedFile, editorTheme, editorFontSize ,editorLineHeight } = useStore(
     (state) => state,
   );
 
@@ -59,6 +59,7 @@ export default function MonacoEditor({
           enabled: false,
         },
         fontSize: editorFontSize,
+        lineHeight: editorLineHeight,
       }}
     />
   );

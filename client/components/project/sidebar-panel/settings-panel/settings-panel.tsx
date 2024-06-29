@@ -13,15 +13,23 @@ import themeList from "monaco-themes/themes/themelist.json";
 import useEditorTheme from "../../use-editor-theme";
 import { useStore } from "@/components/store/useStore";
 
-import { EditorFontSize } from "@/app/components/types/editor";
+import {
+  EditorFontSize,
+  EditorLineHeight,
+} from "@/app/components/types/editor";
 
-const editorFontSizesArray: EditorFontSize[] = [10, 14, 16, 20, 24, 28,40];
+const editorFontSizesArray: EditorFontSize[] = [10, 14, 16, 20, 24, 28, 40];
+const editorLineHeightArray: EditorLineHeight[] = [1, 1.2, 1.4, 1.6, 1.8, 2];
 
 export default function SettingsPanel() {
   const { updateProjectEditorTheme } = useEditorTheme();
-  const { editorTheme, editorFontSize, changeEditorFontSize } = useStore(
-    (state) => state,
-  );
+  const {
+    editorTheme,
+    editorFontSize,
+    changeEditorFontSize,
+    editorLineHeight,
+    changeEditorLineHeight,
+  } = useStore((state) => state);
 
   return (
     <div className="relative h-full max-h-full flex-col">
@@ -34,6 +42,7 @@ export default function SettingsPanel() {
           <h4 className="text-xl">Editor</h4>
 
           <div className="ml-16 space-y-2">
+            {/* theme  */}
             <div className="flex items-center gap-3">
               <p className="min-w-20">Theme</p>
               <div className="options w-full">
@@ -55,7 +64,7 @@ export default function SettingsPanel() {
                 </Select>
               </div>
             </div>
-
+            {/* font size  */}
             <div className="flex items-center gap-3">
               <p className="min-w-20">Font Size</p>
               <div className="options w-full">
@@ -72,6 +81,30 @@ export default function SettingsPanel() {
                       {editorFontSizesArray.map((fontSize) => (
                         <SelectItem value={String(fontSize)}>
                           {fontSize}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            {/* line height  */}
+            <div className="flex items-center gap-3">
+              <p className="min-w-20">Line Height</p>
+              <div className="options w-full">
+                <Select
+                  onValueChange={(value) => {
+                    changeEditorLineHeight(Number(value) as EditorLineHeight);
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={editorLineHeight} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {editorLineHeightArray.map((lineHeight) => (
+                        <SelectItem value={String(lineHeight)}>
+                          {lineHeight}
                         </SelectItem>
                       ))}
                     </SelectGroup>
