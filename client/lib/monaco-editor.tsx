@@ -15,7 +15,9 @@ export default function MonacoEditor({
 
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
-  const { selectedFile, editorTheme } = useStore((state) => state);
+  const { selectedFile, editorTheme, editorFontSize } = useStore(
+    (state) => state,
+  );
 
   useEffect(() => {
     if (selectedFile) {
@@ -56,7 +58,7 @@ export default function MonacoEditor({
         minimap: {
           enabled: false,
         },
-        fontSize: 18,
+        fontSize: editorFontSize,
       }}
     />
   );

@@ -51,4 +51,10 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
     set(() => ({
       editorThemeColors: newThemeColors,
     })),
+
+  editorFontSize: 20,
+  changeEditorFontSize: (fontSize) =>
+    set(() => ({
+      editorFontSize: fontSize,
+    })),
 });

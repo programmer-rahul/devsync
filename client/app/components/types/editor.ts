@@ -9,3 +9,5 @@ export type EditorThemeColors = {
   "editorIndentGuide.background": string;
   "editorWhitespace.foreground": string;
 };
+
+export type EditorFontSize = 10 | 14 | 16 | 20 | 24 | 28 | 40;
