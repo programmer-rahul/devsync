@@ -31,13 +31,22 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
   },
 
   // editor theme
-  editorTheme: "vs-code",
+  editorTheme: "Blackboard",
   changeEditorTheme: (newTheme) =>
     set(() => ({
       editorTheme: newTheme,
     })),
 
-  editorThemeColors: {},
+  editorThemeColors: {
+    "editor.background": "",
+    "editor.foreground": "",
+    "editor.lineHighlightBackground": "",
+    "editor.selectionBackground": "",
+    "editor.selectionHighlightBorder": "",
+    "editorCursor.foreground": "",
+    "editorIndentGuide.background": "",
+    "editorWhitespace.foreground": "",
+  },
   changeEditorThemeColors: (newThemeColors) =>
     set(() => ({
       editorThemeColors: newThemeColors,

@@ -1,13 +1,9 @@
 "use client";
 
-import monacoThemes from "monaco-themes/themes/themelist.json";
-
 import { loader } from "@monaco-editor/react";
 
 const applyTheme = async (themeName: string) => {
-  const themeData = await import(
-    `monaco-themes/themes/${monacoThemes["monokai"]}`
-  );
+  let themeData = await import(`monaco-themes/themes/${themeName}.json`);
 
   themeName &&
     loader.init().then((monaco) => {

@@ -12,4 +12,4 @@ export type Project = {
   counts?: FileFolderCounts;
 };
 
-export type ActivityBarButtons = "files" | "chats" | "users";
+export type ActivityBarButtons = "files" | "chats" | "users" | "settings";

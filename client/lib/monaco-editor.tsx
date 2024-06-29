@@ -15,7 +15,7 @@ export default function MonacoEditor({
 
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
-  const selectedFile = useStore((state) => state.selectedFile);
+  const { selectedFile, editorTheme } = useStore((state) => state);
 
   useEffect(() => {
     if (selectedFile) {
@@ -45,10 +45,10 @@ export default function MonacoEditor({
   return (
     <Editor
       language={currentLanguage}
-      theme={"blackboard"}
+      theme={"vs-dark"}
       loading={<h1>Opening.....</h1>}
       onMount={() => {
-        updateProjectEditorTheme("github-dark");
+        updateProjectEditorTheme(editorTheme);
       }}
       value={value}
       onChange={onChange}
