@@ -56,8 +56,8 @@ export default function SettingsPanel() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {Object.values(themeList).map((theme) => (
-                        <SelectItem value={theme}>{theme}</SelectItem>
+                      {Object.values(themeList).map((theme,index) => (
+                        <SelectItem value={theme} key={index}>{theme}</SelectItem>
                       ))}
                     </SelectGroup>
                   </SelectContent>
@@ -78,8 +78,8 @@ export default function SettingsPanel() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {editorFontSizesArray.map((fontSize) => (
-                        <SelectItem value={String(fontSize)}>
+                      {editorFontSizesArray.map((fontSize,index) => (
+                        <SelectItem value={String(fontSize)} key={index}>
                           {fontSize}
                         </SelectItem>
                       ))}
@@ -102,8 +102,8 @@ export default function SettingsPanel() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {editorLineHeightArray.map((lineHeight) => (
-                        <SelectItem value={String(lineHeight)}>
+                      {editorLineHeightArray.map((lineHeight,index) => (
+                        <SelectItem value={String(lineHeight)} key={index}>
                           {lineHeight}
                         </SelectItem>
                       ))}
