@@ -1,20 +1,8 @@
 import { useStore } from "@/components/store/useStore";
-import Editor, { loader, OnChange } from "@monaco-editor/react";
+import Editor, { OnChange } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { getFileExtention } from "./utils";
-import monacoThemes from "monaco-themes/themes/themelist.json";
-
-const loadTheme = async () => {
-  const themeData = await import(
-    `monaco-themes/themes/${monacoThemes["blackboard"]}`
-  );
-
-  loader.init().then((monaco) => {
-    console.log("mounted", monaco);
-    monaco.editor.defineTheme("blackboard", themeData);
-    monaco.editor.setTheme("blackboard");
-  });
-};
+import useEditorTheme from "@/components/project/use-editor-theme";
 
 export default function MonacoEditor({
   value,
@@ -23,6 +11,8 @@ export default function MonacoEditor({
   value: string;
   onChange: OnChange;
 }) {
+  const { updateProjectEditorTheme } = useEditorTheme();
+
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
   const selectedFile = useStore((state) => state.selectedFile);
@@ -52,15 +42,14 @@ export default function MonacoEditor({
     }
   }, [selectedFile]);
 
-  useEffect(() => {
-    loadTheme();
-  }, []);
-
   return (
     <Editor
       language={currentLanguage}
       theme={"blackboard"}
       loading={<h1>Opening.....</h1>}
+      onMount={() => {
+        updateProjectEditorTheme("github-dark");
+      }}
       value={value}
       onChange={onChange}
       options={{

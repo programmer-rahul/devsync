@@ -29,4 +29,17 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
       };
     });
   },
+
+  // editor theme
+  editorTheme: "vs-code",
+  changeEditorTheme: (newTheme) =>
+    set(() => ({
+      editorTheme: newTheme,
+    })),
+
+  editorThemeColors: {},
+  changeEditorThemeColors: (newThemeColors) =>
+    set(() => ({
+      editorThemeColors: newThemeColors,
+    })),
 });

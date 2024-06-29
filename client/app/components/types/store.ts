@@ -6,6 +6,7 @@ import {
   Project as ProjectInterface,
 } from "@/app/components/types/project";
 import { File as FileInterface } from "./explorer";
+import { EditorTheme, EditorThemeColors } from "./editor";
 
 export type StoreStates = EditorSlice &
   SocketSlice &
@@ -27,6 +28,13 @@ export type EditorSlice = {
     id: string;
     content: string;
   }) => void;
+
+  // editor themes
+  editorTheme: EditorTheme;
+  changeEditorTheme: (theme: EditorTheme) => void;
+
+  editorThemeColors: EditorThemeColors;
+  changeEditorThemeColors: (newThemeColors: EditorThemeColors) => void;
 };
 
 export type SocketSlice = {
@@ -66,6 +74,7 @@ export type ProjectSlice = {
   addProjectinProjects: (newProject: ProjectInterface) => void;
   removeProjectInProjects: ({ projectId }: { projectId: string }) => void;
   updateInitialProjects: (updateProjects: ProjectInterface[]) => void;
+
   projectStructure: ProjectStructure;
   updateProjectStructure: (updatedProjectStructure: ProjectStructure) => void;
 
@@ -81,7 +90,7 @@ export type ProjectSlice = {
 export type ChatSlice = {
   projectChat: MessageInterface[];
   addMessageInProjectChat: (message: MessageInterface) => void;
-  clearChat : () => void;
+  clearChat: () => void;
 };
 
 export type SetStateType = (
