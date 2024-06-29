@@ -22,7 +22,9 @@ export default function MountProjectSocketEvents() {
     socket,
     selectedFile,
     addMessageInProjectChat,
+    selectedFolderId,
     setSelectedFile,
+    projectStructure,
     setSelectedFolderId,
     setActivityButton,
     updateCurrentProjectName,
@@ -51,7 +53,6 @@ export default function MountProjectSocketEvents() {
   }: {
     updatedList: { username: string; socketId: string }[];
   }) => {
-    console.log("updated list", updatedList);
     if (!updatedList) return;
 
     updateProjectClientsList(updatedList);
@@ -185,8 +186,12 @@ export default function MountProjectSocketEvents() {
       socket.off(SOCKET_ENUMS.FILE_CONTENT_CHANGED, onFileContentChanged);
 
       socket.off(SOCKET_ENUMS.RECIEVE_MESSAGE, onNewMessageRecieve);
+    };
+  }, [socket, projectStructure, selectedFolderId]);
 
-      //   states reset
+  //   for states reseting
+  useEffect(() => {
+    return () => {
       setSelectedFile(null);
       setSelectedFolderId(":root");
       setActivityButton("files");
@@ -195,7 +200,7 @@ export default function MountProjectSocketEvents() {
       updateProjectStructure(DEFAULT_PROJECT_STRUCTURE);
       clearChat();
     };
-  }, [socket]);
+  }, []);
 
   return null;
 }

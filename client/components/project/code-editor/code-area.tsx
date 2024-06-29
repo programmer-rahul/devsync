@@ -21,7 +21,6 @@ export default function CodeArea() {
   const handleFileContentChange = (value: string | undefined) => {
     if (!value) return;
 
-    console.log(value);
     setCurrentFileContent(value);
 
     if (currentFileContent?.trim() === value.trim()) return;
