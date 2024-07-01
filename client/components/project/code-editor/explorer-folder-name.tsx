@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useState } from "react";
 import FileControls from "../sidebar-panel/file-explorer/file-controls";
 import RenameProjectItem from "../sidebar-panel/file-explorer/rename-project-item";
-import Image from "next/image";
+import { FaFolder, FaFolderOpen } from "react-icons/fa";
 
 interface ExplorerFolderNameProps {
   folderName: string;
@@ -44,29 +44,13 @@ export default function ExplorerFolderName({
         className="relative flex w-full items-center"
         onClick={handleFolderClick}
       >
-        {/* collapse icon */}
-        <div
-          className={cn(
-            "absolute -left-5 top-1/2 w-5 -translate-y-1/2 -rotate-90",
-            isCollapsed && "rotate-0",
-          )}
-        >
-          <Image
-            src="/files/collapse-folder.svg"
-            width={20}
-            height={20}
-            alt="collapse-folder"
-          />
-        </div>
-
         {/* folder icon  */}
         <div className="mr-1 w-5">
-          <Image
-            src="/files/default-folder.svg"
-            width={40}
-            height={40}
-            alt="folder-icon"
-          />
+          {isCollapsed ? (
+            <FaFolderOpen color="#f8fafc" />
+          ) : (
+            <FaFolder color="#f8fafc" />
+          )}
         </div>
 
         {/* folder name  */}

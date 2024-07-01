@@ -89,6 +89,7 @@ export default function ExplorerFolder({
         setIsCollapsed={setIsCollapsed}
       />
 
+      {/* subfolders and files  */}
       <div
         className={cn(
           "block",
@@ -149,6 +150,7 @@ export default function ExplorerFolder({
           );
         })}
       </div>
+      
     </div>
   );
 }
