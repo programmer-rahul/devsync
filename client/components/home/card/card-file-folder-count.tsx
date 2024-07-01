@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { FileFolderCounts } from "@/app/components/types/project";
 import { FaFolder, FaFile } from "react-icons/fa";
 

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useStore } from "@/components/store/useStore";
 
 import useProjectCrud from "@/hooks/useProjectCrud";
-import Image from "next/image";
+import { FaFolder, FaFile } from "react-icons/fa";
 
 export default function ExplorerFolder({
   id: folderId,
@@ -113,16 +113,7 @@ export default function ExplorerFolder({
         {/* new project item creation input  */}
         {creatingProjectItem.status && selectedFolderId === folderId && (
           <div className="flex items-center gap-1 pl-5">
-            <Image
-              src={
-                creatingProjectItem.type === "file"
-                  ? fileIcon
-                  : "/files/default-folder.svg"
-              }
-              width={20}
-              height={20}
-              alt="file-icon"
-            />
+            {creatingProjectItem.type === "folder" ? <FaFolder /> : <FaFile />}
             <Input
               className="h-7"
               ref={inputRef}
@@ -150,7 +141,6 @@ export default function ExplorerFolder({
           );
         })}
       </div>
-      
     </div>
   );
 }

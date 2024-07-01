@@ -1,5 +1,4 @@
 import { useStore } from "@/components/store/useStore";
-import Image from "next/image";
 
 import { LuFilePlus, LuFolderPlus } from "react-icons/lu";
 
