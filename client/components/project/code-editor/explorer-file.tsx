@@ -40,8 +40,12 @@ export default function ExplorerFile({
         selectedFile?.id === fileId && "font-semibold text-main",
       )}
     >
-      <div className="flex flex-1 items-end gap-1" onClick={fileClickHandler}>
-        <div className="w-5">{<FileDisplayIcon />}</div>
+      <div
+        className="flex flex-1 items-center gap-1"
+        onClick={fileClickHandler}
+      >
+        <div className="w-5 text-primary">{<FileDisplayIcon />}</div>
+
         <RenameProjectItem
           itemId={fileId}
           itemName={fileName}

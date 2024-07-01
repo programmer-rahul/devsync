@@ -71,6 +71,7 @@ export default function ExplorerFolderName({
           setIsRenaming={setIsRenamingItem}
         />
       </div>
+      
     </div>
   );
 }

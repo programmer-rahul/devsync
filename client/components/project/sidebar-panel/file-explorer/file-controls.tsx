@@ -34,13 +34,13 @@ export default function FileControls({
 
   return (
     <div className="flex items-center gap-3">
-      <div className="w-5" onClick={renameItemHandler}>
+      <div className="w-5 text-primary" onClick={renameItemHandler}>
         <FaEdit />
       </div>
 
       <Dialog open={isDialog} onOpenChange={setIsDialog}>
         <DialogTrigger>
-          <div className="w-5">
+          <div className="w-5 text-primary">
             <FaTrash />
           </div>
         </DialogTrigger>
