@@ -1,3 +1,5 @@
+'use client';
+
 import { useStore } from "@/components/store/useStore";
 import {
   DropdownMenu,
@@ -5,11 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
 import { toast } from "react-toastify";
-
 import { SOCKET_ENUMS } from "@/lib/constants";
-
+import { PiDotsThreeOutlineFill } from "react-icons/pi";
 export default function CardOptions({
   isCreated,
   projectId,
@@ -50,12 +50,7 @@ export default function CardOptions({
       <DropdownMenu>
         <DropdownMenuTrigger>
           <div className="w-6 rotate-90 cursor-pointer">
-            <Image
-              src="/files/3-dots.svg"
-              width={40}
-              height={40}
-              alt="card-options"
-            />
+            {<PiDotsThreeOutlineFill className="h-6 w-6" />}
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="font-secondary">

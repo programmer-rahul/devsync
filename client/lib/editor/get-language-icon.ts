@@ -1,4 +1,4 @@
-import { FaBeer } from "react-icons/fa";
+import { FaFile, FaJava } from "react-icons/fa";
 import {
   SiHtml5,
   SiCss3,
@@ -9,6 +9,9 @@ import {
   SiTypescript,
 } from "react-icons/si";
 
+import {PiFileTxtFill} from 'react-icons/pi'
+
+
 export function getLanguageIcon(iconName: string) {
   const fileExtention = iconName?.split(".").pop();
 
@@ -18,7 +21,7 @@ export function getLanguageIcon(iconName: string) {
     }
   });
 
-  return currentIcon ? currentIcon.Icon : FaBeer;
+  return currentIcon ? currentIcon.Icon : FaFile;
 }
 
 const iconsList = [
@@ -44,10 +47,14 @@ const iconsList = [
   },
   {
     name: "txt",
-    Icon: SiTextpattern,
+    Icon: PiFileTxtFill,
   },
   {
     name: "ts",
     Icon: SiTypescript,
+  },
+  {
+    name: "java",
+    Icon: FaJava,
   },
 ];
