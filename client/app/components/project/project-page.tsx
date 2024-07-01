@@ -1,4 +1,4 @@
-import ActivityBar from "@/components/project/activity-bar/activity-bar";
+import ActivityBar from "@/app/components/project/sidebar-panel/activity-panel/activity-bar";
 import CodeEditor from "@/components/project/code-editor/code-editor";
 import MountProjectSocketEvents from "@/components/project/mount-project-socket-events";
 import SideBarPanel from "@/components/project/sidebar-panel/sidebar-panel";
