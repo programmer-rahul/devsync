@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FileFolderCounts } from "@/app/components/types/project";
+import { FaFolder, FaFile } from "react-icons/fa";
 
 export default function CardFileFolderCount({
   counts,
@@ -8,23 +9,13 @@ export default function CardFileFolderCount({
 }) {
   return (
     <div className="pl-2 text-xl text-neutral-300">
-      <div className="flex gap-1">
-        <Image
-          src={"/files/default-folder.svg"}
-          width={25}
-          height={25}
-          alt="folder-icon"
-        />
+      <div className="flex items-center gap-1">
+        <FaFolder color="#f8fafc" />
         <p>Folders</p>
         <p className="font-semibold">: {counts?.foldersCount}</p>
       </div>
-      <div className="flex gap-1">
-        <Image
-          src={"/files/default-file.svg"}
-          width={25}
-          height={25}
-          alt="file-icon"
-        />
+      <div className="flex items-center gap-1">
+        <FaFile color="#f8fafc" />
         <p>Files</p>
         <p className="font-semibold">: {counts?.filesCount}</p>
       </div>
