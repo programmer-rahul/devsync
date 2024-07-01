@@ -1,7 +1,7 @@
 import { useStore } from "@/components/store/useStore";
 import Editor, { OnChange } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
-import { getFileExtention } from "./utils";
+import { getFileExtention } from "../utils";
 import useEditorTheme from "@/components/project/use-editor-theme";
 
 export default function MonacoEditor({

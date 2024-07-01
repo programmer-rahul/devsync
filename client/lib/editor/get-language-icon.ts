@@ -5,21 +5,16 @@ import {
   SiJavascript,
   SiMarkdown,
   SiPython,
-  SiTextpattern,
   SiTypescript,
 } from "react-icons/si";
 
-import {PiFileTxtFill} from 'react-icons/pi'
+import { PiFileTxtFill } from "react-icons/pi";
+import { getFileExtention } from "../utils";
 
+export function getLanguageIcon(fileName: string) {
+  const fileExtention = getFileExtention(fileName);
 
-export function getLanguageIcon(iconName: string) {
-  const fileExtention = iconName?.split(".").pop();
-
-  const currentIcon = iconsList.find(({ name, Icon }) => {
-    if (name === fileExtention) {
-      return true;
-    }
-  });
+  const currentIcon = iconsList.find(({ name }) => name === fileExtention);
 
   return currentIcon ? currentIcon.Icon : FaFile;
 }

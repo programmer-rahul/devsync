@@ -4,7 +4,7 @@ import { useStore } from "@/components/store/useStore";
 import useProjectCrud from "@/hooks/useProjectCrud";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import MonacoEditor from "@/lib/monaco-editor";
+import MonacoEditor from "@/lib/editor/monaco-editor";
 import { cn } from "@/lib/utils";
 
 export default function CodeArea() {
@@ -57,6 +57,7 @@ export default function CodeArea() {
             width={40}
             height={40}
             alt="no-file-selected"
+            priority
           />
           <p>No File Selected</p>
         </div>

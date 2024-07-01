@@ -2,6 +2,7 @@ import JoinProjectBtn from "@/components/home/join-project";
 import CreateProjectBtn from "@/components/home/create-project";
 import CircularLightEffect from "@/components/ui/circular-light-effect";
 import Header from "./header";
+import Image from "next/image";
 
 export default function WelcomeScreen() {
   return (
@@ -27,9 +28,11 @@ export default function WelcomeScreen() {
           </div>
 
           <div className="pt-12 xl:py-0">
-            <img
+            <Image
               src="./illustrations/collaboration.svg"
               alt="collaboration"
+              width={80}
+              height={80}
               className="w-96 lg:w-[30rem] xl:w-[80rem] 2xl:w-[90rem]"
             />
           </div>
