@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, getFileIcon } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Folder as FolderInterface } from "@/app/components/types/explorer";
 import { useEffect, useRef, useState } from "react";
 import ExplorerFile from "./explorer-file";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { useStore } from "@/components/store/useStore";
 
 import useProjectCrud from "@/hooks/useProjectCrud";
-import { FaFolder, FaFile } from "react-icons/fa";
+import { FaFolder } from "react-icons/fa";
+import { getLanguageIcon } from "@/lib/editor/get-language-icon";
 
 export default function ExplorerFolder({
   id: folderId,
@@ -31,7 +32,9 @@ export default function ExplorerFolder({
 
   // to maintain folder collapsing state
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [fileIcon, setFileIcon] = useState("/files/default-file.svg");
+  const [newItemText, setNewItemText] = useState(folderName);
+
+  let NewFileIcon = getLanguageIcon(newItemText);
 
   // input
   const onInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -113,7 +116,11 @@ export default function ExplorerFolder({
         {/* new project item creation input  */}
         {creatingProjectItem.status && selectedFolderId === folderId && (
           <div className="flex items-center gap-1 pl-5">
-            {creatingProjectItem.type === "folder" ? <FaFolder /> : <FaFile />}
+            {creatingProjectItem.type === "folder" ? (
+              <FaFolder />
+            ) : (
+              <NewFileIcon />
+            )}
             <Input
               className="h-7"
               ref={inputRef}
@@ -122,7 +129,7 @@ export default function ExplorerFolder({
               onKeyDown={onInputKeyPress}
               onChange={(e) => {
                 if (creatingProjectItem.type === "file")
-                  setFileIcon(getFileIcon(e.target.value));
+                  setNewItemText(e.target.value);
               }}
             />
           </div>
