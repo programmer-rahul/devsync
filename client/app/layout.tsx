@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 };
 
 const primaryFont = Advent_Pro({
-  weight: "variable",
+  weight: ["100","200","300","400","500","600","700","800","900"],
   display: "swap",
   subsets: ["latin"],
   variable: "--font-primary",
 });
 
 const secondaryFont = Asap({
-  weight: "variable",
+  weight: ["100","200","300","400","500","600","700","800","900"],
   display: "swap",
   subsets: ["latin"],
   variable: "--font-secondary",

@@ -1,6 +1,6 @@
 import { useStore } from "@/components/store/useStore";
-import { cn, getFileIcon } from "@/lib/utils";
-import Image from "next/image";
+import { getLanguageIcon } from "@/lib/editor/get-language-icon";
+import { cn } from "@/lib/utils";
 
 interface FileTabProps {
   isActive: boolean;
@@ -13,9 +13,11 @@ export default function FileTab({
   fileName,
   fileId,
 }: FileTabProps) {
-  const removeEditorTab = useStore((state) => state.removeEditorTab);
-  const selectedFile = useStore((state) => state.selectedFile);
-  const setSelectedFile = useStore((state) => state.setSelectedFile);
+  const { selectedFile, setSelectedFile, removeEditorTab } = useStore(
+    (state) => state,
+  );
+
+  const FileTabIcon = getLanguageIcon(fileName);
 
   const tabClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (
@@ -46,19 +48,14 @@ export default function FileTab({
   return (
     <div
       className={cn(
-        "fileTab font-secondary flex cursor-pointer select-none items-center gap-2 rounded-md bg-primary-foreground/80 px-2 py-1 transition-all",
+        "fileTab flex cursor-pointer select-none items-center gap-2 rounded-md bg-primary-foreground/80 px-2 py-1 font-secondary transition-all",
         isActive
           ? "text-secondary-foreground hover:bg-primary-foreground"
           : "text-secondary-foreground/40 hover:text-secondary-foreground",
       )}
       onClick={tabClickHandler}
     >
-      <Image
-        src={getFileIcon(fileName)}
-        width={20}
-        height={20}
-        alt="file-icon"
-      />
+      {<FileTabIcon />}
       <p>{fileName}</p>
       <div className="grid h-4 w-4 place-content-center">
         <p

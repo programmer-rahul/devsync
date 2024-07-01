@@ -1,11 +1,12 @@
 import { File as FileInterface } from "@/app/components/types/explorer";
 import { useStore } from "@/components/store/useStore";
-import { cn, getFileIcon } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import FileControls from "../sidebar-panel/file-explorer/file-controls";
 import { useRef, useState } from "react";
 import useProjectCrud from "@/hooks/useProjectCrud";
 import RenameProjectItem from "../sidebar-panel/file-explorer/rename-project-item";
 import Image from "next/image";
+import { getLanguageIcon } from "@/lib/editor/get-language-icon";
 
 export default function ExplorerFile({
   name: fileName,
@@ -21,6 +22,8 @@ export default function ExplorerFile({
   // state
   const [isRenamingItem, setIsRenamingItem] = useState(false);
 
+  const FileDisplayIcon = getLanguageIcon(fileName);
+
   const fileClickHandler = () => {
     if (selectedFile?.id === fileId) return;
 
@@ -34,18 +37,15 @@ export default function ExplorerFile({
     <div
       className={cn(
         "group flex cursor-pointer items-center justify-between rounded-md py-1 pl-3 text-primary",
-        selectedFile?.id === fileId && "text-main font-semibold",
+        selectedFile?.id === fileId && "font-semibold text-main",
       )}
     >
-      <div className="flex flex-1 items-end gap-1" onClick={fileClickHandler}>
-        <div className="w-5">
-          <Image
-            src={getFileIcon(fileName)}
-            width={20}
-            height={20}
-            alt="file-icon"
-          />
-        </div>
+      <div
+        className="flex flex-1 items-center gap-1"
+        onClick={fileClickHandler}
+      >
+        <div className="w-5 text-primary">{<FileDisplayIcon />}</div>
+
         <RenameProjectItem
           itemId={fileId}
           itemName={fileName}

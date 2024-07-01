@@ -6,34 +6,32 @@ import { useStore } from "@/components/store/useStore";
 
 interface ActivityBarButtonProps {
   name: ActivityBarButtons;
-  icon: JSX.Element;
+  Icon: JSX.Element;
 }
 
 export default function ActivityBarButtton({
   name,
-  icon,
+  Icon,
 }: ActivityBarButtonProps) {
-  const currentActivityButton = useStore(
-    (state) => state.currentActivityButton,
+  const { currentActivityButton, setActivityButton } = useStore(
+    (state) => state,
   );
-  const setActivityButton = useStore((state) => state.setActivityButton);
 
-  const activityButtonClickHandler = ({}) => {
-    setActivityButton(name);
-  };
+  // change selected activityBtn
+  const activityButtonClickHandler = () => setActivityButton(name);
 
   return (
     <div
       className={cn(
-        "flex cursor-pointer flex-col items-center gap-1 rounded-lg border-2 border-transparent px-3 py-2",
+        "flex cursor-pointer flex-col items-center gap-1 rounded-lg border-2 border-transparent px-2 py-2",
         currentActivityButton === name
-          ? "bg-main/30 border-main/90 text-main"
-          : "text-primary border-transparent",
+          ? "border-main/90 bg-main/30 text-main"
+          : "border-transparent text-primary",
       )}
       onClick={activityButtonClickHandler}
     >
-      <div className="w-8">{icon}</div>
-      <p className="select-none uppercase text-sm">{name}</p>
+      <div className="h-8 w-8">{Icon}</div>
+      <p className="select-none text-xs uppercase">{name}</p>
     </div>
   );
 }

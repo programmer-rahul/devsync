@@ -6,9 +6,9 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import CreateProjectBtn from "./create-project";
 import JoinProjectBtn from "./join-project";
+import Image from "next/image";
 
 export default function ProjectsSection() {
-  
   const initialProjects = useStore((state) => state.initialProjects);
 
   const [isYourProjectsTab, setIsYourProjectsTab] = useState(true);
@@ -52,9 +52,11 @@ export default function ProjectsSection() {
                 </h4>
 
                 <div className="self-center">
-                  <img
+                  <Image
                     src="./illustrations/no-projects.svg"
                     alt="no-projects"
+                    width={80}
+                    height={80}
                     className="w-96 lg:w-[30rem]"
                   />
                 </div>
