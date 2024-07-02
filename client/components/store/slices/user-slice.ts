@@ -7,14 +7,14 @@ export const createUserSlice = (set: SetStateType): UserSlice => ({
       showWelcomeScreen: value,
     })),
 
-  currentUsername: "dfd",
+  currentUsername: "",
   updatedCurrentUsername: (username) =>
     set(() => ({
       currentUsername: username,
     })),
 
   // project name
-  currentProjectName: "dfd",
+  currentProjectName: "",
   updateCurrentProjectName: (projectName) =>
     set(() => ({
       currentProjectName: projectName,

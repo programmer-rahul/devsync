@@ -18,7 +18,8 @@ export default function ProjectsSection() {
       <div className="flex h-full w-full gap-2">
         {/* projects  */}
         <div className="flex w-full flex-col">
-          <div className="flex self-start">
+
+          <div className="flex self-start font-secondary">
             <p
               className={cn(
                 "cursor-pointer border-2 border-r-0 border-b-transparent px-4 py-1 lg:px-6 lg:py-2 lg:text-xl",
@@ -45,7 +46,7 @@ export default function ProjectsSection() {
             {/* if there are not projects  */}
             {initialProjects.length === 0 && (
               <>
-                <h4 className="pb-10 text-center font-secondary text-2xl text-slate-400 lg:text-5xl">
+                <h4 className="pb-10 text-center font-primary text-2xl text-slate-400 lg:text-5xl">
                   {isYourProjectsTab
                     ? "No Projects Created Yet"
                     : "No Projects Joined Yet"}
@@ -74,7 +75,7 @@ export default function ProjectsSection() {
             {/* if projects are available  */}
             {initialProjects.length > 0 && (
               <>
-                <h4 className="pb-6 text-center font-secondary text-2xl text-slate-400 lg:text-3xl">
+                <h4 className="pb-6 text-center font-primary text-2xl text-slate-400 lg:text-3xl">
                   {isYourProjectsTab
                     ? "Projects You've Created."
                     : "Projects You're Collaborating On."}

@@ -57,6 +57,7 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
     set(() => ({
       editorFontSize: fontSize,
     })),
+    
   editorLineHeight: 1.6,
   changeEditorLineHeight: (lineHeight) =>
     set(() => ({

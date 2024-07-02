@@ -3,22 +3,22 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { Advent_Pro, Asap } from "next/font/google";
+import { Space_Grotesk, Exo } from "next/font/google";
 
 export const metadata: Metadata = {
-  title: "Project",
-  description: "Your Project",
+  title: "Dev Sync",
+  description: "Realtime coding and programming",
 };
 
-const primaryFont = Advent_Pro({
-  weight: ["100","200","300","400","500","600","700","800","900"],
+const primaryFont = Space_Grotesk({
+  weight: "variable",
   display: "swap",
   subsets: ["latin"],
   variable: "--font-primary",
 });
 
-const secondaryFont = Asap({
-  weight: ["100","200","300","400","500","600","700","800","900"],
+const secondaryFont = Exo({
+  weight: "variable",
   display: "swap",
   subsets: ["latin"],
   variable: "--font-secondary",
