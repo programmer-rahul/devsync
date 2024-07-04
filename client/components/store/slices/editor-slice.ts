@@ -1,4 +1,4 @@
-import { EditorSlice, SetStateType } from "@/app/components/types/store";
+import { EditorSlice, SetStateType } from "@/app/components/types/store/store";
 
 export const createEditorSlice = (set: SetStateType): EditorSlice => ({
   openedEditorTabs: [],

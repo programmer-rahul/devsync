@@ -1,4 +1,4 @@
-import { StoreStates } from "@/app/components/types/store";
+import { StoreStates } from "@/app/components/types/store/store";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createProjectSlice } from "./slices/project-slice";
