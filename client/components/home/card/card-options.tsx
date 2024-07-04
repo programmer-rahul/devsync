@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useStore } from "@/components/store/useStore";
 import {
@@ -10,13 +10,7 @@ import {
 import { toast } from "react-toastify";
 import { SOCKET_ENUMS } from "@/lib/constants";
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
-export default function CardOptions({
-  isCreated,
-  projectId,
-}: {
-  isCreated: boolean;
-  projectId: string;
-}) {
+export default function CardOptions({ projectId }: { projectId: string }) {
   // store
   const socket = useStore((state) => state.socket);
   const removeProjectId = useStore((state) => state.removeProjectId);
@@ -28,8 +22,7 @@ export default function CardOptions({
   const deleteProjectHandler = () => {
     removeProjectId({ id: projectId });
     removeProjectInProjects({ projectId: projectId });
-    isCreated &&
-      socket &&
+    socket &&
       socket.emit(SOCKET_ENUMS.DELETE_PROJECT, { projectId: projectId });
   };
 

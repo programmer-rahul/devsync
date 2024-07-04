@@ -14,31 +14,33 @@ import { Button } from "@/components/ui/button";
 import { FormEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStore } from "@/components/store/useStore";
-import { LocalStorage } from "@/lib/helper";
 import { SOCKET_ENUMS } from "@/lib/constants";
 import { Project as ProjectInterface } from "@/app/components/types/project";
 
 export default function CreateProjectBtn() {
   // store imports
-  const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
-  const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
-  const addProjectInProjects = useStore((state) => state.addProjectinProjects);
-  const addProjectId = useStore((state) => state.addProjectId);
-  const socket = useStore((state) => state.socket);
+  const {
+    showWelcomeScreen,
+    setShowWelcomeScreen,
+    addProjectinCreatedProjectsList,
+    socket,
+  } = useStore((state) => state);
 
   // user input values
-  const [newProjectValues, setNewProjectValues] = useState({
+  const [userInput, setUserInput] = useState({
     username: "",
     projectName: "",
     projectId: "",
   });
+
   // to handle dialog box
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // create project handler
   const handleNewProjectCreation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { username, projectName, projectId } = newProjectValues;
+
+    const { username, projectName, projectId } = userInput;
 
     if (username.trim() === "" || projectName.trim() === "") return;
     setIsDialogOpen(false);
@@ -48,28 +50,27 @@ export default function CreateProjectBtn() {
       owner: username,
       projectName,
       projectId,
-      isCreated: true,
       counts: {
         filesCount: 0,
         foldersCount: 0,
         connectedUsersCount: 0,
       },
     };
-    addProjectId({ id: newProject.projectId, isCreated: true });
-    addProjectInProjects(newProject);
 
-    if (!showWelcomeScreen) {
-      LocalStorage.set("isWelcomeScreen", false);
-      setShowWelcomeScreen(true);
+    // add project in projects list
+    addProjectinCreatedProjectsList(newProject);
+
+    if (showWelcomeScreen) {
+      setShowWelcomeScreen(false);
+    } else {
+      socket && socket.emit(SOCKET_ENUMS.CREATE_PROJECT, newProject);
     }
-
-    socket && socket.emit(SOCKET_ENUMS.CREATE_PROJECT, newProject);
   };
 
   // to change projectId every time when opening dialog box
   useEffect(() => {
     if (isDialogOpen) {
-      setNewProjectValues({
+      setUserInput({
         username: "",
         projectName: "",
         projectId: uuidv4(),
@@ -97,11 +98,11 @@ export default function CreateProjectBtn() {
               <Input
                 id="username"
                 placeholder="dev123"
-                value={newProjectValues.username}
+                value={userInput.username}
                 onChange={(event) =>
-                  setNewProjectValues((prev) => ({
+                  setUserInput((prev) => ({
                     ...prev,
-                    username: event.target.value.toLocaleLowerCase(),
+                    username: event.target.value,
                   }))
                 }
                 className="col-span-3"
@@ -114,11 +115,11 @@ export default function CreateProjectBtn() {
               <Input
                 id="projectname"
                 placeholder="solution-123"
-                value={newProjectValues.projectName}
+                value={userInput.projectName}
                 onChange={(event) =>
-                  setNewProjectValues((prev) => ({
+                  setUserInput((prev) => ({
                     ...prev,
-                    projectName: event.target.value.toLowerCase(),
+                    projectName: event.target.value,
                   }))
                 }
                 className="col-span-3"
@@ -130,9 +131,9 @@ export default function CreateProjectBtn() {
               </Label>
               <Input
                 id="projectId"
-                value={newProjectValues.projectId}
+                value={userInput.projectId}
                 onChange={(event) =>
-                  setNewProjectValues((prev) => ({
+                  setUserInput((prev) => ({
                     ...prev,
                     projectId: event.target.value,
                   }))

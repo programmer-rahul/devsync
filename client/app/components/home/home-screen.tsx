@@ -1,5 +1,5 @@
 import LoginSocket from "@/components/home/login-socket";
-import ProjectsSection from "@/components/home/projects-section";
+import ProjectsSection from "@/app/components/home/project-section/projects-section";
 import Header from "./header";
 
 export default function HomeScreen() {

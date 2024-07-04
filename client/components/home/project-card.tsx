@@ -13,18 +13,16 @@ export default function ProjectCard({
   projectName,
   projectId,
   counts,
-  isCreated,
 }: ProjectInterface) {
   return (
     <div className="text-car w-96 space-y-3 rounded-md border-emerald-600 bg-secondary px-8 py-6 shadow">
-      <div className="border-main/40 flex items-center justify-between">
+      <div className="flex items-center justify-between border-main/40">
         <CardProjectName projectName={projectName} />
-        <CardOptions isCreated={isCreated} projectId={projectId} />
+        <CardOptions projectId={projectId} />
       </div>
 
-      <div className="border-main/50 flex justify-between space-y-2 border-b-2 border-t-2 py-2">
+      <div className="flex justify-between space-y-2 border-b-2 border-t-2 border-main/50 py-2">
         <CardFileFolderCount counts={counts} />
-
         <CardConnectedUserCount counts={counts} />
       </div>
 

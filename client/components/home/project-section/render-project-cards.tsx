@@ -1,3 +1,5 @@
+"use client";
+
 import { Project } from "@/app/components/types/project";
 import ProjectCard from "../project-card";
 
@@ -15,23 +17,18 @@ export default function RenderProjectCards({
         {currentProjectTab === "joined" && "Projects You're Collaborating On."}
       </h4>
       <div className="flex flex-wrap items-start justify-center gap-8 lg:justify-start">
-        {projects?.map(
-          ({ owner, projectName, projectId, counts}) => {
-
-            return (
-              <ProjectCard
-                key={projectId}
-                owner={owner}
-                projectName={projectName}
-                projectId={projectId}
-                counts={counts}
-                // isCreated={true}
-              />
-            );
-          },
-        )}
+        {projects?.map(({ owner, projectName, projectId, counts }) => {
+          return (
+            <ProjectCard
+              key={projectId}
+              owner={owner}
+              projectName={projectName}
+              projectId={projectId}
+              counts={counts}
+            />
+          );
+        })}
       </div>
-      <p>yes</p>
     </>
   );
 }

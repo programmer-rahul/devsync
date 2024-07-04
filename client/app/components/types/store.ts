@@ -76,9 +76,15 @@ export type UserSlice = {
   currentProjectName: string;
   updateCurrentProjectName: (projectName: string) => void;
 
+  // user projects
+  userCreatedProjectsList: Project[];
+  userJoinedProjectsList: Project[];
 
-  userCreatedProjectsList : Project[];
-  userJoinedProjectsList : Project[];
+  addProjectinCreatedProjectsList: (newProject: ProjectInterface) => void;
+  addProjectinJoinedProjectsList: (newProject: ProjectInterface) => void;
+
+  removeProjectinCreatedProjectsList: (projectId: string) => void;
+  removeProjectinJoinedProjectsList: (projectId: string) => void;
 };
 
 export type ProjectSlice = {
