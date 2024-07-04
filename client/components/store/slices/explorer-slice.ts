@@ -1,4 +1,5 @@
-import { SetStateType, ExplorerSlice } from "@/app/components/types/store/store";
+import { ExplorerSlice } from "@/app/components/types/store/slice/explorer";
+import { SetStateType } from "@/app/components/types/store/store";
 
 export const createExplorerSlice = (set: SetStateType): ExplorerSlice => ({
   selectedFile: null,

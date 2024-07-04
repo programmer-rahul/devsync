@@ -1,6 +1,6 @@
-import { StoreStates } from "@/app/components/types/store/store";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { StoreStates } from "@/app/components/types/store/store";
 import { createProjectSlice } from "./slices/project-slice";
 import { createExplorerSlice } from "./slices/explorer-slice";
 import { createSocketSlice } from "./slices/socket-slice";
@@ -12,14 +12,14 @@ import { createEditorSlice } from "./slices/editor-slice";
 export const useStore = create<StoreStates>()(
   persist(
     (set) => ({
+      // socket
+      ...createSocketSlice(set),
       // user
       ...createUserSlice(set),
       // projects
       ...createProjectSlice(set),
       // explorer
       ...createExplorerSlice(set),
-      // socket
-      ...createSocketSlice(set),
       // editor
       ...createEditorSlice(set),
       // chat
@@ -33,7 +33,6 @@ export const useStore = create<StoreStates>()(
         // user
         showWelcomeScreen: state.showWelcomeScreen,
         currentUsername: state.currentUsername,
-        projectIds: state.projectIds,
         userCreatedProjectsList: state.userCreatedProjectsList,
         userJoinedProjectsList: state.userJoinedProjectsList,
       }),

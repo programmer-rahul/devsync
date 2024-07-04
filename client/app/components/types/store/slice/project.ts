@@ -1,17 +1,16 @@
-import {
-  Project as ProjectInterface,
-} from "@/app/components/types/project";
+import { Project as ProjectInterface } from "@/app/components/types/project";
 import { ProjectStructure } from "../../explorer";
 
 export type ProjectSlice = {
-  projectIds: { id: string; isCreated: boolean }[];
-  addProjectId: ({ id, isCreated }: { id: string; isCreated: boolean }) => void;
-  removeProjectId: ({ id }: { id: string }) => void;
+  // user projects
+  userCreatedProjectsList: ProjectInterface[];
+  userJoinedProjectsList: ProjectInterface[];
 
-  initialProjects: ProjectInterface[];
-  addProjectinProjects: (newProject: ProjectInterface) => void;
-  removeProjectInProjects: ({ projectId }: { projectId: string }) => void;
-  updateInitialProjects: (updateProjects: ProjectInterface[]) => void;
+  addProjectinCreatedProjectsList: (newProject: ProjectInterface) => void;
+  addProjectinJoinedProjectsList: (newProject: ProjectInterface) => void;
+
+  removeProjectinCreatedProjectsList: (projectId: string) => void;
+  removeProjectinJoinedProjectsList: (projectId: string) => void;
 
   projectStructure: ProjectStructure;
   updateProjectStructure: (updatedProjectStructure: ProjectStructure) => void;
@@ -23,14 +22,4 @@ export type ProjectSlice = {
   updateProjectClientsList: (
     updatedList: { username: string; socketId: string }[],
   ) => void;
-
-  // user projects
-  userCreatedProjectsList: ProjectInterface[];
-  userJoinedProjectsList: ProjectInterface[];
-
-  addProjectinCreatedProjectsList: (newProject: ProjectInterface) => void;
-  addProjectinJoinedProjectsList: (newProject: ProjectInterface) => void;
-
-  removeProjectinCreatedProjectsList: (projectId: string) => void;
-  removeProjectinJoinedProjectsList: (projectId: string) => void;
 };

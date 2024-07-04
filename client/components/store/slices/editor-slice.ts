@@ -1,6 +1,8 @@
-import { EditorSlice, SetStateType } from "@/app/components/types/store/store";
+import { EditorSlice } from "@/app/components/types/store/slice/editor";
+import { SetStateType } from "@/app/components/types/store/store";
 
 export const createEditorSlice = (set: SetStateType): EditorSlice => ({
+  // editor tabs
   openedEditorTabs: [],
   removeEditorTab: (id: string) => {
     let updatedEditorTabs;
@@ -57,7 +59,7 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
     set(() => ({
       editorFontSize: fontSize,
     })),
-    
+
   editorLineHeight: 1.6,
   changeEditorLineHeight: (lineHeight) =>
     set(() => ({
