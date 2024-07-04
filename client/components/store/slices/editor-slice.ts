@@ -39,21 +39,6 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
       editorTheme: newTheme,
     })),
 
-  editorThemeColors: {
-    "editor.background": "",
-    "editor.foreground": "",
-    "editor.lineHighlightBackground": "",
-    "editor.selectionBackground": "",
-    "editor.selectionHighlightBorder": "",
-    "editorCursor.foreground": "",
-    "editorIndentGuide.background": "",
-    "editorWhitespace.foreground": "",
-  },
-  changeEditorThemeColors: (newThemeColors) =>
-    set(() => ({
-      editorThemeColors: newThemeColors,
-    })),
-
   editorFontSize: 20,
   changeEditorFontSize: (fontSize) =>
     set(() => ({
