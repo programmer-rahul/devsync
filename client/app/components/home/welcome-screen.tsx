@@ -1,8 +1,7 @@
-import JoinProjectBtn from "@/components/home/join-project";
-import CreateProjectBtn from "@/components/home/create-project";
 import CircularLightEffect from "@/components/ui/circular-light-effect";
 import Header from "./header";
 import Image from "next/image";
+import GetStartedNowBtn from "@/components/home/welcome-screen/get-started-now-btn";
 
 export default function WelcomeScreen() {
   return (
@@ -22,8 +21,7 @@ export default function WelcomeScreen() {
               </p>
             </div>
             <div className="flex gap-4 xl:justify-center">
-              <CreateProjectBtn />
-              <JoinProjectBtn />
+              <GetStartedNowBtn />
             </div>
           </div>
 
