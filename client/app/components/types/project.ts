@@ -5,7 +5,6 @@ export type FileFolderCounts = {
 };
 
 export type Project = {
-  isCreated: boolean;
   owner: string;
   projectName: string;
   projectId: string;

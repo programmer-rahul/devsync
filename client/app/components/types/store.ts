@@ -3,6 +3,7 @@ import { ProjectStructure } from "./explorer";
 import { Message as MessageInterface } from "@/app/components/types/chat";
 import {
   ActivityBarButtons,
+  Project,
   Project as ProjectInterface,
 } from "@/app/components/types/project";
 import { File as FileInterface } from "./explorer";
@@ -74,6 +75,10 @@ export type UserSlice = {
   updatedCurrentUsername: (username: string) => void;
   currentProjectName: string;
   updateCurrentProjectName: (projectName: string) => void;
+
+
+  userCreatedProjectsList : Project[];
+  userJoinedProjectsList : Project[];
 };
 
 export type ProjectSlice = {

@@ -19,4 +19,7 @@ export const createUserSlice = (set: SetStateType): UserSlice => ({
     set(() => ({
       currentProjectName: projectName,
     })),
+
+  userCreatedProjectsList: [],
+  userJoinedProjectsList: [],
 });

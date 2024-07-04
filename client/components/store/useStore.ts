@@ -12,14 +12,14 @@ import { createEditorSlice } from "./slices/editor-slice";
 export const useStore = create<StoreStates>()(
   persist(
     (set) => ({
+      // user
+      ...createUserSlice(set),
       // projects
       ...createProjectSlice(set),
       // explorer
       ...createExplorerSlice(set),
       // socket
       ...createSocketSlice(set),
-      // user
-      ...createUserSlice(set),
       // editor
       ...createEditorSlice(set),
       // chat
@@ -30,10 +30,12 @@ export const useStore = create<StoreStates>()(
       name: "store-states",
       getStorage: () => localStorage,
       partialize: (state) => ({
+        // user
         showWelcomeScreen: state.showWelcomeScreen,
-
         currentUsername: state.currentUsername,
         projectIds: state.projectIds,
+        userCreatedProjectsList: state.userCreatedProjectsList,
+        userJoinedProjectsList: state.userJoinedProjectsList,
       }),
     },
   ),

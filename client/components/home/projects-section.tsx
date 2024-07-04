@@ -9,11 +9,18 @@ import { cn } from "@/lib/utils";
 import CreateProjectBtn from "./create-project";
 import JoinProjectBtn from "./join-project";
 import ProjectCard from "./project-card";
+import RenderProjectCards from "./project-section/render-project-cards";
+import NoCreatedOrJoinedProject from "@/app/components/home/project-section/no-created-or-joined-projects";
+import ProjectSectionTabs from "./project-section/project-section-tabs";
 
 export default function ProjectsSection() {
-  const initialProjects = useStore((state) => state.initialProjects);
+  const { userCreatedProjectsList, userJoinedProjectsList } = useStore(
+    (state) => state,
+  );
 
-  const [isYourProjectsTab, setIsYourProjectsTab] = useState(true);
+  const [currentProjectTab, setCurrentProjectTab] = useState<
+    "created" | "joined"
+  >("created");
 
   return (
     <section className="flex h-full w-full">
@@ -21,35 +28,30 @@ export default function ProjectsSection() {
         {/* projects  */}
         <div className="flex w-full flex-col">
 
-          <div className="flex self-start font-secondary">
-            <p
-              className={cn(
-                "cursor-pointer border-2 border-r-0 border-b-transparent px-4 py-1 lg:px-6 lg:py-2 lg:text-xl",
-                isYourProjectsTab &&
-                  "bg-primary-foreground font-semibold text-primary",
-              )}
-              onClick={() => setIsYourProjectsTab(true)}
-            >
-              Your Projects
-            </p>
-            <p
-              className={cn(
-                "cursor-pointer border-2 border-b-transparent px-4 py-1 lg:px-6 lg:py-2 lg:text-xl",
-                !isYourProjectsTab &&
-                  "bg-primary-foreground font-semibold text-primary",
-              )}
-              onClick={() => setIsYourProjectsTab(false)}
-            >
-              Joined Projects
-            </p>
-          </div>
+          {/* project tabs  */}
+          <ProjectSectionTabs
+            currentProjectTab={currentProjectTab}
+            setCurrentProjectTab={setCurrentProjectTab}
+          />
 
+          {/* projects container */}
           <div className="flex h-full flex-col border-2 bg-primary-foreground p-4">
-            {/* if there are not projects  */}
+            {currentProjectTab === "created" &&
+            currentProjectTab.length === 0 ? (
+              <NoCreatedOrJoinedProject currentProjectTab={currentProjectTab} />
+            ) : (
+              // render project cards
+              <RenderProjectCards
+                currentProjectTab={currentProjectTab}
+                projects={userCreatedProjectsList}
+              />
+            )}
+
+            {/* 
             {initialProjects.length === 0 && (
               <>
                 <h4 className="pb-10 text-center font-primary text-2xl text-slate-400 lg:text-5xl">
-                  {isYourProjectsTab
+                  {currentProjectTab
                     ? "No Projects Created Yet"
                     : "No Projects Joined Yet"}
                 </h4>
@@ -65,20 +67,20 @@ export default function ProjectsSection() {
                 </div>
 
                 <div className="self-center pt-10">
-                  {isYourProjectsTab ? (
+                  {currentProjectTab ? (
                     <CreateProjectBtn />
                   ) : (
                     <JoinProjectBtn />
                   )}
                 </div>
               </>
-            )}
+            )} */}
 
-            {/* if projects are available  */}
+            {/* if projects are available 
             {initialProjects.length > 0 && (
               <>
                 <h4 className="pb-6 text-center font-primary text-2xl text-slate-400 lg:text-3xl">
-                  {isYourProjectsTab
+                  {currentProjectTab
                     ? "Projects You've Created."
                     : "Projects You're Collaborating On."}
                 </h4>
@@ -86,7 +88,7 @@ export default function ProjectsSection() {
                   {initialProjects?.map(
                     ({ owner, projectName, projectId, counts, isCreated }) => {
                       // Check if it's your projects tab or not
-                      const shouldRender = isYourProjectsTab
+                      const shouldRender = currentProjectTab
                         ? isCreated
                         : !isCreated;
 
@@ -107,7 +109,7 @@ export default function ProjectsSection() {
                   )}
                 </div>
               </>
-            )}
+            )} */}
           </div>
         </div>
       </div>
