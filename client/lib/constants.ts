@@ -1,4 +1,4 @@
-import { ProjectStructure } from "@/app/components/types/explorer";
+import { ProjectStructure } from "@/types/explorer";
 
 export const SOCKET_ENUMS = {
   CONNECT: "connect",

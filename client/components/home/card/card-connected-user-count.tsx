@@ -1,4 +1,4 @@
-import { FileFolderCounts } from "@/app/components/types/project";
+import { FileFolderCounts } from "@/types/project";
 
 export default function CardConnectedUserCount({
   counts,

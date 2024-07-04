@@ -1,5 +1,5 @@
-import { ProjectSlice } from "@/app/components/types/store/slice/project";
-import { SetStateType } from "@/app/components/types/store/store";
+import { ProjectSlice } from "@/types/store/slice/project";
+import { SetStateType } from "@/types/store/store";
 import { DEFAULT_PROJECT_STRUCTURE } from "@/lib/constants";
 
 export const createProjectSlice = (set: SetStateType): ProjectSlice => ({

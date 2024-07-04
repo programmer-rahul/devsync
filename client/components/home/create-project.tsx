@@ -15,7 +15,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStore } from "@/components/store/useStore";
 import { SOCKET_ENUMS } from "@/lib/constants";
-import { Project as ProjectInterface } from "@/app/components/types/project";
+import { Project as ProjectInterface } from "@/types/project";
 
 export default function CreateProjectBtn() {
   // store imports

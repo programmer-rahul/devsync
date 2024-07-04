@@ -16,7 +16,7 @@ import { useStore } from "@/components/store/useStore";
 import {
   EditorFontSize,
   EditorLineHeight,
-} from "@/app/components/types/editor";
+} from "@/types/editor";
 
 const editorFontSizesArray: EditorFontSize[] = [10, 14, 16, 20, 24, 28, 40];
 const editorLineHeightArray: EditorLineHeight[] = [1, 1.2, 1.4, 1.6, 1.8, 2];

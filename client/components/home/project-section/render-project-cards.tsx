@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "@/app/components/types/project";
+import { Project } from "@/types/project";
 import ProjectCard from "../project-card";
 
 export default function RenderProjectCards({

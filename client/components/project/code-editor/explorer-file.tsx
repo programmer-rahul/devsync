@@ -1,4 +1,4 @@
-import { File as FileInterface } from "@/app/components/types/explorer";
+import { File as FileInterface } from "@/types/explorer";
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
 import FileControls from "../sidebar-panel/file-explorer/file-controls";

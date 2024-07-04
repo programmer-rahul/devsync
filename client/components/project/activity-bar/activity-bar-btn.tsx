@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ActivityBarButtons } from "@/app/components/types/project";
+import { ActivityBarButtons } from "@/types/project";
 import { useStore } from "@/components/store/useStore";
 
 interface ActivityBarButtonProps {

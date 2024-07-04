@@ -1,4 +1,4 @@
-import { FileFolderCounts } from "@/app/components/types/project";
+import { FileFolderCounts } from "@/types/project";
 import { FaFolder, FaFile } from "react-icons/fa";
 
 export default function CardFileFolderCount({

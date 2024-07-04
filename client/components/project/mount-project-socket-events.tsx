@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import { useStore } from "../store/useStore";
 import { DEFAULT_PROJECT_STRUCTURE, SOCKET_ENUMS } from "@/lib/constants";
-import { ProjectStructure } from "@/app/components/types/explorer";
+import { ProjectStructure } from "@/types/explorer";
 import { toast } from "react-toastify";
 import useProjectCrud from "@/hooks/useProjectCrud";
-import { Message as MessageInterface } from "@/app/components/types/chat";
-import { File as FileInterface } from "@/app/components/types/explorer";
+import { Message as MessageInterface } from "@/types/chat";
+import { File as FileInterface } from "@/types/explorer";
 
 export default function MountProjectSocketEvents() {
   const {

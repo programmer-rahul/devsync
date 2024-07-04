@@ -1,4 +1,4 @@
-import { Project as ProjectInterface } from "@/app/components/types/project";
+import { Project as ProjectInterface } from "@/types/project";
 import { ProjectStructure } from "../../explorer";
 
 export type ProjectSlice = {

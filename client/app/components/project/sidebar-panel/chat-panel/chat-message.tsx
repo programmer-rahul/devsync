@@ -1,4 +1,4 @@
-import { Message as MessageInterface } from "@/app/components/types/chat";
+import { Message as MessageInterface } from "@/types/chat";
 import { cn, formatMessageDate } from "@/lib/utils";
 
 export default function ChatMessage({

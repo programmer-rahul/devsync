@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Folder as FolderInterface } from "@/app/components/types/explorer";
+import { Folder as FolderInterface } from "@/types/explorer";
 import { useEffect, useRef, useState } from "react";
 import ExplorerFile from "./explorer-file";
 import ExplorerFolderName from "./explorer-folder-name";

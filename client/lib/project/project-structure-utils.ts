@@ -2,7 +2,7 @@ import {
   File as FileInterface,
   Folder as FolderInterface,
   ProjectStructure,
-} from "@/app/components/types/explorer";
+} from "@/types/explorer";
 
 type AddItemResult = {
   updatedProject: ProjectStructure;

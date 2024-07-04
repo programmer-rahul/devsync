@@ -1,6 +1,6 @@
 "use client";
 
-import { Project as ProjectInterface } from "@/app/components/types/project";
+import { Project as ProjectInterface } from "@/types/project";
 import CardOptions from "./card/card-options";
 import CardFileFolderCount from "./card/card-file-folder-count";
 import CardConnectedUserCount from "./card/card-connected-user-count";

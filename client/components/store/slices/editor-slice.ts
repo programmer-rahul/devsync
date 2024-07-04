@@ -1,5 +1,5 @@
-import { EditorSlice } from "@/app/components/types/store/slice/editor";
-import { SetStateType } from "@/app/components/types/store/store";
+import { EditorSlice } from "@/types/store/slice/editor";
+import { SetStateType } from "@/types/store/store";
 
 export const createEditorSlice = (set: SetStateType): EditorSlice => ({
   // editor tabs
