@@ -12,15 +12,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { LocalStorage } from "@/lib/helper";
 import { useStore } from "../store/useStore";
 import Link from "next/link";
 
 export default function JoinProjectBtn() {
-  const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
-  const setShowWelcomeScreen = useStore((state) => state.setShowWelcomeScreen);
-  const addProjectInProjects = useStore((state) => state.addProjectinProjects);
-  const addProjectId = useStore((state) => state.addProjectId);
+  // store imports
+  const {
+    showWelcomeScreen,
+    setShowWelcomeScreen,
+    addProjectinJoinedProjectsList,
+  } = useStore((state) => state);
 
   const [joinProjectValues, setJoinProjectValues] = useState({
     username: "",
@@ -32,20 +33,15 @@ export default function JoinProjectBtn() {
     const { projectId, username } = joinProjectValues;
 
     if (username.trim() === "" || projectId.trim() === "") return;
-
     setIsDialogOpen(false);
-    addProjectId({ id: projectId, isCreated: false });
-    addProjectInProjects({
-      isCreated: false,
+
+    addProjectinJoinedProjectsList({
       owner: "unknown",
       projectId,
       projectName: "unknown",
     });
 
-    if (!showWelcomeScreen) {
-      LocalStorage.set("isWelcomeScreen", false);
-      setShowWelcomeScreen(true);
-    }
+    if (showWelcomeScreen) setShowWelcomeScreen(false);
   };
 
   const onProjectIdPaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
