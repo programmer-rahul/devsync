@@ -30,6 +30,8 @@ export const useStore = create<StoreStates>()(
       name: "store-states",
       getStorage: () => localStorage,
       partialize: (state) => ({
+        showWelcomeScreen: state.showWelcomeScreen,
+
         currentUsername: state.currentUsername,
         projectIds: state.projectIds,
       }),

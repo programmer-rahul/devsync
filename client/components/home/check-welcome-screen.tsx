@@ -4,40 +4,33 @@ import { useStore } from "@/components/store/useStore";
 import { useEffect, useState } from "react";
 
 export default function CheckWelcomeScreen({
-  children,
+  WelcomeScreenComp,
+  HomeScreenComp,
+  HomePageLoadingComp,
 }: {
-  children: React.ReactNode[];
+  WelcomeScreenComp: React.ReactNode;
+  HomeScreenComp: React.ReactNode;
+  HomePageLoadingComp: React.ReactNode;
 }) {
-  const showWelcomeScreen = useStore((state) => state.showWelcomeScreen);
-  
+  // states
+  const { showWelcomeScreen } = useStore((state) => state);
   const [loading, setloading] = useState(true);
 
-  const [showWelcome, setShowWelcome] = useState(true);
-
+  // Initializes component state and performs any setup actions after initial render.
   useEffect(() => {
-    const isVisible = localStorage.getItem("isWelcomeScreen");
+    setloading(false);
+  }, []);
 
-    if (isVisible === null) {
-      localStorage.setItem("isWelcomeScreen", "true");
-      setShowWelcome(true);
-      setloading(false);
+  // Determines which component to render based on current state.
+  const renderContent = () => {
+    if (loading) {
+      return HomePageLoadingComp;
+    } else if (showWelcomeScreen) {
+      return WelcomeScreenComp;
     } else {
-      setShowWelcome(isVisible === "true");
-      setloading(false);
+      return HomeScreenComp;
     }
-  }, [showWelcomeScreen]);
-
-  return (
-    <>
-      {loading ? (
-        <section className="flex h-full items-center justify-center border text-4xl">
-          <div className="loading-animation"></div>
-        </section>
-      ) : showWelcome ? (
-        children[0]
-      ) : (
-        children[1]
-      )}
-    </>
-  );
+  };
+  
+  return <>{renderContent()}</>;
 }

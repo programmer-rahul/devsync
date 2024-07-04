@@ -1,7 +1,7 @@
 import { SetStateType, UserSlice } from "@/app/components/types/store";
 
 export const createUserSlice = (set: SetStateType): UserSlice => ({
-  showWelcomeScreen: false,
+  showWelcomeScreen: true,
   setShowWelcomeScreen: (value) =>
     set(() => ({
       showWelcomeScreen: value,
