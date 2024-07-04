@@ -25,7 +25,8 @@ export default function NoCreatedOrJoinedProject({
       </div>
 
       <div className="self-center pt-10">
-        {currentProjectTab ? <CreateProjectBtn /> : <JoinProjectBtn />}
+        {currentProjectTab === "created" && <CreateProjectBtn />}
+        {currentProjectTab === "joined" && <JoinProjectBtn />}
       </div>
     </>
   );

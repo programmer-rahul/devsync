@@ -31,6 +31,7 @@ export default function RenderProjectCards({
           },
         )}
       </div>
+      <p>yes</p>
     </>
   );
 }
