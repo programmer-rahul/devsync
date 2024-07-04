@@ -1,4 +1,4 @@
-import RenderProjectsModel from "../../../../components/home/project-section/render-projects-model";
+import RenderProjectsModel from "../../../../components/home-screen/project-section/render-projects-model";
 
 export default function ProjectsSection() {
   return (

@@ -2,7 +2,7 @@ import { useStore } from "@/components/store/useStore";
 import Editor, { OnChange } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { getFileExtention } from "../utils";
-import useEditorTheme from "@/components/project/use-editor-theme";
+import useEditorTheme from "./use-editor-theme";
 
 export default function MonacoEditor({
   value,
@@ -15,9 +15,8 @@ export default function MonacoEditor({
 
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
-  const { selectedFile, editorTheme, editorFontSize ,editorLineHeight } = useStore(
-    (state) => state,
-  );
+  const { selectedFile, editorTheme, editorFontSize, editorLineHeight } =
+    useStore((state) => state);
 
   useEffect(() => {
     if (selectedFile) {

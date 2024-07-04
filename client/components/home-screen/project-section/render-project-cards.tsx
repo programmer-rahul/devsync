@@ -1,7 +1,7 @@
 "use client";
 
 import { Project } from "@/types/project";
-import ProjectCard from "../project-card";
+import ProjectCard from "../card/project-card";
 
 export default function RenderProjectCards({
   currentProjectTab,

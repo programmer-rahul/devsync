@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 
 import themeList from "monaco-themes/themes/themelist.json";
-import useEditorTheme from "../../use-editor-theme";
+import useEditorTheme from "../../../../lib/editor/use-editor-theme";
 import { useStore } from "@/components/store/useStore";
 
 import {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useStore } from "@/components/store/useStore";
 import ProjectSectionTabs from "./project-section-tabs";
-import NoCreatedOrJoinedProject from "@/app/components/home/project-section/no-created-or-joined-projects";
+import NoCreatedOrJoinedProject from "@/app/components/home-screen/project-section/no-created-or-joined-projects";
 import RenderProjectCards from "./render-project-cards";
 
 export default function RenderProjectsModel() {

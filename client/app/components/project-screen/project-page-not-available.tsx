@@ -1,4 +1,4 @@
-import GobackOnHomePageBtn from "@/components/home/goback-on-home-page-btn";
+import GobackOnHommePage from "@/components/project-screen/goback-on-home-page-btn";
 import Image from "next/image";
 
 export default function ProjectPageIsNotAvailable() {
@@ -13,7 +13,7 @@ export default function ProjectPageIsNotAvailable() {
         />
         <h3 className="text-5xl">No Project Found</h3>
         <p className="text-3xl">wrong projectid</p>
-        <GobackOnHomePageBtn />
+        <GobackOnHommePage />
       </div>
     </section>
   );

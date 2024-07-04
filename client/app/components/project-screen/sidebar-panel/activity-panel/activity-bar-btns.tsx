@@ -1,6 +1,6 @@
 import { PiFiles, PiChatCircleDots, PiUser } from "react-icons/pi";
 import { TbSettings } from "react-icons/tb";
-import ActivityBarButtton from "../../../../../components/project/activity-bar/activity-bar-btn";
+import ActivityBarButtton from "../../../../../components/project-screen/activity-bar/activity-bar-btn";
 import { ActivityBarButtons } from "@/types/project";
 import { IconType } from "react-icons/lib";
 

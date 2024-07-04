@@ -1,5 +1,5 @@
-import CreateProjectBtn from "@/components/home/create-project";
-import JoinProjectBtn from "@/components/home/join-project";
+import CreateProjectBtn from "@/components/home-screen/create-project";
+import JoinProjectBtn from "@/components/home-screen/join-project";
 import Image from "next/image";
 
 export default function NoCreatedOrJoinedProject({

@@ -1,7 +1,7 @@
 import CircularLightEffect from "@/components/ui/circular-light-effect";
-import Header from "./header";
+import Header from "../ui/header";
 import Image from "next/image";
-import GetStartedNowBtn from "@/components/home/welcome-screen/get-started-now-btn";
+import GetStartedNowBtn from "@/components/welcome-screen/get-started-now-btn";
 
 export default function WelcomeScreen() {
   return (

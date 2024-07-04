@@ -1,7 +1,7 @@
 "use client";
 
 import { applyTheme } from "@/lib/editor/apply-theme";
-import { useStore } from "../store/useStore";
+import { useStore } from "../../components/store/useStore";
 
 export default function useEditorTheme() {
   const { changeEditorTheme } = useStore((state) => state);

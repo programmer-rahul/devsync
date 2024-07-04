@@ -1,12 +1,12 @@
 "use client";
 
 import { Project as ProjectInterface } from "@/types/project";
-import CardOptions from "./card/card-options";
-import CardFileFolderCount from "./card/card-file-folder-count";
-import CardConnectedUserCount from "./card/card-connected-user-count";
-import CardOwner from "./card/card-owner";
-import CardOpenProjectBtn from "./card/card-open-project-btn";
-import CardProjectName from "./card/card-project-name";
+import CardOptions from "./card-options";
+import CardFileFolderCount from "./card-file-folder-count";
+import CardConnectedUserCount from "./card-connected-user-count";
+import CardOwner from "./card-owner";
+import CardOpenProjectBtn from "./card-open-project-btn";
+import CardProjectName from "./card-project-name";
 
 export default function ProjectCard({
   owner,
