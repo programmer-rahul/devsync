@@ -1,12 +1,14 @@
 "use client";
 
-import ProjectCard from "./project-card";
-import { useStore } from "../store/useStore";
 import { useState } from "react";
+import Image from "next/image";
+
+import { useStore } from "../store/useStore";
 import { cn } from "@/lib/utils";
+
 import CreateProjectBtn from "./create-project";
 import JoinProjectBtn from "./join-project";
-import Image from "next/image";
+import ProjectCard from "./project-card";
 
 export default function ProjectsSection() {
   const initialProjects = useStore((state) => state.initialProjects);

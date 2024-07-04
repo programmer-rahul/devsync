@@ -4,19 +4,18 @@ import { useEffect } from "react";
 import { Socket } from "socket.io-client";
 
 const useSocket = (): Socket => {
-  const socket = useStore((state) => state.socket);
-  const connectSocket = useStore((state) => state.connectSocket);
-  const isConnectedToServer = useStore((state) => state.isConnectedToServer);
-  const updateIsConnectedToServer = useStore(
-    (state) => state.updateIsConnectedToServer,
-  );
+  // store states
+  const {
+    socket,
+    connectSocket,
+    isConnectedToServer,
+    updateIsConnectedToServer,
+  } = useStore((state) => state);
 
+  // on connect listener funciton
   const onSocketConnect = () => {
-    console.log("successfully connected to server");
-  };
-
-  const onLogin = () => {
-    console.log("Login successfully");
+    console.log("🚀 Successfully connected to server");
+    updateIsConnectedToServer(true);
   };
 
   useEffect(() => {
@@ -24,12 +23,15 @@ const useSocket = (): Socket => {
       connectSocket();
     }
     if (socket && !isConnectedToServer) {
-      updateIsConnectedToServer(true);
+      // emit login event
       socket.emit(SOCKET_ENUMS.LOGIN);
 
+      // listening for success socket connection with server
       socket.on(SOCKET_ENUMS.CONNECT, onSocketConnect);
-      socket.on(SOCKET_ENUMS.LOGIN, onLogin);
     }
+    return () => {
+      socket?.off(SOCKET_ENUMS.CONNECT, onSocketConnect);
+    };
   }, [socket]);
 
   return socket as Socket;
