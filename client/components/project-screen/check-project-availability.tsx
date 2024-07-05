@@ -1,10 +1,10 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { SOCKET_ENUMS } from "@/lib/constants";
 import { usePathname } from "next/navigation";
-import useSocket from "@/hooks/useSocket";
+import { SOCKET_ENUMS } from "@/lib/constants";
 import { useStore } from "../store/useStore";
+import useSocket from "@/hooks/useSocket";
 
 export default function CheckProjectAvailability({
   LoadingScreen,
@@ -26,6 +26,7 @@ export default function CheckProjectAvailability({
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectAvailable, setIsProjectAvailable] = useState(false);
 
+  // split project id from url
   const projectId = pathname.split("/")[2];
 
   // check if the current projectid is valid or not
@@ -70,12 +71,15 @@ export default function CheckProjectAvailability({
   }, [socket]);
 
   return (
-    <div className="flex h-screen border p-2">
-      {/* show loading and not available screen if project is not available  */}
-      {isLoading ? LoadingScreen : !isProjectAvailable && NotAvailableScreen}
-
-      {/* show projectpage if project is available  */}
-      {!isLoading && isProjectAvailable && ProjectPage}
+    <div className="flex h-screen p-2">
+      {isLoading
+        ? // show loading screen if loading is true
+          LoadingScreen
+        : isProjectAvailable
+          ? // render project page if project is available
+            ProjectPage
+          : // show projectNotAvailableScreen if project is not available
+            NotAvailableScreen}
     </div>
   );
 }

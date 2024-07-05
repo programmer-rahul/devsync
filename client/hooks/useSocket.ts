@@ -19,9 +19,8 @@ const useSocket = (): Socket => {
   };
 
   useEffect(() => {
-    if (!socket) {
-      connectSocket();
-    }
+    if (!socket) connectSocket();
+
     if (socket && !isConnectedToServer) {
       // emit login event
       socket.emit(SOCKET_ENUMS.LOGIN);
@@ -29,9 +28,6 @@ const useSocket = (): Socket => {
       // listening for success socket connection with server
       socket.on(SOCKET_ENUMS.CONNECT, onSocketConnect);
     }
-    return () => {
-      socket?.off(SOCKET_ENUMS.CONNECT, onSocketConnect);
-    };
   }, [socket]);
 
   return socket as Socket;

@@ -1,8 +1,8 @@
 "use client";
 
-import ChatMessages from "@/app/components/project-screen/sidebar-panel/chat-panel/chat-messages";
-import NewMessageInput from "@/app/components/project-screen/sidebar-panel/chat-panel/new-message-input";
-import NoChatItemsImage from "@/app/components/project-screen/sidebar-panel/chat-panel/no-chat-items-image";
+import ChatMessages from "@/components/project-screen/sidebar-panel/chats-panel/chat-messages";
+import NewMessageInput from "@/components/project-screen/sidebar-panel/chats-panel/new-message-input";
+import NoChatItemsImage from "@/components/project-screen/sidebar-panel/chats-panel/no-chat-items-image";
 import { useStore } from "@/components/store/useStore";
 
 import { useEffect, useRef } from "react";
