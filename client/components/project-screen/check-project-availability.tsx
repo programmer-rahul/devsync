@@ -71,7 +71,7 @@ export default function CheckProjectAvailability({
   }, [socket]);
 
   return (
-    <div className="flex h-screen p-2">
+    <section className="flex h-screen p-2">
       {isLoading
         ? // show loading screen if loading is true
           LoadingScreen
@@ -80,6 +80,6 @@ export default function CheckProjectAvailability({
             ProjectPage
           : // show projectNotAvailableScreen if project is not available
             NotAvailableScreen}
-    </div>
+    </section>
   );
 }

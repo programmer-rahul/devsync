@@ -12,7 +12,7 @@ export default function ProjectPageIsNotAvailable() {
           alt="no-project-found-image"
         />
         <h3 className="text-5xl">No Project Found</h3>
-        <p className="text-3xl">wrong projectid</p>
+        <p className="text-3xl">Wrong Projectid</p>
         <GobackOnHommePage />
       </div>
     </section>
