@@ -1,10 +1,10 @@
 import { File as FileInterface } from "@/types/explorer";
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
-import FileControls from "../sidebar-panel/file-explorer/file-controls";
+import FileControls from "./file-controls";
 import { useRef, useState } from "react";
 import useProjectCrud from "@/hooks/useProjectCrud";
-import RenameProjectItem from "../sidebar-panel/file-explorer/rename-project-item";
+import RenameProjectItem from "./rename-project-item";
 import Image from "next/image";
 import { getLanguageIcon } from "@/lib/editor/get-language-icon";
 

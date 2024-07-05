@@ -1,11 +1,12 @@
-import ExplorerFolder from "../../code-editor/explorer-folder";
+"use client";
+
+import ExplorerFolder from "./explorer-folder";
 import { useStore } from "@/components/store/useStore";
 
 export default function FileExplorer() {
-  const projectStructure = useStore((state) => state.projectStructure);
-  const setSelectedFolderId = useStore((state) => state.setSelectedFolderId);
+  const { projectStructure, setSelectedFolderId } = useStore((state) => state);
 
-  const handleSelectDefaultFolder = (
+  const handleOutsideClickOnExplorer = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     if (event.currentTarget !== event.target) return;
@@ -14,8 +15,8 @@ export default function FileExplorer() {
 
   return (
     <div
-      className="font-secondary h-full pt-2"
-      onClick={handleSelectDefaultFolder}
+      className="h-full pt-2 font-secondary"
+      onClick={handleOutsideClickOnExplorer}
     >
       <ExplorerFolder
         key={projectStructure.id}

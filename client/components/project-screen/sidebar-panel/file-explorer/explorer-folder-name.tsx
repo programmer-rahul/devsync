@@ -1,8 +1,8 @@
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useState } from "react";
-import FileControls from "../sidebar-panel/file-explorer/file-controls";
-import RenameProjectItem from "../sidebar-panel/file-explorer/rename-project-item";
+import FileControls from "./file-controls";
+import RenameProjectItem from "./rename-project-item";
 import { FaFolder, FaFolderOpen } from "react-icons/fa";
 
 interface ExplorerFolderNameProps {

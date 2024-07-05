@@ -1,6 +1,8 @@
-import { useStore } from "@/components/store/useStore";
+"use client";
 
+import { useStore } from "@/components/store/useStore";
 import { LuFilePlus, LuFolderPlus } from "react-icons/lu";
+
 
 export default function ExplorerPanelHeader() {
   const updateCreatingProjectItem = useStore(

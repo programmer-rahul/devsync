@@ -11,6 +11,7 @@ import { useStore } from "@/components/store/useStore";
 import useProjectCrud from "@/hooks/useProjectCrud";
 import { FaFolder } from "react-icons/fa";
 import { getLanguageIcon } from "@/lib/editor/get-language-icon";
+import NewExplorerItemCreationInput from "./new-explorer-item-creation-input";
 
 export default function ExplorerFolder({
   id: folderId,
@@ -18,11 +19,6 @@ export default function ExplorerFolder({
   files,
   subFolders,
 }: FolderInterface) {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // custom hook for managing project crud operations
-  const { createProjectItem } = useProjectCrud();
-
   // zunstand store states
   const selectedFolderId = useStore((state) => state.selectedFolderId);
   const creatingProjectItem = useStore((state) => state.creatingProjectItem);
@@ -32,55 +28,6 @@ export default function ExplorerFolder({
 
   // to maintain folder collapsing state
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [newItemText, setNewItemText] = useState(folderName);
-
-  let NewFileIcon = getLanguageIcon(newItemText);
-
-  // input
-  const onInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    let text = (event.target as HTMLInputElement).value;
-    let type = creatingProjectItem.type;
-
-    if (event.key === "Enter" && text.trim() !== "") {
-      createProjectItem({
-        itemName: text,
-        itemType: type,
-        toEmit: true,
-        folderId: selectedFolderId,
-      });
-    }
-    if (event.key === "Escape") {
-      updateCreatingProjectItem(false, "file");
-    }
-  };
-
-  // when user unfocus from input
-  const onInputBlur = () => {
-    if (!inputRef.current) return;
-
-    if (inputRef.current.value.trim() === "")
-      return updateCreatingProjectItem(false, "file");
-
-    createProjectItem({
-      itemType: creatingProjectItem.type,
-      itemName: inputRef.current.value,
-      toEmit: true,
-      folderId: selectedFolderId,
-    });
-  };
-
-  useEffect(() => {
-    if (
-      selectedFolderId === folderId &&
-      creatingProjectItem.status &&
-      !isCollapsed
-    ) {
-      setIsCollapsed(true);
-    }
-    if (isCollapsed && selectedFolderId === folderId) {
-      inputRef.current?.focus();
-    }
-  }, [creatingProjectItem, isCollapsed]);
 
   return (
     <div className={cn("select-none py-1", folderId !== ":root" && "pl-2")}>
@@ -115,24 +62,12 @@ export default function ExplorerFolder({
 
         {/* new project item creation input  */}
         {creatingProjectItem.status && selectedFolderId === folderId && (
-          <div className="flex items-center gap-1 pl-5">
-            {creatingProjectItem.type === "folder" ? (
-              <FaFolder />
-            ) : (
-              <NewFileIcon />
-            )}
-            <Input
-              className="h-7"
-              ref={inputRef}
-              autoFocus
-              onBlur={onInputBlur}
-              onKeyDown={onInputKeyPress}
-              onChange={(e) => {
-                if (creatingProjectItem.type === "file")
-                  setNewItemText(e.target.value);
-              }}
-            />
-          </div>
+          <NewExplorerItemCreationInput
+            folderName={folderName}
+            folderId={folderId}
+            isCollapsed={isCollapsed}
+            setIsCollapsed={setIsCollapsed}
+          />
         )}
 
         {/* files  */}

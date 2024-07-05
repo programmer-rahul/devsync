@@ -1,3 +1,5 @@
+'use client'
+
 import ExplorerPanelHeader from "./explorer-panel-header";
 import FileExplorer from "./file-explorer";
 
