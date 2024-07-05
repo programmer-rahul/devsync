@@ -63,7 +63,7 @@ export default function CreateProjectBtn() {
     if (showWelcomeScreen) {
       setShowWelcomeScreen(false);
     } else {
-      socket && socket.emit(SOCKET_ENUMS.CREATE_PROJECT, newProject);
+      socket?.emit(SOCKET_ENUMS.CREATE_PROJECT, newProject);
     }
   }
 

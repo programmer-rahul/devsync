@@ -61,9 +61,8 @@ export default function CheckProjectAvailability({
     socket.on(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
 
     return () => {
-      socket && socket.emit(SOCKET_ENUMS.LEAVE_PROJECT);
-      socket &&
-        socket.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
+      socket?.emit(SOCKET_ENUMS.LEAVE_PROJECT);
+      socket?.off(SOCKET_ENUMS.PROJECT_ID_VALIDATION, onProjectIdValidation);
 
       setIsLoading(true);
       setIsProjectAvailable(false);

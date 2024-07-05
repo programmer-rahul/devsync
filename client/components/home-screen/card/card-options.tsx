@@ -27,8 +27,7 @@ export default function CardOptions({ projectId }: { projectId: string }) {
 
     if (isYourProjectCard) {
       removeProjectinCreatedProjectsList(projectId);
-      socket &&
-        socket.emit(SOCKET_ENUMS.DELETE_PROJECT, { projectId: projectId });
+      socket?.emit(SOCKET_ENUMS.DELETE_PROJECT, { projectId: projectId });
     } else {
       removeProjectinJoinedProjectsList(projectId);
     }

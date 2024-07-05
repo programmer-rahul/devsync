@@ -116,13 +116,13 @@ const renameItemToProject = (
   const renameItem = (folder: FolderInterface): boolean => {
     if (itemType === "folder" && folder.id === itemId) {
       folder.name = newName;
-      console.log("inside folder");
+      
       return true;
     } else if (itemType === "file" && folder.files) {
       const isChanged = folder.files.some((file) => {
         if (file.id === itemId) {
           file.name = newName;
-          console.log("inside file");
+          
           return true;
         }
       });
@@ -150,7 +150,7 @@ const renameItemToProject = (
     return {
       updatedProject: project,
       status: false,
-      error: `A  with the name "" already exists in the folder with ID "".`,
+      error: 'A  with the name "" already exists in the folder with ID "".',
     };
   }
 };
@@ -196,7 +196,7 @@ const readItemContentToProject = ({
     return {
       fileContent: fileContent,
       status: false,
-      error: `A  with the name "" already exists in the folder with ID "".`,
+      error: 'A  with the name "" already exists in the folder with ID "".',
     };
   }
 };
@@ -242,7 +242,7 @@ const updateFileContentToProject = ({
     return {
       updatedProject: project,
       status: false,
-      error: `A  with the name "" already exists in the folder with ID "".`,
+      error: 'A  with the name "" already exists in the folder with ID "".',
     };
   }
 };

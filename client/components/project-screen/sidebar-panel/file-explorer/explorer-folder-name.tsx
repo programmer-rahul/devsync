@@ -25,7 +25,7 @@ export default function ExplorerFolderName({
 
   function handleFolderClick() {
     setIsCollapsed(!isCollapsed);
-    console.log("selected folder id : ", selectedFolderId);
+    
 
     if (selectedFolderId === folderId) return;
     setSelectedFolderId(folderId);

@@ -14,7 +14,7 @@ const useSocket = (): Socket => {
 
   // on connect listener funciton
   const onSocketConnect = () => {
-    console.log("🚀 Successfully connected to server");
+    
     updateIsConnectedToServer(true);
   };
 
