@@ -1,4 +1,5 @@
-import { SetStateType, SocketSlice } from "@/app/components/types/store";
+import { SocketSlice } from "@/types/store/slice/socket";
+import { SetStateType } from "@/types/store/store";
 import { io } from "socket.io-client";
 
 const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;

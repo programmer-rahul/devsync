@@ -1,6 +1,8 @@
-import { EditorSlice, SetStateType } from "@/app/components/types/store";
+import { EditorSlice } from "@/types/store/slice/editor";
+import { SetStateType } from "@/types/store/store";
 
 export const createEditorSlice = (set: SetStateType): EditorSlice => ({
+  // editor tabs
   openedEditorTabs: [],
   removeEditorTab: (id: string) => {
     let updatedEditorTabs;
@@ -31,36 +33,20 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
   },
 
   // editor theme
-  editorTheme: "Blackboard",
+  editorSettings: { theme: "Blackboard", fontSize: 20, lineHeight: 1.6 },
+
   changeEditorTheme: (newTheme) =>
-    set(() => ({
-      editorTheme: newTheme,
+    set((state) => ({
+      editorSettings: { ...state.editorSettings, theme: newTheme },
     })),
 
-  editorThemeColors: {
-    "editor.background": "",
-    "editor.foreground": "",
-    "editor.lineHighlightBackground": "",
-    "editor.selectionBackground": "",
-    "editor.selectionHighlightBorder": "",
-    "editorCursor.foreground": "",
-    "editorIndentGuide.background": "",
-    "editorWhitespace.foreground": "",
-  },
-  changeEditorThemeColors: (newThemeColors) =>
-    set(() => ({
-      editorThemeColors: newThemeColors,
-    })),
-
-  editorFontSize: 20,
   changeEditorFontSize: (fontSize) =>
-    set(() => ({
-      editorFontSize: fontSize,
+    set((state) => ({
+      editorSettings: { ...state.editorSettings, fontSize: fontSize },
     })),
-    
-  editorLineHeight: 1.6,
+
   changeEditorLineHeight: (lineHeight) =>
-    set(() => ({
-      editorLineHeight: lineHeight,
+    set((state) => ({
+      editorSettings: { ...state.editorSettings, lineHeight: lineHeight },
     })),
 });

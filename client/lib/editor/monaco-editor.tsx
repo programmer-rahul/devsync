@@ -1,8 +1,10 @@
+"use client";
+
 import { useStore } from "@/components/store/useStore";
 import Editor, { OnChange } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { getFileExtention } from "../utils";
-import useEditorTheme from "@/components/project/use-editor-theme";
+import useEditorTheme from "./use-editor-theme";
 
 export default function MonacoEditor({
   value,
@@ -11,13 +13,12 @@ export default function MonacoEditor({
   value: string;
   onChange: OnChange;
 }) {
+  // custom hook for changing editorTheme
   const { updateProjectEditorTheme } = useEditorTheme();
 
-  const [currentLanguage, setCurrentLanguage] = useState("javascript");
+  const { selectedFile, editorSettings } = useStore((state) => state);
 
-  const { selectedFile, editorTheme, editorFontSize ,editorLineHeight } = useStore(
-    (state) => state,
-  );
+  const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
   useEffect(() => {
     if (selectedFile) {
@@ -50,7 +51,7 @@ export default function MonacoEditor({
       theme={"vs-dark"}
       loading={<h1>Opening.....</h1>}
       onMount={() => {
-        updateProjectEditorTheme(editorTheme);
+        updateProjectEditorTheme(editorSettings.theme);
       }}
       value={value}
       onChange={onChange}
@@ -58,8 +59,8 @@ export default function MonacoEditor({
         minimap: {
           enabled: false,
         },
-        fontSize: editorFontSize,
-        lineHeight: editorLineHeight,
+        fontSize: editorSettings.fontSize,
+        lineHeight: editorSettings.lineHeight,
       }}
     />
   );

@@ -1,6 +1,8 @@
-import { ChatSlice, SetStateType } from "@/app/components/types/store";
+import { ChatSlice } from "@/types/store/slice/chat";
+import { SetStateType } from "@/types/store/store";
 
 export const createChatSlice = (set: SetStateType): ChatSlice => ({
+  // project chat
   projectChat: [],
   addMessageInProjectChat: (message) =>
     set((state) => ({

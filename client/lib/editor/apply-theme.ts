@@ -13,8 +13,6 @@ const applyTheme = async (themeName: string) => {
       monaco.editor.defineTheme(themeName, { ...themeData });
       monaco.editor.setTheme(themeName);
     });
-
-  return themeData.colors;
 };
 
 export { applyTheme };

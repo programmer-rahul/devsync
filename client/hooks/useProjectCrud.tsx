@@ -1,7 +1,7 @@
 import {
   File as FileInterface,
   Folder as FolderInterface,
-} from "@/app/components/types/explorer";
+} from "@/types/explorer";
 import { useStore } from "@/components/store/useStore";
 import { v4 as uuid } from "uuid";
 import { SOCKET_ENUMS } from "@/lib/constants";
@@ -11,7 +11,7 @@ import {
   readItemContentToProject,
   renameItemToProject,
   updateFileContentToProject,
-} from "@/lib/project-structure-utils";
+} from "@/lib/project/project-structure-utils";
 
 export default function useProjectCrud() {
   // zustand store states
@@ -40,7 +40,7 @@ export default function useProjectCrud() {
   }: {
     itemType: "file" | "folder";
     itemName: string;
-    folderId : string,
+    folderId: string;
     itemId?: string;
     toEmit?: boolean;
   }) => {

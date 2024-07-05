@@ -1,36 +1,32 @@
-import { SetStateType, ProjectSlice } from "@/app/components/types/store";
+import { ProjectSlice } from "@/types/store/slice/project";
+import { SetStateType } from "@/types/store/store";
 import { DEFAULT_PROJECT_STRUCTURE } from "@/lib/constants";
 
 export const createProjectSlice = (set: SetStateType): ProjectSlice => ({
-  projectIds: [],
-  addProjectId: (newProjectId) =>
-    set((state) => ({
-      projectIds: [...state.projectIds, newProjectId],
-    })),
-  removeProjectId: ({ id }) =>
-    set((state) => {
-      return {
-        projectIds: state.projectIds.filter((projectId) => projectId.id !== id),
-      };
-    }),
+  // userProjects
+  userCreatedProjectsList: [],
+  userJoinedProjectsList: [],
 
-  initialProjects: [],
-  addProjectinProjects: (newProject) =>
+  addProjectinCreatedProjectsList: (newProject) =>
     set((state) => ({
-      initialProjects: [...state.initialProjects, newProject],
+      userCreatedProjectsList: [newProject, ...state.userCreatedProjectsList],
     })),
-  removeProjectInProjects: ({ projectId }) =>
-    set((state) => {
-      return {
-        initialProjects: state.initialProjects.filter(
-          (project) => project.projectId !== projectId,
-        ),
-      };
-    }),
+  addProjectinJoinedProjectsList: (newProject) =>
+    set((state) => ({
+      userJoinedProjectsList: [newProject, ...state.userJoinedProjectsList],
+    })),
 
-  updateInitialProjects: (updatedProjects) =>
-    set(() => ({
-      initialProjects: updatedProjects,
+  removeProjectinCreatedProjectsList: (projectId) =>
+    set((state) => ({
+      userCreatedProjectsList: state.userCreatedProjectsList.filter(
+        (projects) => projects.projectId !== projectId,
+      ),
+    })),
+  removeProjectinJoinedProjectsList: (projectId) =>
+    set((state) => ({
+      userJoinedProjectsList: state.userJoinedProjectsList.filter(
+        (projects) => projects.projectId !== projectId,
+      ),
     })),
 
   projectStructure: DEFAULT_PROJECT_STRUCTURE,
