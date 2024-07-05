@@ -6,12 +6,12 @@ import { useStore } from "@/components/store/useStore";
 export default function FileExplorer() {
   const { projectStructure, setSelectedFolderId } = useStore((state) => state);
 
-  const handleOutsideClickOnExplorer = (
+  function handleOutsideClickOnExplorer(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
+  ) {
     if (event.currentTarget !== event.target) return;
     setSelectedFolderId(":root");
-  };
+  }
 
   return (
     <div

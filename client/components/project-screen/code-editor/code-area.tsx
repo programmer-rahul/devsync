@@ -18,7 +18,7 @@ export default function CodeArea() {
   );
 
   // handle current file content change
-  const handleFileContentChange = (value: string | undefined) => {
+  function handleFileContentChange(value: string | undefined) {
     if (!value) return;
 
     setCurrentFileContent(value);
@@ -32,7 +32,7 @@ export default function CodeArea() {
       updatedContent: value,
       toEmit: true,
     });
-  };
+  }
 
   // change file content when changing selected file
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function CodeArea() {
       const { fileContent } = readFileContent({ fileId: selectedFile.id });
       setCurrentFileContent(fileContent);
     }
-  }, [selectedFile]);
+  }, [selectedFile, readFileContent]);
 
   // if there is no opened tabs then set file content to null
   useEffect(() => {

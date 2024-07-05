@@ -15,7 +15,7 @@ export default function CardOpenProjectBtn({
   return (
     <Link
       href={`/project/${projectId}`}
-      onClick={() => {
+      onClick={function () {
         updatedCurrentUsername(owner);
       }}
     >

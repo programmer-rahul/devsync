@@ -18,7 +18,9 @@ export default function ActivityBarButtton({
   );
 
   // change selected activityBtn
-  const activityButtonClickHandler = () => setActivityButton(name);
+  function activityButtonClickHandler() {
+    setActivityButton(name);
+  }
 
   return (
     <div

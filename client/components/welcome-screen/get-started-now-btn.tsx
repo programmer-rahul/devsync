@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 export default function GetStartedNowBtn() {
   const { setShowWelcomeScreen } = useStore((state) => state);
 
-  const handleGetStartedBtn = () => {
+  function handleGetStartedBtn() {
     setShowWelcomeScreen(false);
-  };
+  }
 
-  return <Button onClick={handleGetStartedBtn}>Get Started Now</Button>;
+  return <Button onClick={handleGetStartedBtn}>Get Started</Button>;
 }

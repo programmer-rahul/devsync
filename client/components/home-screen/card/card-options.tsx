@@ -20,7 +20,7 @@ export default function CardOptions({ projectId }: { projectId: string }) {
   } = useStore((state) => state);
 
   //   to delete project
-  const deleteProjectHandler = () => {
+  function deleteProjectHandler() {
     const isYourProjectCard = userCreatedProjectsList.some(
       (project) => project.projectId === projectId,
     );
@@ -32,10 +32,10 @@ export default function CardOptions({ projectId }: { projectId: string }) {
     } else {
       removeProjectinJoinedProjectsList(projectId);
     }
-  };
+  }
 
   //   to copy project url
-  const copyProjectUrlHandler = () => {
+  function copyProjectUrlHandler() {
     const projectUrl = window.location.href + "project/" + projectId;
 
     window.navigator.clipboard
@@ -44,7 +44,7 @@ export default function CardOptions({ projectId }: { projectId: string }) {
         toast.success("Copied to clipboard", { position: "bottom-right" }),
       )
       .catch(() => toast.error("Couldn't copy", { position: "bottom-right" }));
-  };
+  }
 
   return (
     <div>

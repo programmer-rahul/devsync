@@ -31,7 +31,7 @@ export default function NewExplorerItemCreationInput({
   let NewFileIcon = getLanguageIcon(newItemText);
 
   // input
-  const onInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  function onInputKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
     let text = (event.target as HTMLInputElement).value;
     let type = creatingProjectItem.type;
 
@@ -46,10 +46,10 @@ export default function NewExplorerItemCreationInput({
     if (event.key === "Escape") {
       updateCreatingProjectItem(false, "file");
     }
-  };
+  }
 
   // when user unfocus from input
-  const onInputBlur = () => {
+  function onInputBlur() {
     if (!inputRef.current) return;
 
     if (inputRef.current.value.trim() === "")
@@ -61,7 +61,7 @@ export default function NewExplorerItemCreationInput({
       toEmit: true,
       folderId: selectedFolderId,
     });
-  };
+  }
 
   useEffect(() => {
     if (
@@ -74,7 +74,13 @@ export default function NewExplorerItemCreationInput({
     if (isCollapsed && selectedFolderId === folderId) {
       inputRef.current?.focus();
     }
-  }, [creatingProjectItem, isCollapsed]);
+  }, [
+    creatingProjectItem,
+    isCollapsed,
+    folderId,
+    selectedFolderId,
+    setIsCollapsed,
+  ]);
 
   return (
     <div className="flex items-center gap-1 pl-5">
@@ -85,7 +91,7 @@ export default function NewExplorerItemCreationInput({
         ref={inputRef}
         onBlur={onInputBlur}
         onKeyDown={onInputKeyPress}
-        onChange={(e) => {
+        onChange={function (e) {
           if (creatingProjectItem.type === "file")
             setNewItemText(e.target.value);
         }}

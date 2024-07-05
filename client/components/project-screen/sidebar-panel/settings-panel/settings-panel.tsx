@@ -46,7 +46,7 @@ export default function SettingsPanel() {
               <p className="min-w-20">Theme</p>
               <div className="options w-full">
                 <Select
-                  onValueChange={(value) => {
+                  onValueChange={function (value) {
                     updateProjectEditorTheme(value);
                   }}
                 >
@@ -70,7 +70,7 @@ export default function SettingsPanel() {
               <p className="min-w-20">Font Size</p>
               <div className="options w-full">
                 <Select
-                  onValueChange={(value) => {
+                  onValueChange={function (value) {
                     changeEditorFontSize(Number(value) as EditorFontSize);
                   }}
                 >
@@ -94,7 +94,7 @@ export default function SettingsPanel() {
               <p className="min-w-20">Line Height</p>
               <div className="options w-full">
                 <Select
-                  onValueChange={(value) => {
+                  onValueChange={function (value) {
                     changeEditorLineHeight(Number(value) as EditorLineHeight);
                   }}
                 >

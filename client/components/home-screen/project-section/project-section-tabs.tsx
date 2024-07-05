@@ -16,7 +16,9 @@ export default function ProjectSectionTabs({
           currentProjectTab === "created" &&
             "bg-primary-foreground font-semibold text-primary",
         )}
-        onClick={() => setCurrentProjectTab("created")}
+        onClick={function () {
+          setCurrentProjectTab("created");
+        }}
       >
         Your Projects
       </p>
@@ -26,7 +28,9 @@ export default function ProjectSectionTabs({
           currentProjectTab === "joined" &&
             "bg-primary-foreground font-semibold text-primary",
         )}
-        onClick={() => setCurrentProjectTab("joined")}
+        onClick={function () {
+          setCurrentProjectTab("joined");
+        }}
       >
         Joined Projects
       </p>

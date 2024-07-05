@@ -10,15 +10,12 @@ export default function NewMessageInput({
   zoomRef: RefObject<HTMLDivElement>;
 }) {
   // store
-  const socket = useStore((state) => state.socket);
-  const addMessageInProjectChat = useStore(
-    (state) => state.addMessageInProjectChat,
-  );
+  const { socket, addMessageInProjectChat } = useStore((state) => state);
 
   //   message value
   const [messageText, setMessageText] = useState("");
 
-  const sendMessageHandler = (event: FormEvent<HTMLFormElement>) => {
+  function sendMessageHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!messageText.trim() || !socket) return;
 
@@ -34,7 +31,7 @@ export default function NewMessageInput({
     setMessageText("");
 
     if (zoomRef.current) zoomRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+  }
 
   return (
     <form
@@ -45,7 +42,9 @@ export default function NewMessageInput({
         className="border-2"
         placeholder="Type here..."
         value={messageText}
-        onChange={(e) => setMessageText(e.target.value)}
+        onChange={function (e) {
+          setMessageText(e.target.value);
+        }}
       />
 
       <Button className="h-8" type="submit">

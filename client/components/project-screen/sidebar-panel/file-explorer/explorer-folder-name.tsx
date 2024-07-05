@@ -23,13 +23,13 @@ export default function ExplorerFolderName({
 
   const [isRenamingItem, setIsRenamingItem] = useState(false);
 
-  const handleFolderClick = () => {
+  function handleFolderClick() {
     setIsCollapsed(!isCollapsed);
     console.log("selected folder id : ", selectedFolderId);
 
     if (selectedFolderId === folderId) return;
     setSelectedFolderId(folderId);
-  };
+  }
 
   return (
     <div
@@ -71,7 +71,6 @@ export default function ExplorerFolderName({
           setIsRenaming={setIsRenamingItem}
         />
       </div>
-      
     </div>
   );
 }

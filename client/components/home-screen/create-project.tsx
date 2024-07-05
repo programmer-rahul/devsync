@@ -37,7 +37,7 @@ export default function CreateProjectBtn() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // create project handler
-  const handleNewProjectCreation = (event: FormEvent<HTMLFormElement>) => {
+  function handleNewProjectCreation(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const { username, projectName, projectId } = userInput;
@@ -65,7 +65,7 @@ export default function CreateProjectBtn() {
     } else {
       socket && socket.emit(SOCKET_ENUMS.CREATE_PROJECT, newProject);
     }
-  };
+  }
 
   // to change projectId every time when opening dialog box
   useEffect(() => {
@@ -99,12 +99,12 @@ export default function CreateProjectBtn() {
                 id="username"
                 placeholder="dev123"
                 value={userInput.username}
-                onChange={(event) =>
+                onChange={function (event) {
                   setUserInput((prev) => ({
                     ...prev,
                     username: event.target.value,
-                  }))
-                }
+                  }));
+                }}
                 className="col-span-3"
               />
             </div>
@@ -116,12 +116,12 @@ export default function CreateProjectBtn() {
                 id="projectname"
                 placeholder="solution-123"
                 value={userInput.projectName}
-                onChange={(event) =>
+                onChange={function (event) {
                   setUserInput((prev) => ({
                     ...prev,
                     projectName: event.target.value,
-                  }))
-                }
+                  }));
+                }}
                 className="col-span-3"
               />
             </div>
@@ -132,12 +132,12 @@ export default function CreateProjectBtn() {
               <Input
                 id="projectId"
                 value={userInput.projectId}
-                onChange={(event) =>
+                onChange={function (event) {
                   setUserInput((prev) => ({
                     ...prev,
                     projectId: event.target.value,
-                  }))
-                }
+                  }));
+                }}
                 className="col-span-3"
                 disabled
               />

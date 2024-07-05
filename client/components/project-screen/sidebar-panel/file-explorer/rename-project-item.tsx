@@ -24,9 +24,7 @@ export default function RenameProjectItem({
   // ref
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const inputKeyPressHandler = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
+  function inputKeyPressHandler(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       const newFileName = inputRef.current?.value!;
       if (newFileName.trim() === itemName) return;
@@ -40,7 +38,7 @@ export default function RenameProjectItem({
 
       setIsRenaming(false);
     }
-  };
+  }
 
   return (
     <div className="renaming flex h-6">
@@ -48,7 +46,7 @@ export default function RenameProjectItem({
         <Input
           className="h-full pl-1 text-base"
           value={inputValue === null ? itemName : inputValue}
-          onChange={(event) => {
+          onChange={function (event) {
             setInputValue(event.target.value);
           }}
           ref={inputRef}

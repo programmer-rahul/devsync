@@ -19,7 +19,7 @@ export default function FileTab({
 
   const FileTabIcon = getLanguageIcon(fileName);
 
-  const tabClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  function tabClickHandler(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (
       e.target instanceof HTMLElement &&
       e.target.classList.contains("closebtn")
@@ -31,9 +31,9 @@ export default function FileTab({
       name: fileName,
       type: "file",
     });
-  };
+  }
 
-  const closeTabHandler = () => {
+  function closeTabHandler() {
     const availableTabs = removeEditorTab(fileId);
 
     if (selectedFile?.id === fileId && availableTabs.length > 0) {
@@ -43,7 +43,7 @@ export default function FileTab({
     if (!availableTabs.length) {
       setSelectedFile(null);
     }
-  };
+  }
 
   return (
     <div

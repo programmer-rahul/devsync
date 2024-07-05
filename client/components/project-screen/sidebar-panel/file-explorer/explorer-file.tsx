@@ -13,23 +13,23 @@ export default function ExplorerFile({
   content,
 }: FileInterface) {
   // zustand store states
-  const selectedFile = useStore((state) => state.selectedFile);
-  const setSelectedFile = useStore((state) => state.setSelectedFile);
-  const addEditorTab = useStore((state) => state.addEditorTab);
+  const { selectedFile, setSelectedFile, addEditorTab } = useStore(
+    (state) => state,
+  );
 
   // state
   const [isRenamingItem, setIsRenamingItem] = useState(false);
 
   const FileDisplayIcon = getLanguageIcon(fileName);
 
-  const fileClickHandler = () => {
+  function fileClickHandler() {
     if (selectedFile?.id === fileId) return;
 
     setSelectedFile({ name: fileName, id: fileId, type, content });
 
     if (!content) content = "";
     addEditorTab({ name: fileName, id: fileId, content });
-  };
+  }
 
   return (
     <div

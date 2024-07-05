@@ -29,7 +29,7 @@ export default function JoinProjectBtn() {
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleJoinProject = () => {
+  function handleJoinProject() {
     const { projectId, username } = joinProjectValues;
 
     if (username.trim() === "" || projectId.trim() === "") return;
@@ -42,9 +42,9 @@ export default function JoinProjectBtn() {
     });
 
     if (showWelcomeScreen) setShowWelcomeScreen(false);
-  };
+  }
 
-  const onProjectIdPaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+  function onProjectIdPaste(event: React.ClipboardEvent<HTMLInputElement>) {
     event.preventDefault();
     const pastedText = event.clipboardData.getData("text");
     const pastedTextArray = pastedText.split("/");
@@ -67,7 +67,7 @@ export default function JoinProjectBtn() {
         projectId: pastedText,
       }));
     }
-  };
+  }
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -90,12 +90,12 @@ export default function JoinProjectBtn() {
                 id="username"
                 placeholder="dev123"
                 value={joinProjectValues.username}
-                onChange={(event) =>
+                onChange={function (event) {
                   setJoinProjectValues((prev) => ({
                     ...prev,
                     username: event.target.value.toLocaleLowerCase(),
-                  }))
-                }
+                  }));
+                }}
                 className="col-span-3"
               />
             </div>
@@ -108,12 +108,12 @@ export default function JoinProjectBtn() {
                 placeholder="paste here..."
                 value={joinProjectValues.projectId}
                 onPaste={onProjectIdPaste}
-                onChange={(event) =>
+                onChange={function (event) {
                   setJoinProjectValues((prev) => ({
                     ...prev,
                     projectId: event.target.value,
-                  }))
-                }
+                  }));
+                }}
                 className="col-span-3"
               />
             </div>

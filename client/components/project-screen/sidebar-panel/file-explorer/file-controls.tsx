@@ -23,14 +23,17 @@ export default function FileControls({
 
   const [isDialog, setIsDialog] = useState(false);
 
-  const deleteItemHandler = () => {
+  function deleteItemHandler() {
     deleteProjectItem({ itemType: type, itemId: id, toEmit: true });
     setIsDialog(false);
-  };
+  }
 
-  const renameItemHandler = () => {
+  function renameItemHandler() {
     setIsRenaming(true);
-  };
+  }
+  function cancelItemHandler() {
+    setIsDialog(false);
+  }
 
   return (
     <div className="flex items-center gap-3">
@@ -52,11 +55,7 @@ export default function FileControls({
             </p>
             <div className="flex justify-end py-4">
               <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => setIsDialog(false)}
-                >
+                <Button variant="outline" size="lg" onClick={cancelItemHandler}>
                   Cancel
                 </Button>
                 <Button

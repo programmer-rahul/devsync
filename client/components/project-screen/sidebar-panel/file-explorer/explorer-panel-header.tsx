@@ -3,20 +3,17 @@
 import { useStore } from "@/components/store/useStore";
 import { LuFilePlus, LuFolderPlus } from "react-icons/lu";
 
-
 export default function ExplorerPanelHeader() {
-  const updateCreatingProjectItem = useStore(
-    (state) => state.updateCreatingProjectItem,
-  );
-  const projectName = useStore((state) => state.currentProjectName);
+  const { updateCreatingProjectItem, currentProjectName: projectName } =
+    useStore((state) => state);
 
-  const createFileHandler = () => {
+  function createFileHandler() {
     updateCreatingProjectItem(true, "file");
-  };
+  }
 
-  const createFolderHandler = () => {
+  function createFolderHandler() {
     updateCreatingProjectItem(true, "folder");
-  };
+  }
 
   return (
     <div className="flex items-center justify-between">
