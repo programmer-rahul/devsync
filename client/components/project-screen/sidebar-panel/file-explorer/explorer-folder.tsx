@@ -27,16 +27,14 @@ export default function ExplorerFolder({
       />
 
       {/* subfolders and files  */}
-      {subFolders && subFolders.length > 0 && (
-        <ExplorerSubFolders
-          isCollapsed={isCollapsed}
-          setIsCollapsed={setIsCollapsed}
-          folderName={folderName}
-          folderId={folderId}
-          files={files || []}
-          subFolders={subFolders}
-        />
-      )}
+      <ExplorerSubFolders
+        isCollapsed={isCollapsed}
+        setIsCollapsed={setIsCollapsed}
+        folderName={folderName}
+        folderId={folderId}
+        files={files || []}
+        subFolders={subFolders || []}
+      />
     </div>
   );
 }
