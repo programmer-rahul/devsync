@@ -13,23 +13,21 @@ import themeList from "monaco-themes/themes/themelist.json";
 import useEditorTheme from "../../../../lib/editor/use-editor-theme";
 import { useStore } from "@/components/store/useStore";
 
-import {
-  EditorFontSize,
-  EditorLineHeight,
-} from "@/types/editor";
+import { EditorFontSize, EditorLineHeight } from "@/types/editor";
 
 const editorFontSizesArray: EditorFontSize[] = [10, 14, 16, 20, 24, 28, 40];
 const editorLineHeightArray: EditorLineHeight[] = [1, 1.2, 1.4, 1.6, 1.8, 2];
 
 export default function SettingsPanel() {
   const { updateProjectEditorTheme } = useEditorTheme();
+  const { editorSettings, changeEditorFontSize, changeEditorLineHeight } =
+    useStore((state) => state);
+
   const {
-    editorTheme,
-    editorFontSize,
-    changeEditorFontSize,
-    editorLineHeight,
-    changeEditorLineHeight,
-  } = useStore((state) => state);
+    theme: editorTheme,
+    fontSize: editorFontSize,
+    lineHeight: editorLineHeight,
+  } = editorSettings;
 
   return (
     <div className="relative h-full max-h-full flex-col">

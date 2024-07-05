@@ -33,21 +33,20 @@ export const createEditorSlice = (set: SetStateType): EditorSlice => ({
   },
 
   // editor theme
-  editorTheme: "Blackboard",
+  editorSettings: { theme: "Blackboard", fontSize: 20, lineHeight: 1.6 },
+
   changeEditorTheme: (newTheme) =>
-    set(() => ({
-      editorTheme: newTheme,
+    set((state) => ({
+      editorSettings: { ...state.editorSettings, theme: newTheme },
     })),
 
-  editorFontSize: 20,
   changeEditorFontSize: (fontSize) =>
-    set(() => ({
-      editorFontSize: fontSize,
+    set((state) => ({
+      editorSettings: { ...state.editorSettings, fontSize: fontSize },
     })),
 
-  editorLineHeight: 1.6,
   changeEditorLineHeight: (lineHeight) =>
-    set(() => ({
-      editorLineHeight: lineHeight,
+    set((state) => ({
+      editorSettings: { ...state.editorSettings, lineHeight: lineHeight },
     })),
 });

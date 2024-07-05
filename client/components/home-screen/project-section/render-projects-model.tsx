@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useStore } from "@/components/store/useStore";
 import ProjectSectionTabs from "./project-section-tabs";
-import NoCreatedOrJoinedProject from "@/app/components/home-screen/project-section/no-created-or-joined-projects";
 import RenderProjectCards from "./render-project-cards";
+import NoCreatedOrJoinedProject from "./no-created-or-joined-projects";
 
 export default function RenderProjectsModel() {
   // store states

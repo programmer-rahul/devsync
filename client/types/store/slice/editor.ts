@@ -1,6 +1,7 @@
 import {
   EditorFontSize,
   EditorLineHeight,
+  EditorSettings,
   EditorTheme,
 } from "../../editor";
 
@@ -19,12 +20,9 @@ export type EditorSlice = {
   }) => void;
 
   // editor themes
-  editorTheme: EditorTheme;
+
+  editorSettings: EditorSettings;
   changeEditorTheme: (theme: EditorTheme) => void;
-
-  editorFontSize: EditorFontSize;
   changeEditorFontSize: (fontSize: EditorFontSize) => void;
-
-  editorLineHeight: EditorLineHeight;
   changeEditorLineHeight: (lineHeight: EditorLineHeight) => void;
 };

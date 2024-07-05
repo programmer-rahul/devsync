@@ -15,8 +15,7 @@ export default function MonacoEditor({
 
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
-  const { selectedFile, editorTheme, editorFontSize, editorLineHeight } =
-    useStore((state) => state);
+  const { selectedFile, editorSettings } = useStore((state) => state);
 
   useEffect(() => {
     if (selectedFile) {
@@ -49,7 +48,7 @@ export default function MonacoEditor({
       theme={"vs-dark"}
       loading={<h1>Opening.....</h1>}
       onMount={() => {
-        updateProjectEditorTheme(editorTheme);
+        updateProjectEditorTheme(editorSettings.theme);
       }}
       value={value}
       onChange={onChange}
@@ -57,8 +56,8 @@ export default function MonacoEditor({
         minimap: {
           enabled: false,
         },
-        fontSize: editorFontSize,
-        lineHeight: editorLineHeight,
+        fontSize: editorSettings.fontSize,
+        lineHeight: editorSettings.lineHeight,
       }}
     />
   );
