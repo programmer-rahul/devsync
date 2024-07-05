@@ -48,7 +48,7 @@ export default function useProjectSocketListeners() {
 
   const onNewUserJoined = ({
     username,
-    socketId,
+    // socketId,
   }: {
     username: string;
     socketId: string;
@@ -58,7 +58,7 @@ export default function useProjectSocketListeners() {
 
   const onUserLeaveProject = ({
     username,
-    socketId,
+    // socketId,
   }: {
     username: string;
     socketId: string;

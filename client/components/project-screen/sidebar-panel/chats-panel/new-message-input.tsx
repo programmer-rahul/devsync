@@ -1,8 +1,8 @@
+import { FormEvent, RefObject, useState } from "react";
 import { useStore } from "@/components/store/useStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SOCKET_ENUMS } from "@/lib/constants";
-import { FormEvent, RefObject, useRef, useState } from "react";
 
 export default function NewMessageInput({
   zoomRef,
