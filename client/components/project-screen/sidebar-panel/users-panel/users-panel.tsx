@@ -1,3 +1,5 @@
+'use client';
+
 import { useStore } from "@/components/store/useStore";
 
 export default function UsersPanel() {

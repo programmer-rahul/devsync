@@ -1,16 +1,15 @@
 "use client";
 
-import { useStore } from "@/components/store/useStore";
-import useProjectCrud from "@/hooks/useProjectCrud";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import MonacoEditor from "@/lib/editor/monaco-editor";
+import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import useProjectCrud from "@/hooks/useProjectCrud";
+import MonacoEditor from "@/lib/editor/monaco-editor";
 
 export default function CodeArea() {
   // hooks
-  const selectedFile = useStore((state) => state.selectedFile);
-  const openedEditorTabs = useStore((state) => state.openedEditorTabs);
+  const { selectedFile, openedEditorTabs } = useStore((state) => state);
   const { readFileContent, updateFileContent } = useProjectCrud();
 
   // states
@@ -18,6 +17,7 @@ export default function CodeArea() {
     null,
   );
 
+  // handle current file content change
   const handleFileContentChange = (value: string | undefined) => {
     if (!value) return;
 
@@ -34,6 +34,7 @@ export default function CodeArea() {
     });
   };
 
+  // change file content when changing selected file
   useEffect(() => {
     if (selectedFile) {
       const { fileContent } = readFileContent({ fileId: selectedFile.id });
@@ -41,6 +42,7 @@ export default function CodeArea() {
     }
   }, [selectedFile]);
 
+  // if there is no opened tabs then set file content to null
   useEffect(() => {
     if (!openedEditorTabs.length) {
       setCurrentFileContent(null);
@@ -49,19 +51,7 @@ export default function CodeArea() {
 
   return (
     <div className="flex-1 border">
-      {selectedFile === null && (
-        <div className="flex h-full flex-col items-center justify-center gap-20 border text-xl lg:text-2xl xl:text-5xl">
-          <Image
-            src="/illustrations/no-file-selected.svg"
-            className="w-96"
-            width={40}
-            height={40}
-            alt="no-file-selected"
-            priority
-          />
-          <p>No File Selected</p>
-        </div>
-      )}
+      {selectedFile === null && <NoSelectedFiles />}
 
       <div className={cn("h-full", !selectedFile && "hidden")}>
         <MonacoEditor
@@ -69,6 +59,22 @@ export default function CodeArea() {
           onChange={handleFileContentChange}
         />
       </div>
+    </div>
+  );
+}
+
+function NoSelectedFiles() {
+  return (
+    <div className="flex h-full flex-col items-center justify-center gap-20 border text-xl lg:text-2xl xl:text-5xl">
+      <Image
+        src="/illustrations/no-file-selected.svg"
+        className="w-96"
+        width={40}
+        height={40}
+        alt="no-file-selected"
+        priority
+      />
+      <p>No File Selected</p>
     </div>
   );
 }

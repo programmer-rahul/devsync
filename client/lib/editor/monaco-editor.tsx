@@ -1,3 +1,5 @@
+"use client";
+
 import { useStore } from "@/components/store/useStore";
 import Editor, { OnChange } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
@@ -11,11 +13,12 @@ export default function MonacoEditor({
   value: string;
   onChange: OnChange;
 }) {
+  // custom hook for changing editorTheme
   const { updateProjectEditorTheme } = useEditorTheme();
 
-  const [currentLanguage, setCurrentLanguage] = useState("javascript");
-
   const { selectedFile, editorSettings } = useStore((state) => state);
+
+  const [currentLanguage, setCurrentLanguage] = useState("javascript");
 
   useEffect(() => {
     if (selectedFile) {

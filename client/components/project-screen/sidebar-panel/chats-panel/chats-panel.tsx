@@ -8,9 +8,10 @@ import { useStore } from "@/components/store/useStore";
 import { useEffect, useRef } from "react";
 
 export default function ChatPanel() {
+  // scroll ref to scroll at bottom messages
   const scrollZoomRef = useRef<HTMLDivElement>(null);
 
-  const projectChat = useStore((state) => state.projectChat);
+  const { projectChat } = useStore((state) => state);
 
   useEffect(() => {
     if (scrollZoomRef.current)

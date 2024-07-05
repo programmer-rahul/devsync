@@ -1,5 +1,4 @@
 import CodeArea from "./code-area";
-import EditorStatusBar from "./editor-status-bar";
 import EditorTabs from "./editor-tabs";
 
 export default function CodeEditor() {

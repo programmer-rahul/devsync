@@ -31,6 +31,7 @@ export default function SettingsPanel() {
 
   return (
     <div className="relative h-full max-h-full flex-col">
+      {/* header  */}
       <div className="h-[4%]">
         <h3 className="text-center text-2xl font-semibold">Settings</h3>
       </div>
