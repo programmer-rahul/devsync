@@ -12,18 +12,26 @@ import { SOCKET_ENUMS } from "@/lib/constants";
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
 export default function CardOptions({ projectId }: { projectId: string }) {
   // store
-  const socket = useStore((state) => state.socket);
-  const removeProjectId = useStore((state) => state.removeProjectId);
-  const removeProjectInProjects = useStore(
-    (state) => state.removeProjectInProjects,
-  );
+  const {
+    socket,
+    userCreatedProjectsList,
+    removeProjectinCreatedProjectsList,
+    removeProjectinJoinedProjectsList,
+  } = useStore((state) => state);
 
   //   to delete project
   const deleteProjectHandler = () => {
-    removeProjectId({ id: projectId });
-    removeProjectInProjects({ projectId: projectId });
-    socket &&
-      socket.emit(SOCKET_ENUMS.DELETE_PROJECT, { projectId: projectId });
+    const isYourProjectCard = userCreatedProjectsList.some(
+      (project) => project.projectId === projectId,
+    );
+
+    if (isYourProjectCard) {
+      removeProjectinCreatedProjectsList(projectId);
+      socket &&
+        socket.emit(SOCKET_ENUMS.DELETE_PROJECT, { projectId: projectId });
+    } else {
+      removeProjectinJoinedProjectsList(projectId);
+    }
   };
 
   //   to copy project url
