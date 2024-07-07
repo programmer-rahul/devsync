@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { Space_Grotesk, Exo } from "next/font/google";
+import Favicons from "./components/layouts/Favicons";
 
 export const metadata: Metadata = {
   title: "Dev Sync",
@@ -31,6 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Favicons />
+      </head>
+
       <body
         className={cn("dark", primaryFont.variable, secondaryFont.variable)}
       >
