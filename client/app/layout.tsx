@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { Space_Grotesk, Exo } from "next/font/google";
+import localFont from "next/font/local";
 import Favicons from "./components/layouts/Favicons";
 
 export const metadata: Metadata = {
@@ -11,18 +11,16 @@ export const metadata: Metadata = {
   description: "Realtime coding and programming",
 };
 
-const primaryFont = Space_Grotesk({
-  weight: "variable",
-  display: "swap",
-  subsets: ["latin"],
+const primaryFont = localFont({
+  src: "./fonts/SpaceGrotesk.ttf",
   variable: "--font-primary",
+  display: "swap",
 });
 
-const secondaryFont = Exo({
-  weight: "variable",
-  display: "swap",
-  subsets: ["latin"],
+const secondaryFont = localFont({
+  src: "./fonts/Exo2.ttf",
   variable: "--font-secondary",
+  display: "swap",
 });
 
 export default function RootLayout({
