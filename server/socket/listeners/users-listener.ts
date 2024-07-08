@@ -4,13 +4,14 @@ import { SocketType } from "../../types/socket";
 
 const { LOGIN, LEAVE_PROJECT, UPDATED_JOINED_USER_LIST } = SOCKET_ENUMS;
 
-const onLogin = (socket: SocketType) => {
+const onLogin = ({ socket }: { socket: SocketType }) => {
   userSockets[socket.id] = { socketId: socket.id };
   console.log("connection established", userSockets);
   socket.emit(LOGIN);
+  console.log("socket", socket.id);
 };
 
-const onDisconnect = (socket: SocketType) => {
+const onDisconnect = ({ socket }: { socket: SocketType }) => {
   console.log("user disconnected");
 
   // check and remove user from userSockets

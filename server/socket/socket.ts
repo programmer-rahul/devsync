@@ -38,64 +38,55 @@ let userSockets: UserSockets = {};
 let userProjects: UserProjects = {};
 
 const ioListener = (socket: SocketType, io: IoType) => {
+  const createSocketHandler = (eventName: string, handler: Function) => {
+    socket.on(eventName, (...args: any[]) => {
+      let allArguments = args.reduce((acc, obj) => {
+        return { ...acc, ...obj };
+      }, {});
+
+      return handler({ socket, io, ...allArguments });
+    });
+  };
+
   // login
-  socket.on(LOGIN, () => onLogin(socket));
+  createSocketHandler(LOGIN, onLogin);
 
   // on disconnect
-  socket.on(DISCONNECT, () => onDisconnect(socket));
+  createSocketHandler(DISCONNECT, onDisconnect);
 
   // for getting projects initial details
-  socket.on(GET_INITIAL_PROJECTS_DETAILS, ({ projectIds }) =>
-    onGetProjectInitialDetails({
-      projectIds,
-      socket,
-    })
-  );
+  createSocketHandler(GET_INITIAL_PROJECTS_DETAILS, onGetProjectInitialDetails);
 
   // on createProject
-  socket.on(CREATE_PROJECT, (values) =>
-    onCreateProject({ ...values, socket, io })
-  );
+  createSocketHandler(CREATE_PROJECT, onCreateProject);
 
   // on joinProject
-  socket.on(JOIN_PROJECT, (values) => onJoinProject({ ...values, socket, io }));
+  createSocketHandler(JOIN_PROJECT, onJoinProject);
+
   // on leaveProject
-  socket.on(LEAVE_PROJECT, () => onLeaveProject({ socket }));
+  createSocketHandler(LEAVE_PROJECT, onLeaveProject);
 
-  // to check is given projectId is valid or not
-  socket.on(PROJECT_ID_VALIDATION, ({ projectId }) =>
-    onProjectIdValidation({ projectId, socket })
-  );
+  // to check if given projectId is valid or not
+  createSocketHandler(PROJECT_ID_VALIDATION, onProjectIdValidation);
 
-  // on a project deletion
-  socket.on(DELETE_PROJECT, ({ projectId }) => onProjectDelete({ projectId }));
+  // on project deletion
+  createSocketHandler(DELETE_PROJECT, onProjectDelete);
 
   // project structure
   // on new project item creation
-  socket.on(PROJECT_ITEM_CREATED, ({ newItem, folderId }) =>
-    onProjectItemCreated({ socket, newItem, folderId })
-  );
-  socket.on(PROJECT_ITEM_CREATED, ({ newItem, folderId }) =>
-    onProjectItemCreated({ socket, newItem, folderId })
-  );
-  // on a project item deletion
-  socket.on(PROJECT_ITEM_DELETED, ({ itemId, itemType }) =>
-    onProjectItemDeleted({ socket, itemId, itemType })
-  );
-  // on a project item renamed
-  socket.on(PROJECT_ITEM_RENAMED, ({ itemId, itemType, newName }) =>
-    onProjectItemRenamed({ socket, itemId, itemType, newName })
-  );
+  createSocketHandler(PROJECT_ITEM_CREATED, onProjectItemCreated);
 
-  // on a file content changes in project
-  socket.on(FILE_CONTENT_CHANGED, ({ fileId, updatedContent }) =>
-    onFileContentChanged({ socket, updatedContent, fileId })
-  );
+  // on project item deletion
+  createSocketHandler(PROJECT_ITEM_DELETED, onProjectItemDeleted);
+
+  // on project item renamed
+  createSocketHandler(PROJECT_ITEM_RENAMED, onProjectItemRenamed);
+
+  // on file content changes in project
+  createSocketHandler(FILE_CONTENT_CHANGED, onFileContentChanged);
 
   // chat
-  socket.on(SEND_MESSAGE, ({ message }) =>
-    onNewMessageSend({ message, socket })
-  );
+  createSocketHandler(SEND_MESSAGE, onNewMessageSend);
 };
 
 export { ioListener, userSockets, userProjects };
