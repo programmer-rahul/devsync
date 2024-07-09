@@ -1,9 +1,13 @@
 import { SocketType } from "../../types/socket";
 import { SOCKET_ENUMS } from "../../utils/constants";
-import { updateFileContentToProject } from "../../utils/project-structure-utils";
+import {
+  getFoldersAndFilesCount,
+  updateFileContentToProject,
+} from "../../utils/project-structure-utils";
 import { userProjects, userSockets } from "../socket";
 
 const { FILE_CONTENT_CHANGED } = SOCKET_ENUMS;
+const { GET_FOLDER_AND_FILE_COUNTS } = SOCKET_ENUMS;
 
 const onFileContentChanged = ({
   socket,
@@ -41,4 +45,35 @@ const onFileContentChanged = ({
   });
 };
 
-export { onFileContentChanged };
+const onGetFolderAndFileCounts = ({
+  socket,
+  projectIds,
+}: {
+  socket: SocketType;
+  projectIds: string[];
+}) => {
+  if (!projectIds) return;
+
+  let folderFileCounts: {}[] = [];
+  projectIds.forEach((projectId) => {
+    // check if the project with this projectIds exits or not
+    if (!userProjects[projectId]) return;
+
+    // now calculate counts of folders and files
+    const { status, count } = getFoldersAndFilesCount(
+      userProjects[projectId].structure
+    );
+
+    if (!status) return;
+
+    // add them into array
+    folderFileCounts.push({ projectId: projectId, count: count });
+  });
+
+  // console.log("folderFileCounts", folderFileCounts);
+
+  // give back the counts to user
+  socket.emit(GET_FOLDER_AND_FILE_COUNTS, { folderFileCounts });
+};
+
+export { onFileContentChanged, onGetFolderAndFileCounts };

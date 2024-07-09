@@ -3,7 +3,10 @@ import { IoType, SocketType, UserSockets } from "../types/socket";
 import { UserProjects } from "../types/project";
 import { onDisconnect, onLogin } from "./listeners/users-listener";
 import { onNewMessageSend } from "./listeners/chat-listener";
-import { onFileContentChanged } from "./listeners/files-listener";
+import {
+  onFileContentChanged,
+  onGetFolderAndFileCounts,
+} from "./listeners/files-listener";
 import {
   onProjectItemCreated,
   onProjectItemDeleted,
@@ -21,6 +24,7 @@ const {
   LOGIN,
   DISCONNECT,
   FILE_CONTENT_CHANGED,
+  GET_FOLDER_AND_FILE_COUNTS,
   CREATE_PROJECT,
   DELETE_PROJECT,
   JOIN_PROJECT,
@@ -33,7 +37,51 @@ const {
 } = SOCKET_ENUMS;
 
 let userSockets: UserSockets = {};
-let userProjects: UserProjects = {};
+let userProjects: UserProjects = {
+  project1: {
+    owner: "",
+    projectId: "project1",
+    projectName: "project1",
+    joinedUsers: [],
+    structure: {
+      id: ":root",
+      name: "root",
+      type: "folder",
+      files: [
+        {
+          id: "file1",
+          name: "file2",
+          type: "file",
+        },
+      ],
+      subFolders: [],
+    },
+  },
+  project2: {
+    owner: "",
+    projectId: "project2",
+    projectName: "project2",
+    joinedUsers: [],
+    structure: {
+      id: ":root",
+      name: "root",
+      type: "folder",
+      files: [
+        {
+          id: "file1",
+          name: "file1",
+          type: "file",
+        },
+        {
+          id: "file2",
+          name: "file2",
+          type: "file",
+        },
+      ],
+      subFolders: [],
+    },
+  },
+};
 
 const ioListener = (socket: SocketType, io: IoType) => {
   const createSocketHandler = (eventName: string, handler: Function) => {
@@ -79,6 +127,9 @@ const ioListener = (socket: SocketType, io: IoType) => {
 
   // on file content changes in project
   createSocketHandler(FILE_CONTENT_CHANGED, onFileContentChanged);
+
+  // to give folder and files counts of projects
+  createSocketHandler(GET_FOLDER_AND_FILE_COUNTS, onGetFolderAndFileCounts);
 
   // chat
   createSocketHandler(SEND_MESSAGE, onNewMessageSend);

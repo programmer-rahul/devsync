@@ -69,14 +69,10 @@ export default function CreateProjectBtn() {
   }
 
   function checkProjectNameAvailability(value: string) {
-    console.log("value", value);
-
     const isAlreadyExits = userCreatedProjectsList.some(
       (project) =>
         project.projectName.trim().toLowerCase() === value.trim().toLowerCase()
     );
-
-    console.log("result", isAlreadyExits);
 
     return isAlreadyExits;
   }

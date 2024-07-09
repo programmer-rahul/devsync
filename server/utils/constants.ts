@@ -12,6 +12,7 @@ export const SOCKET_ENUMS = {
 
   // file
   FILE_CONTENT_CHANGED: "file-content-changed",
+  GET_FOLDER_AND_FILE_COUNTS: "get-folder-file-counts",
 
   // project
   CREATE_PROJECT: "create-project",
@@ -31,6 +32,12 @@ export const DEFAULT_PROJECT_STRUCTURE: ProjectStructure = {
   id: ":root",
   name: "root",
   type: "folder",
-  files: [],
+  files: [
+    {
+      id: "index.ts",
+      name: "index.ts",
+      type: "file",
+    },
+  ],
   subFolders: [],
 };

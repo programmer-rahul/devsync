@@ -206,19 +206,21 @@ const getFoldersAndFilesCount = (project: ProjectStructure) => {
   let foldersCount = 0;
 
   const countFolderAndFiles = (folder: FolderInterface): boolean => {
-    if (folder.id !== ":root") foldersCount++;
+    console.log("folder", folder.id);
+    if (folder?.id !== ":root") foldersCount++;
 
-    if (folder.files) {
+    if (folder?.files) {
       filesCount += folder.files.length;
     }
 
-    if (!folder.subFolders) return false;
+    if (!folder?.subFolders) return false;
     for (const subFolder of folder.subFolders) {
       if (countFolderAndFiles(subFolder)) {
         return true;
       }
     }
-    return false;
+
+    return true;
   };
 
   const success = countFolderAndFiles(project);
