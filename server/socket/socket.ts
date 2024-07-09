@@ -10,7 +10,6 @@ import {
   onProjectItemRenamed,
 } from "./listeners/project-structures-listener";
 import {
-  onGetProjectInitialDetails,
   onCreateProject,
   onJoinProject,
   onLeaveProject,
@@ -22,7 +21,6 @@ const {
   LOGIN,
   DISCONNECT,
   FILE_CONTENT_CHANGED,
-  GET_INITIAL_PROJECTS_DETAILS,
   CREATE_PROJECT,
   DELETE_PROJECT,
   JOIN_PROJECT,
@@ -54,9 +52,6 @@ const ioListener = (socket: SocketType, io: IoType) => {
   // on disconnect
   createSocketHandler(DISCONNECT, onDisconnect);
 
-  // for getting projects initial details
-  createSocketHandler(GET_INITIAL_PROJECTS_DETAILS, onGetProjectInitialDetails);
-
   // on createProject
   createSocketHandler(CREATE_PROJECT, onCreateProject);
 
@@ -66,11 +61,11 @@ const ioListener = (socket: SocketType, io: IoType) => {
   // on leaveProject
   createSocketHandler(LEAVE_PROJECT, onLeaveProject);
 
-  // to check if given projectId is valid or not
-  createSocketHandler(PROJECT_ID_VALIDATION, onProjectIdValidation);
-
   // on project deletion
   createSocketHandler(DELETE_PROJECT, onProjectDelete);
+
+  // to check if given projectId is valid or not
+  createSocketHandler(PROJECT_ID_VALIDATION, onProjectIdValidation);
 
   // project structure
   // on new project item creation

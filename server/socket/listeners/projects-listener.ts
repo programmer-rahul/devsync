@@ -5,48 +5,12 @@ import { getFoldersAndFilesCount } from "../../utils/project-structure-utils";
 import { userProjects, userSockets } from "../socket";
 
 const {
-  GET_INITIAL_PROJECTS_DETAILS,
   PROJECT_ID_VALIDATION,
   UPDATED_JOINED_USER_LIST,
   JOIN_PROJECT,
   INITIAL_PROJECT_DETAILS,
   LEAVE_PROJECT,
 } = SOCKET_ENUMS;
-
-const onGetProjectInitialDetails = ({
-  projectIds,
-  socket,
-}: {
-  projectIds: { id: string; isCreated: boolean }[];
-  socket: SocketType;
-}) => {
-  let initialProjects = projectIds.map((project) => {
-    let currentProject = userProjects[project.id];
-    if (currentProject) {
-      const { owner, projectId, projectName, joinedUsers } = currentProject;
-
-      const { count } = getFoldersAndFilesCount(currentProject.structure);
-
-      console.log("count :", count);
-
-      return {
-        owner,
-        projectId,
-        projectName,
-        isCreated: project.isCreated,
-        counts: {
-          ...count,
-          connectedUsersCount: joinedUsers?.length,
-        },
-      };
-    }
-  });
-  initialProjects = initialProjects.filter((project) => project !== undefined);
-
-  socket.emit(GET_INITIAL_PROJECTS_DETAILS, {
-    initialProjects: initialProjects,
-  });
-};
 
 const onCreateProject = ({
   projectId,
@@ -169,7 +133,6 @@ const onProjectIdValidation = ({
 
 export {
   onCreateProject,
-  onGetProjectInitialDetails,
   onJoinProject,
   onLeaveProject,
   onProjectDelete,

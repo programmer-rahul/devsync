@@ -22,6 +22,7 @@ export default function CreateProjectBtn() {
   const {
     showWelcomeScreen,
     setShowWelcomeScreen,
+    userCreatedProjectsList,
     addProjectinCreatedProjectsList,
     socket,
   } = useStore((state) => state);
@@ -65,6 +66,19 @@ export default function CreateProjectBtn() {
     } else {
       socket?.emit(SOCKET_ENUMS.CREATE_PROJECT, newProject);
     }
+  }
+
+  function checkProjectNameAvailability(value: string) {
+    console.log("value", value);
+
+    const isAlreadyExits = userCreatedProjectsList.some(
+      (project) =>
+        project.projectName.trim().toLowerCase() === value.trim().toLowerCase()
+    );
+
+    console.log("result", isAlreadyExits);
+
+    return isAlreadyExits;
   }
 
   // to change projectId every time when opening dialog box
@@ -144,7 +158,12 @@ export default function CreateProjectBtn() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Create</Button>
+            <Button
+              type="submit"
+              disabled={checkProjectNameAvailability(userInput.projectName)}
+            >
+              Create
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
