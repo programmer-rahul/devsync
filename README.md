@@ -82,6 +82,14 @@ You can view the live preview of the project [here](https://syncdev.vercel.app/)
    http://localhost:3000/
    ```
 
+## 🤝 Contributing
+
+Your input can help shape DevSync! Whether you've found a bug, have a feature suggestion, or want to fix a typo, your contribution is invaluable. Check out our [contribution guidelines](CONTRIBUTING.md)  to get started!
+
 ## 💖 Support Us
 
 Enjoying this project? Give it a 🌟 star to help others find it and to motivate continued development.
+
+## 🪪 License
+
+This project is licensed under the [MIT License](LICENSE).
