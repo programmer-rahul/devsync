@@ -14,7 +14,7 @@ export default function CodeArea() {
 
   // states
   const [currentFileContent, setCurrentFileContent] = useState<string | null>(
-    null,
+    null
   );
 
   // handle current file content change
@@ -40,7 +40,7 @@ export default function CodeArea() {
       const { fileContent } = readFileContent({ fileId: selectedFile.id });
       setCurrentFileContent(fileContent);
     }
-  }, [selectedFile, readFileContent]);
+  }, [selectedFile]);
 
   // if there is no opened tabs then set file content to null
   useEffect(() => {
