@@ -1,4 +1,5 @@
 <div align="center">
+    <img src="https://devsync.itrs.tech/logo/logo.svg" width="700"/>
     <h1><br/>DevSync - A Realtime Code Editor</h1>
     <p>Your solution for real-time project collaboration. Create and join projects, edit code together, and manage your workspace with ease. Enhance your teamwork today.</p>
 </div>
