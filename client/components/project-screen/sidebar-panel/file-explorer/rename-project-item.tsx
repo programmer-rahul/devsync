@@ -2,19 +2,21 @@ import { Input } from "@/components/ui/input";
 import useProjectCrud from "@/hooks/useProjectCrud";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 
+interface RenameProjectItemProps {
+  itemName: string;
+  itemId: string;
+  itemType: "file" | "folder";
+  isRenaming: boolean;
+  setIsRenaming: Dispatch<SetStateAction<boolean>>;
+}
+
 export default function RenameProjectItem({
   itemName,
   itemId,
   itemType,
   isRenaming,
   setIsRenaming,
-}: {
-  itemName: string;
-  itemId: string;
-  itemType: "file" | "folder";
-  isRenaming: boolean;
-  setIsRenaming: Dispatch<SetStateAction<boolean>>;
-}) {
+}: RenameProjectItemProps) {
   // hook
   const { renameProjectItem } = useProjectCrud();
 
@@ -24,40 +26,54 @@ export default function RenameProjectItem({
   // ref
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  // on input key press
   function inputKeyPressHandler(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
-      const newFileName = inputRef.current?.value!;
-      if (newFileName.trim() === itemName) return;
+      if (inputValue?.trim() === itemName) return;
 
       renameProjectItem({
         itemId: itemId,
         itemType: itemType,
-        newName: newFileName,
+        newName: inputValue || "",
         toEmit: true,
       });
 
       setIsRenaming(false);
     }
+    if (event.key === "Escape") {
+      setIsRenaming(false);
+    }
+  }
+
+  // when user unfocus from input
+  function onInputBlur() {
+    if (!inputRef.current) return;
+    setIsRenaming(false);
   }
 
   return (
     <div className="renaming flex h-6">
       {isRenaming ? (
         <Input
+          autoFocus
           className="h-full pl-1 text-base"
           value={inputValue === null ? itemName : inputValue}
+          ref={inputRef}
+          onBlur={onInputBlur}
+          onKeyDown={inputKeyPressHandler}
           onChange={function (event) {
             setInputValue(event.target.value);
           }}
-          ref={inputRef}
-          onKeyDown={inputKeyPressHandler}
-          autoFocus
         />
       ) : (
-        <p className="h-full border border-transparent pl-1 text-base">
-          {itemName}
-        </p>
+        <FileName name={itemName} />
       )}
     </div>
+  );
+}
+
+function FileName({ name }: { name: string }) {
+  return (
+    <p className="h-full border border-transparent pl-1 text-base">{name}</p>
   );
 }
