@@ -1,9 +1,10 @@
-import { PiFiles, PiChatCircleDots, PiUser } from "react-icons/pi";
-import { TbSettings } from "react-icons/tb";
-import ActivityBarButtton from "../../../../../components/project-screen/activity-bar/activity-bar-btn";
-import { ActivityBarButtons } from "@/types/project";
 import { IconType } from "react-icons/lib";
 import { cn } from "@/lib/utils";
+import { ActivityBarButtons } from "@/types/project";
+import ActivityBarButtton from "../../../../../components/project-screen/activity-bar/activity-bar-btn";
+
+import { BiMessageDetail } from "react-icons/bi";
+import { LuUsers, LuSettings, LuFiles } from "react-icons/lu";
 
 type ActivityBtn = {
   Icon: IconType;
@@ -11,10 +12,10 @@ type ActivityBtn = {
 };
 
 const activityIconsList: ActivityBtn[] = [
-  { Icon: PiFiles, name: "files" },
-  { Icon: PiChatCircleDots, name: "chats" },
-  { Icon: PiUser, name: "users" },
-  { Icon: TbSettings, name: "settings" },
+  { Icon: LuFiles, name: "files" },
+  { Icon: BiMessageDetail, name: "chats" },
+  { Icon: LuUsers, name: "users" },
+  { Icon: LuSettings, name: "settings" },
 ];
 
 export default function ActivityBarBtns() {
