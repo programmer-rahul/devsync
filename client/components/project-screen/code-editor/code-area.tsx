@@ -50,7 +50,7 @@ export default function CodeArea() {
   }, [openedEditorTabs]);
 
   return (
-    <div className="flex-1 border">
+    <div className="flex-1">
       {selectedFile === null && <NoSelectedFiles />}
 
       <div className={cn("h-full", !selectedFile && "hidden")}>
