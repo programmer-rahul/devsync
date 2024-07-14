@@ -68,7 +68,3 @@ Spotted a typo? Correct it in the docs or comments and submit a PR. Thanks!
 Your contribution matters. For questions, reach out to project maintainers.
 
 Happy coding!
-
-```
-
-```
