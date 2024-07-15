@@ -52,11 +52,11 @@ export default function RenameProjectItem({
   }
 
   return (
-    <div className="renaming flex h-6">
+    <div className="renaming h-7 grid place-content-center text-xl">
       {isRenaming ? (
         <Input
           autoFocus
-          className="h-full pl-1 text-base"
+          className="h-full pl-1"
           value={inputValue === null ? itemName : inputValue}
           ref={inputRef}
           onBlur={onInputBlur}
@@ -73,7 +73,5 @@ export default function RenameProjectItem({
 }
 
 function FileName({ name }: { name: string }) {
-  return (
-    <p className="h-full border border-transparent pl-1 text-base">{name}</p>
-  );
+  return <p className="h-full pl-1">{name}</p>;
 }

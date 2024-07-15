@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import useProjectCrud from "@/hooks/useProjectCrud";
 import { Dispatch, SetStateAction, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { LuPencilLine, LuTrash2 } from "react-icons/lu";
 
 export default function FileControls({
   type,
@@ -19,32 +19,38 @@ export default function FileControls({
   id: string;
   setIsRenaming: Dispatch<SetStateAction<boolean>>;
 }) {
+  // hook
   const { deleteProjectItem } = useProjectCrud();
 
+  // to manage dialog state
   const [isDialog, setIsDialog] = useState(false);
 
+  // to delete item
   function deleteItemHandler() {
     deleteProjectItem({ itemType: type, itemId: id, toEmit: true });
     setIsDialog(false);
   }
 
+  // to rename item
   function renameItemHandler() {
     setIsRenaming(true);
   }
+
+  // cancel renaming or deletion
   function cancelItemHandler() {
     setIsDialog(false);
   }
 
   return (
-    <div className="flex items-center gap-3">
-      <div className="w-5 text-primary" onClick={renameItemHandler}>
-        <FaEdit />
+    <div className="flex items-center gap-3 ml-1 text-xl">
+      <div className="text-primary" onClick={renameItemHandler}>
+        <LuPencilLine />
       </div>
 
       <Dialog open={isDialog} onOpenChange={setIsDialog}>
         <DialogTrigger>
-          <div className="w-5 text-primary">
-            <FaTrash />
+          <div className="text-primary">
+            <LuTrash2 />
           </div>
         </DialogTrigger>
         <DialogContent>

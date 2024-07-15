@@ -17,7 +17,7 @@ export default function FileExplorer() {
 
   return (
     <div
-      className="h-full font-secondary"
+      className="h-full font-secondary pt-2"
       onClick={handleOutsideClickOnExplorer}
     >
       <ExplorerFolder

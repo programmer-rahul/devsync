@@ -34,7 +34,8 @@ export default function ExplorerSubFolders({
   return (
     <div
       className={cn(
-        "block",
+        "block space-y-1",
+        // for adding margin left to subfolders
         folderId !== ":root" && "ml-5",
         // to hide subfolders and files inside this folder
         folderId !== ":root" && !isCollapsed && "hidden"

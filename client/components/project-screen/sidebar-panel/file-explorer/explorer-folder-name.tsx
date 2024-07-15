@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useState } from "react";
 import FileControls from "./file-controls";
 import RenameProjectItem from "./rename-project-item";
-import { FaFolder, FaFolderOpen } from "react-icons/fa";
+import { LuFolder, LuFolderOpen } from "react-icons/lu";
 
 interface ExplorerFolderNameProps {
   folderName: string;
@@ -35,8 +35,11 @@ export default function ExplorerFolderName({
   return (
     <div
       className={cn(
-        "group flex cursor-pointer items-center justify-between rounded-sm border-2 border-transparent",
-        selectedFolderId === folderId && "border-main bg-main/40 font-semibold",
+        "group flex cursor-pointer items-center justify-between rounded-sm border border-transparent pl-1",
+        // if this folder is selected folder
+        selectedFolderId === folderId &&
+          "border-main/60 bg-main/20 font-semibold",
+        // to hide root folder
         folderId === ":root" && "hidden"
       )}
     >
@@ -71,11 +74,11 @@ export default function ExplorerFolderName({
 
 function FolderIcon({ isCollapsed }: { isCollapsed: boolean }) {
   return (
-    <div className="w-5">
+    <div className="text-xl">
       {isCollapsed ? (
-        <FaFolderOpen color="#f8fafc" />
+        <LuFolderOpen color="#f8fafc" />
       ) : (
-        <FaFolder color="#f8fafc" />
+        <LuFolder color="#f8fafc" />
       )}
     </div>
   );
