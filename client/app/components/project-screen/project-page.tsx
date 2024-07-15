@@ -6,13 +6,13 @@ import ActivityBar from "./sidebar-panel/activity-panel/activity-bar";
 export default function ProjectPage() {
   return (
     <>
-      <section className="flex w-full gap-2">
+      <section className="w-full flex p-1">
         <ActivityBar />
         <SideBarPanel />
         <CodeEditor />
       </section>
 
-      <MountProjectSocketEvents/>
+      <MountProjectSocketEvents />
     </>
   );
 }

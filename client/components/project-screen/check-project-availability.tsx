@@ -70,7 +70,7 @@ export default function CheckProjectAvailability({
   }, [socket]);
 
   return (
-    <section className="flex h-screen p-2">
+    <section className="flex h-screen">
       {isLoading
         ? // show loading screen if loading is true
           LoadingScreen

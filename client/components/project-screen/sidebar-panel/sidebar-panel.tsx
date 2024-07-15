@@ -12,7 +12,7 @@ export default function SideBarPanel() {
   );
 
   return (
-    <section className="w-full max-w-96 p-2">
+    <section className="w-full max-w-96 py-1 px-2">
       {currentActivityButton === "files" && <ExplorerPanel />}
       {currentActivityButton === "chats" && <ChatPanel />}
       {currentActivityButton === "users" && <UsersPanel />}
