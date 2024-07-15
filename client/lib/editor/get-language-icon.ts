@@ -1,4 +1,4 @@
-import { FaFile, FaJava } from "react-icons/fa";
+import { FaJava } from "react-icons/fa";
 import {
   SiHtml5,
   SiCss3,
@@ -9,6 +9,7 @@ import {
 } from "react-icons/si";
 
 import { PiFileTxtFill } from "react-icons/pi";
+import { LuFile } from "react-icons/lu";
 import { getFileExtention } from "../utils";
 
 export function getLanguageIcon(fileName: string) {
@@ -16,7 +17,7 @@ export function getLanguageIcon(fileName: string) {
 
   const currentIcon = iconsList.find(({ name }) => name === fileExtention);
 
-  return currentIcon ? currentIcon.Icon : FaFile;
+  return currentIcon ? currentIcon.Icon : LuFile;
 }
 
 const iconsList = [

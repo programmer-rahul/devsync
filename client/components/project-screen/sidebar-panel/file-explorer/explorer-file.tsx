@@ -36,7 +36,7 @@ export default function ExplorerFile({
       className={cn(
         "group flex cursor-pointer items-center justify-between rounded-sm pl-1 text-primary",
         // if current file is selected file then set this styles
-        selectedFile?.id === fileId && "font-semibold text-main"
+        selectedFile?.id === fileId && "font-semibold text-main/70"
       )}
     >
       {/* fileIcon and fileName  */}
@@ -44,7 +44,7 @@ export default function ExplorerFile({
         className="flex flex-1 items-center gap-1"
         onClick={fileClickHandler}
       >
-        <FileDisplayIcon className="text-primary" />
+        <FileDisplayIcon className="text-primary text-xl" />
 
         <RenameProjectItem
           itemId={fileId}
@@ -58,7 +58,7 @@ export default function ExplorerFile({
       {/* file control icons  */}
       <div
         className={cn(
-          "hidden transition-all",
+          "hidden transition-all group-hover:block",
           selectedFile?.id === fileId && "block"
         )}
       >

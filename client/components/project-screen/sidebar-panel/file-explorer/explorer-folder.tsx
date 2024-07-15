@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Folder as FolderInterface } from "@/types/explorer";
 import ExplorerFolderName from "./explorer-folder-name";
 
