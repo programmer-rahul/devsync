@@ -1,7 +1,7 @@
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useState } from "react";
-import FileControls from "./file-controls";
+import FolderFileControls from "./folder-file-controls";
 import RenameProjectItem from "./rename-project-item";
 import { LuFolder, LuFolderOpen } from "react-icons/lu";
 
@@ -62,7 +62,7 @@ export default function ExplorerFolderName({
 
       {/* folder controls  */}
       <div className={cn("hidden transition-all group-hover:block")}>
-        <FileControls
+        <FolderFileControls
           type="folder"
           id={folderId}
           setIsRenaming={setIsRenamingItem}

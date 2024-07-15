@@ -10,7 +10,7 @@ import useProjectCrud from "@/hooks/useProjectCrud";
 import { Dispatch, SetStateAction, useState } from "react";
 import { LuPencilLine, LuTrash2 } from "react-icons/lu";
 
-export default function FileControls({
+export default function FolderFileControls({
   type,
   id,
   setIsRenaming,
@@ -43,13 +43,16 @@ export default function FileControls({
 
   return (
     <div className="flex items-center gap-3 ml-1 text-xl">
-      <div className="text-primary" onClick={renameItemHandler}>
+      <div
+        className="text-primary opacity-70 hover:opacity-100 transition"
+        onClick={renameItemHandler}
+      >
         <LuPencilLine />
       </div>
 
       <Dialog open={isDialog} onOpenChange={setIsDialog}>
         <DialogTrigger>
-          <div className="text-primary">
+          <div className="text-primary opacity-70 hover:opacity-100 transition">
             <LuTrash2 />
           </div>
         </DialogTrigger>
