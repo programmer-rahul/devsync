@@ -5,6 +5,7 @@ import ActivityBarButtton from "../../../../../components/project-screen/activit
 
 import { BiMessageDetail } from "react-icons/bi";
 import { LuUsers, LuSettings, LuFiles } from "react-icons/lu";
+import Image from "next/image";
 
 type ActivityBtn = {
   Icon: IconType;
@@ -29,6 +30,13 @@ export default function ActivityBarBtns() {
           />
         </div>
       ))}
+      <Image
+        src="/logo/logo-icon.svg"
+        width={20}
+        height={20}
+        alt="logo-icon"
+        className="w-10 self-center"
+      />
     </div>
   );
 }
