@@ -17,7 +17,7 @@ export default function ExplorerFolder({
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className={cn("select-none py-1", folderId !== ":root" && "pl-2")}>
+    <div className="select-none">
       {/* folder name  */}
       <ExplorerFolderName
         folderId={folderId}

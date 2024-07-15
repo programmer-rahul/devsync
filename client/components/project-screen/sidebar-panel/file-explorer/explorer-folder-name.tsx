@@ -18,14 +18,15 @@ export default function ExplorerFolderName({
   isCollapsed,
   setIsCollapsed,
 }: ExplorerFolderNameProps) {
-  const selectedFolderId = useStore((state) => state.selectedFolderId);
-  const setSelectedFolderId = useStore((state) => state.setSelectedFolderId);
+  // store states
+  const { selectedFolderId, setSelectedFolderId } = useStore((state) => state);
 
+  // to check that is user is renaming folder or not
   const [isRenamingItem, setIsRenamingItem] = useState(false);
 
+  // on folder clicks
   function handleFolderClick() {
     setIsCollapsed(!isCollapsed);
-    
 
     if (selectedFolderId === folderId) return;
     setSelectedFolderId(folderId);
@@ -34,10 +35,9 @@ export default function ExplorerFolderName({
   return (
     <div
       className={cn(
-        "group flex cursor-pointer items-center justify-between rounded-md border-2 border-transparent px-1",
-        folderId === ":root" && "hidden",
-        selectedFolderId === folderId &&
-          "border-main bg-main/40 font-semibold ",
+        "group flex cursor-pointer items-center justify-between rounded-sm border-2 border-transparent",
+        selectedFolderId === folderId && "border-main bg-main/40 font-semibold",
+        folderId === ":root" && "hidden"
       )}
     >
       <div
@@ -45,13 +45,7 @@ export default function ExplorerFolderName({
         onClick={handleFolderClick}
       >
         {/* folder icon  */}
-        <div className="mr-1 w-5">
-          {isCollapsed ? (
-            <FaFolderOpen color="#f8fafc" />
-          ) : (
-            <FaFolder color="#f8fafc" />
-          )}
-        </div>
+        <FolderIcon isCollapsed={isCollapsed} />
 
         {/* folder name  */}
         <RenameProjectItem
@@ -71,6 +65,18 @@ export default function ExplorerFolderName({
           setIsRenaming={setIsRenamingItem}
         />
       </div>
+    </div>
+  );
+}
+
+function FolderIcon({ isCollapsed }: { isCollapsed: boolean }) {
+  return (
+    <div className="w-5">
+      {isCollapsed ? (
+        <FaFolderOpen color="#f8fafc" />
+      ) : (
+        <FaFolder color="#f8fafc" />
+      )}
     </div>
   );
 }
