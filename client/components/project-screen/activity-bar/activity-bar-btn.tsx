@@ -14,7 +14,7 @@ export default function ActivityBarButtton({
   Icon,
 }: ActivityBarButtonProps) {
   const { currentActivityButton, setActivityButton } = useStore(
-    (state) => state,
+    (state) => state
   );
 
   // change selected activityBtn
@@ -25,15 +25,15 @@ export default function ActivityBarButtton({
   return (
     <div
       className={cn(
-        "flex cursor-pointer flex-col items-center gap-1 rounded-lg border-2 border-transparent px-2 py-2",
+        "flex cursor-pointer flex-col items-center gap-1 rounded-md border py-2 px-1",
         currentActivityButton === name
-          ? "border-main/90 bg-main/30 text-main"
-          : "border-transparent text-primary",
+          ? "border-main/60 bg-main/20 text-main activity-btn-glow"
+          : "border-transparent text-primary"
       )}
       onClick={activityButtonClickHandler}
     >
       <div className="h-8 w-8">{Icon}</div>
-      <p className="select-none text-xs uppercase">{name}</p>
+      <p className="select-none text-xs uppercase tracking-tighter">{name}</p>
     </div>
   );
 }

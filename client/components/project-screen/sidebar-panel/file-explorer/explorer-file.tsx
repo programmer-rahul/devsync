@@ -1,7 +1,7 @@
 import { File as FileInterface } from "@/types/explorer";
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
-import FileControls from "./file-controls";
+import FolderFileControls from "./folder-file-controls";
 import { useState } from "react";
 import RenameProjectItem from "./rename-project-item";
 import { getLanguageIcon } from "@/lib/editor/get-language-icon";
@@ -14,7 +14,7 @@ export default function ExplorerFile({
 }: FileInterface) {
   // zustand store states
   const { selectedFile, setSelectedFile, addEditorTab } = useStore(
-    (state) => state,
+    (state) => state
   );
 
   // state
@@ -34,15 +34,17 @@ export default function ExplorerFile({
   return (
     <div
       className={cn(
-        "group flex cursor-pointer items-center justify-between rounded-md py-1 pl-3 text-primary",
-        selectedFile?.id === fileId && "font-semibold text-main",
+        "group flex cursor-pointer items-center justify-between rounded-sm pl-1 text-primary",
+        // if current file is selected file then set this styles
+        selectedFile?.id === fileId && "font-semibold text-main/70"
       )}
     >
+      {/* fileIcon and fileName  */}
       <div
         className="flex flex-1 items-center gap-1"
         onClick={fileClickHandler}
       >
-        <div className="w-5 text-primary">{<FileDisplayIcon />}</div>
+        <FileDisplayIcon className="text-primary text-xl" />
 
         <RenameProjectItem
           itemId={fileId}
@@ -52,13 +54,15 @@ export default function ExplorerFile({
           setIsRenaming={setIsRenamingItem}
         />
       </div>
+
+      {/* file control icons  */}
       <div
         className={cn(
           "hidden transition-all group-hover:block",
-          selectedFile?.id === fileId && "block",
+          selectedFile?.id === fileId && "block"
         )}
       >
-        <FileControls
+        <FolderFileControls
           type="file"
           id={fileId}
           setIsRenaming={setIsRenamingItem}

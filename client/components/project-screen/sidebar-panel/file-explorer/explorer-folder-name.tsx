@@ -1,9 +1,9 @@
 import { useStore } from "@/components/store/useStore";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useState } from "react";
-import FileControls from "./file-controls";
+import FolderFileControls from "./folder-file-controls";
 import RenameProjectItem from "./rename-project-item";
-import { FaFolder, FaFolderOpen } from "react-icons/fa";
+import { LuFolder, LuFolderOpen } from "react-icons/lu";
 
 interface ExplorerFolderNameProps {
   folderName: string;
@@ -18,14 +18,15 @@ export default function ExplorerFolderName({
   isCollapsed,
   setIsCollapsed,
 }: ExplorerFolderNameProps) {
-  const selectedFolderId = useStore((state) => state.selectedFolderId);
-  const setSelectedFolderId = useStore((state) => state.setSelectedFolderId);
+  // store states
+  const { selectedFolderId, setSelectedFolderId } = useStore((state) => state);
 
+  // to check that is user is renaming folder or not
   const [isRenamingItem, setIsRenamingItem] = useState(false);
 
+  // on folder clicks
   function handleFolderClick() {
     setIsCollapsed(!isCollapsed);
-    
 
     if (selectedFolderId === folderId) return;
     setSelectedFolderId(folderId);
@@ -34,10 +35,12 @@ export default function ExplorerFolderName({
   return (
     <div
       className={cn(
-        "group flex cursor-pointer items-center justify-between rounded-md border-2 border-transparent px-1",
-        folderId === ":root" && "hidden",
+        "group flex cursor-pointer items-center justify-between rounded-sm border border-transparent pl-1",
+        // if this folder is selected folder
         selectedFolderId === folderId &&
-          "border-main bg-main/40 font-semibold ",
+          "border-main/60 bg-main/20 font-semibold",
+        // to hide root folder
+        folderId === ":root" && "hidden"
       )}
     >
       <div
@@ -45,13 +48,7 @@ export default function ExplorerFolderName({
         onClick={handleFolderClick}
       >
         {/* folder icon  */}
-        <div className="mr-1 w-5">
-          {isCollapsed ? (
-            <FaFolderOpen color="#f8fafc" />
-          ) : (
-            <FaFolder color="#f8fafc" />
-          )}
-        </div>
+        <FolderIcon isCollapsed={isCollapsed} />
 
         {/* folder name  */}
         <RenameProjectItem
@@ -65,12 +62,24 @@ export default function ExplorerFolderName({
 
       {/* folder controls  */}
       <div className={cn("hidden transition-all group-hover:block")}>
-        <FileControls
+        <FolderFileControls
           type="folder"
           id={folderId}
           setIsRenaming={setIsRenamingItem}
         />
       </div>
+    </div>
+  );
+}
+
+function FolderIcon({ isCollapsed }: { isCollapsed: boolean }) {
+  return (
+    <div className="text-xl">
+      {isCollapsed ? (
+        <LuFolderOpen color="#f8fafc" />
+      ) : (
+        <LuFolder color="#f8fafc" />
+      )}
     </div>
   );
 }

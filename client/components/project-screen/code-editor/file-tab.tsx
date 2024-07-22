@@ -1,6 +1,7 @@
 import { useStore } from "@/components/store/useStore";
 import { getLanguageIcon } from "@/lib/editor/get-language-icon";
 import { cn } from "@/lib/utils";
+import { LuX } from "react-icons/lu";
 
 interface FileTabProps {
   isActive: boolean;
@@ -13,26 +14,30 @@ export default function FileTab({
   fileName,
   fileId,
 }: FileTabProps) {
+  // store states
   const { selectedFile, setSelectedFile, removeEditorTab } = useStore(
-    (state) => state,
+    (state) => state
   );
 
+  // to store file extention icon
   const FileTabIcon = getLanguageIcon(fileName);
 
+  // on tab click
   function tabClickHandler(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if (
-      e.target instanceof HTMLElement &&
-      e.target.classList.contains("closebtn")
-    )
-      return;
+    let current = e.target as HTMLElement;
+    let currentClassList = current.classList.contains("closebtn");
 
-    setSelectedFile({
-      id: fileId,
-      name: fileName,
-      type: "file",
-    });
+    // if is close icon then don't select this file
+    if (currentClassList) return;
+    else
+      setSelectedFile({
+        id: fileId,
+        name: fileName,
+        type: "file",
+      });
   }
 
+  // on close tab click
   function closeTabHandler() {
     const availableTabs = removeEditorTab(fileId);
 
@@ -48,26 +53,25 @@ export default function FileTab({
   return (
     <div
       className={cn(
-        "fileTab flex cursor-pointer select-none items-center gap-2 rounded-md bg-primary-foreground/80 px-2 py-1 font-secondary transition-all",
+        "fileTab flex cursor-pointer select-none items-center justify-center gap-2 px-2 py-1 font-secondary transition-all bg-secondary",
         isActive
-          ? "text-secondary-foreground hover:bg-primary-foreground"
-          : "text-secondary-foreground/40 hover:text-secondary-foreground",
+          ? "text-secondary-foreground bg-main/30"
+          : "text-secondary-foreground/40 hover:text-secondary-foreground"
       )}
       onClick={tabClickHandler}
     >
+      {/* file extention icon  */}
       {<FileTabIcon />}
-      <p>{fileName}</p>
-      <div className="grid h-4 w-4 place-content-center">
-        <p
-          className={cn(
-            "closebtn rotate-45 text-3xl hover:text-destructive",
-            !isActive && "hidden",
-          )}
-          onClick={closeTabHandler}
-        >
-          +
-        </p>
-      </div>
+
+      {/* file name  */}
+      <FileTabName name={fileName} />
+
+      {/* close icon  */}
+      <LuX className="closebtn mt-1" onClick={closeTabHandler} />
     </div>
   );
+}
+
+function FileTabName({ name }: { name: string }) {
+  return <p>{name}</p>;
 }

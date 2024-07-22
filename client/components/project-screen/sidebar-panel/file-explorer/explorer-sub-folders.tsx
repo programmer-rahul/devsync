@@ -28,17 +28,23 @@ export default function ExplorerSubFolders({
   isCollapsed,
   setIsCollapsed,
 }: ExplorerSubFoldersProps) {
-  // zunstand store states
+  // zustand store states
   const { selectedFolderId, creatingProjectItem } = useStore((state) => state);
 
   return (
     <div
-      className={cn("block", folderId !== ":root" && !isCollapsed && "hidden")}
+      className={cn(
+        "block space-y-1",
+        // for adding margin left to subfolders
+        folderId !== ":root" && "ml-5",
+        // to hide subfolders and files inside this folder
+        folderId !== ":root" && !isCollapsed && "hidden"
+      )}
     >
       {/* subfolders  */}
       <RenderSubFolders subFolders={subFolders} />
 
-      {/* new project item creation input  */}
+      {/* new project item creation input */}
       {creatingProjectItem.status && selectedFolderId === folderId && (
         <NewExplorerItemCreationInput
           folderName={folderName}
@@ -72,6 +78,7 @@ function RenderSubFolders({ subFolders }: { subFolders: FolderInterface[] }) {
     </>
   );
 }
+
 function RenderFiles({ files }: { files: FileInterface[] }) {
   return (
     <>

@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Folder as FolderInterface } from "@/types/explorer";
 import ExplorerFolderName from "./explorer-folder-name";
 
@@ -17,7 +16,7 @@ export default function ExplorerFolder({
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className={cn("select-none py-1", folderId !== ":root" && "pl-2")}>
+    <div className="select-none">
       {/* folder name  */}
       <ExplorerFolderName
         folderId={folderId}
