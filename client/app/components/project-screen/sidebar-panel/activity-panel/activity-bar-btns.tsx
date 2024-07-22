@@ -30,13 +30,6 @@ export default function ActivityBarBtns() {
           />
         </div>
       ))}
-      <Image
-        src="/logo/logo-icon.svg"
-        width={20}
-        height={20}
-        alt="logo-icon"
-        className="w-10 self-center"
-      />
     </div>
   );
 }

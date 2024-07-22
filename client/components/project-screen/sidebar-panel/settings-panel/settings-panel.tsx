@@ -33,17 +33,18 @@ export default function SettingsPanel() {
     <div className="relative h-full max-h-full flex-col">
       {/* header  */}
       <div className="h-[4%]">
-        <h3 className="text-center text-2xl font-semibold">Settings</h3>
+        <h3 className="text-2xl font-semibold">Settings</h3>
       </div>
 
-      <div className="no-scrollbar overflow-y-scrol h-full max-h-[83%] overflow-x-hidden pt-8 font-secondary">
-        <div className="border-t-2 py-2">
-          <h4 className="text-xl">Editor</h4>
+      <div className="no-scrollbar overflow-y-scroll h-full max-h-[83%] overflow-x-hidden font-secondary">
+        {/* setting sections  */}
+        <div className="py-2 space-y-2">
+          <h4 className="text-xl text-center border-b">Editor</h4>
 
-          <div className="ml-16 space-y-2">
+          <div className="space-y-2">
             {/* theme  */}
             <div className="flex items-center gap-3">
-              <p className="min-w-20">Theme</p>
+              <p className="min-w-28">Theme</p>
               <div className="options w-full">
                 <Select
                   onValueChange={function (value) {
@@ -67,7 +68,7 @@ export default function SettingsPanel() {
             </div>
             {/* font size  */}
             <div className="flex items-center gap-3">
-              <p className="min-w-20">Font Size</p>
+              <p className="min-w-28">Font Size</p>
               <div className="options w-full">
                 <Select
                   onValueChange={function (value) {
@@ -91,7 +92,7 @@ export default function SettingsPanel() {
             </div>
             {/* line height  */}
             <div className="flex items-center gap-3">
-              <p className="min-w-20">Line Height</p>
+              <p className="min-w-28">Line Height</p>
               <div className="options w-full">
                 <Select
                   onValueChange={function (value) {

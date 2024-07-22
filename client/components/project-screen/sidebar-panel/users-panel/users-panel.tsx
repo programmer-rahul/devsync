@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useStore } from "@/components/store/useStore";
 
@@ -21,7 +21,7 @@ export default function UsersPanel() {
 
 const ConnectedUser = ({ username }: { username: string }) => {
   return (
-    <div className="user rounded-md border bg-main/90 px-2 py-1 text-xl font-secondary">
+    <div className="user rounded-md border border-main/20 bg-main/30 px-2 py-1 text-xl font-secondary">
       {username}
     </div>
   );
